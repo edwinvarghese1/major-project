@@ -11,6 +11,8 @@
 *.bbl
 *.blg
 *.pdf
+*.fg
+*.synctex
 /build/
 /dist/
 .vscode/
