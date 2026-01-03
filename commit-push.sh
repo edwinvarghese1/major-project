@@ -1,29 +1,24 @@
 #!/usr/bin/env bash
 set -e
 
-# Ask user for a commit message via Zenity GUI
+# Go to your project repo (replace with your actual repo path)
+cd ~/major-project || { notify-send "Git" "Repo not found"; exit 1; }
+
+# Ask for commit message via Zenity GUI
 MSG=$(zenity --entry \
     --title="Git Commit" \
     --text="Enter Git commit message (optional):" 2>/dev/null)
 
-# If user presses Cancel, exit
-if [ $? -ne 0 ]; then
-    echo "Commit cancelled"
-    exit 0
-fi
+# If user presses Cancel
+[ $? -ne 0 ] && exit 0
 
+# Stage all changes
 git add -A
 
-# Check if there is anything to commit
-if git diff --cached --quiet; then
-    notify-send "Git" "Nothing to commit"
-    exit 0
-fi
+# Commit, allow empty commits if nothing changed
+git commit --allow-empty -m "$MSG"
 
-# Commit (allow empty message)
-git commit --allow-empty-message -m "$MSG"
-
-# Push changes
+# Push to the default remote and branch
 git push
 
 # Notify user
