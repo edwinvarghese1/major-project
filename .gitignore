@@ -1,4 +1,7 @@
 # LaTeX build files
+*.dvi
+*.ps
+*.DS_Store
 *.aux
 *.log
 *.out
