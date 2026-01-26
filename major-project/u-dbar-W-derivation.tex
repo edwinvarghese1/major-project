@@ -175,7 +175,7 @@ This expression needs to be evaluated by contracting the indices. Contracting th
 		&= 16(p_1 \cdot p_2).
 	\end{aligned}
 \end{equation}
- The contraction of $g_{\mu\nu}\epsilon^{\mu \nu \rho \sigma}p_{1\rho}p_{2\sigma}$ goes to zero because the Levi-Civita is totally antisymmetric and the metric tensor is totally symmetric under the exchange of indices, i.e. exchanging the $\mu$ and $\nu$ indicies gives,
+ The contraction of $g_{\mu\nu}\epsilon^{\mu \nu \rho \sigma}p_{1\rho}p_{2\sigma}$ goes to zero because the Levi-Civita is totally antisymmetric and the metric tensor is symmetric under the exchange of indices, i.e. exchanging the $\mu$ and $\nu$ indicies gives,
  
  $$g_{\mu\nu} = g_{\nu\mu} \; \text{and}\; \epsilon_{\mu \nu \rho \sigma} = - \epsilon_{\nu \mu \rho \sigma},$$ 
  and so, 
@@ -198,7 +198,7 @@ Therefore the contraction with $g_{\mu\nu}$ is the only term that survives, give
 \end{equation}
 
 \subsection{Spin and colour averages}
-For an unpolarised beam, the initial spin is not known and so one must average over all possible spin states. The incoming up quark and anti-down quark each can have spin +$\frac{1}{2}$ or $-\frac{1}{2}$, thus, the average is $\frac{1}{4}$. In the same manner, one averages over initial colour states by dividing by the number of initial colour states.  The up and anti-down quakr each have three possible colour states, ($r$,$g$,$b$) and ($\bar{r}$,$\bar{g}$,$\bar{b}$) respectively. The naive colour averaged factor is $\frac{1}{9}$. Since, the weak interaction is a colour singlet, a red quark can only annihilate with an anti-red, green with anti-green, and blue with anti-blue. The initial colour degree of freedom is reduced to 3 and the colour averaged factor is now $\frac{1}{3}$. One can express the amplitude in terms of the mass of the W boson, $M_W$, via the relation between $g$ and the Fermi constant, $G_F$,
+For an unpolarised beam, the initial spin is not known and so one must average over all possible spin states. The incoming up quark and anti-down quark each can have spin +$\frac{1}{2}$ or $-\frac{1}{2}$, thus, the average is $\frac{1}{4}$. In the same manner, one averages over initial colour states by dividing by the number of initial colour states.  The up and anti-down quark each have three possible colour states, ($r$,$g$,$b$) and ($\bar{r}$,$\bar{g}$,$\bar{b}$) respectively. The naive colour averaged factor is $\frac{1}{9}$. Since, the weak interaction is a colour singlet, a red quark can only annihilate with an anti-red, green with anti-green, and blue with anti-blue. The initial colour degree of freedom is reduced to 3 and the colour averaged factor is now $\frac{1}{3}$. One can express the amplitude in terms of the mass of the W boson, $M_W$, via the relation between $g$ and the Fermi constant, $G_F$,
 
 $$G_F = \frac{\sqrt{2} g^2}{8M_W^2}$$. One can then express the amplitude as,
 
@@ -364,21 +364,22 @@ $$\int_{-\infty}^{+\infty} \delta(x-a)f(x) dx = f(a),$$
 
 which subsequently  turns (\ref{delta-int}) into $\delta(E_u + E_{\bar{d}} - M_W)$, where the $\boldsymbol{p}_W$ term in $E_W = \sqrt{\boldsymbol{p}_W+ M^2_W}$ goes to 0 after acted on by the delta function. As mentioned earlier, in the centre-of-mass frame $E_u + E_{\bar{d}}$ is the centre-of-mass energy, thus can be labelled as $\hat{s}$. The delta function becomes $\delta(\sqrt{\hat{s}} - M_W)$. One can then use the identity,
 
-$$
-\delta(f(x))
-=
-\sum_{j=1}^{n}
-\frac{\delta(x-x_j)}{\bigl| f'(x_j) \bigr|},
-\qquad
-\text{for $n$ simple roots of f(x)}.
-$$
+\begin{equation}\label{delta-fn-scaling-property}
+	\delta(f(x))
+	=
+	\sum_{j=1}^{n}
+	\frac{\delta(x-x_j)}{\bigl| f'(x_j) \bigr|},
+	\qquad
+	\text{for $n$ simple roots of f(x)}.
+\end{equation}
+
 In this case, $f(s) = \sqrt{\hat{s}} - M_W $ has zeros at $\hat{s}= M_W^2$. The derivative of $f(s)$ at its zeros $f'(s_0) = 1/2M_W$. Therefore,  $\delta(\sqrt{\hat{s}} - M_W) = 2M_W\delta(\hat{s} - M_W)$. The cross-section is then expressed as,
 
-$$\sigma =\frac{1}{2}\frac{\sqrt{2}}{3}G_FM^2_W(2\pi)^4\frac{1}{(2\pi)^32E_W}2M_W\delta(\hat{s} - M_W), $$
+$$\sigma =\frac{1}{2}\frac{\sqrt{2}}{3}G_FM^2_W(2\pi)^4\frac{1}{(2\pi)^32E_W}2M_W\delta(\hat{s} - M_W^2), $$
 This can be simplified by cancelling factors of $2\pi$ and setting $E_W = M_W$  in the centre-of-mass frame which ends up cancelling with the factor of $M_W$ from the phase space integration, the final expression for cross-section becomes,
 
 \begin{equation}
-	\sigma =\frac{\pi \sqrt{2}}{3}G_FM^2_W\delta(\hat{s} - M_W).
+	\sigma =\frac{\pi \sqrt{2}}{3}G_FM^2_W\delta(\hat{s} - M_W^2).
 \end{equation}
 $G_F$ has dimensions GeV$^{-2}$, $M^2_W$ has dimensions GeV$^2$, and the delta function has the inverse dimensions of its argument, thus is GeV$^{-2}$. 
 
@@ -389,7 +390,7 @@ Calculating the squared amplitude of the $W^+ \rightarrow e^+ \nu_e$ process fol
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.6\linewidth]{graphics/W-decay-feyn}
-	\caption{Feynman diagram representing the decay of $W^+$ to an positron and electron-neutrino.}
+	\caption{Feynman diagram representing the decay of $W^+$ to a positron and electron-neutrino.}
 	\label{fig:w-decay-feyn}
 \end{figure}
 
@@ -412,7 +413,7 @@ The squared amplitude can be simplified by using the relation $\bar{u} = u^{\dag
 $$|\mathcal{M}|^2 = \frac{1}{4} \frac{g^2}{2} (\epsilon_\mu^* \bar{v}[\overline{\gamma^\mu (1-\gamma^5)}]u)(\bar{u}[\gamma^\nu (1-\gamma^5] v \epsilon_\nu). $$
 
  \subsection{Summing over lepton spin states}
- Once again, $\epsilon_{\mu}^*$ and $\epsilon_{\nu}$ will be treated separately later and will not contribute in the summation over spins. The notation for spin- and polarisation-summed amplitude squared will br split into the summation over spins component, denoted by $N^{\mu\nu}$, and summation over polarisation, denoted $Z_{\mu \nu}$, where, $$\sum_{s_1, s_2, \text{pol}}|\mathcal{M}|^2=  \frac{1}{4} \frac{g^2}{2} Z_{\mu\nu}N^{\mu\nu} $$\\
+ Once again, $\epsilon_{\mu}^*$ and $\epsilon_{\nu}$ will be treated separately later and will not contribute in the summation over spins. The notation for spin- and polarisation-summed amplitude squared will be split into the summation over spins component, denoted by $N^{\mu\nu}$, and summation over polarisation, denoted $Z_{\mu \nu}$, where, $$\sum_{s_3, s_4, \text{pol}}|\mathcal{M}|^2=  \frac{1}{4} \frac{g^2}{2} Z_{\mu\nu}N^{\mu\nu} $$\\
  
  Summing over the spin states of the electron-neutrino and positron can be done using the $v$-spinor and $u$-spinor completeness relations respectively \ref{completeness}. Using Casimir's trick, the spin summed component is given as,
  
@@ -435,7 +436,7 @@ $$|\mathcal{M}|^2 = \frac{1}{4} \frac{g^2}{2} (\epsilon_\mu^* \bar{v}[\overline{
  N^{\mu\nu}= 8[p_4^\mu p_3^\nu + p_4^\nu p_3^\mu - (p_3 \cdot p_4) g^{\mu \nu} -i \epsilon^{\mu \nu \rho \sigma}p_{3\rho}p_{4\sigma}].
  $$
  
- \subsection{Summing over initial polarisation states}
+ \subsection{Summing over initial polarisation states}\label{sum-over-initial-pol-states}
  In similar fashion to Section \ref{pol}, one can sum over the different initial polarisation states of the W-boson:
  \begin{equation}
  	Z_{\mu\nu}= \sum_\text{pol} \epsilon_\mu^* \epsilon_\nu=  -g_{\mu\nu} + \frac{k_\mu k_\nu}{M_W^2}.
@@ -444,36 +445,130 @@ The spin- and  polarisation-summed squared amplitude gives,
 
 \begin{equation}
 	\begin{aligned}
-			\sum_{s_1, s_2, \text{pol}}|\mathcal{M}|^2&=  \frac{1}{4} \frac{g^2}{2} Z_{\mu\nu}N^{\mu\nu}\\
-			&= \frac{1}{4} \frac{g^2}{2}   \left(-g_{\mu\nu} + \frac{k_\mu k_\nu}{M_W^2}\right) 8[p_4^\mu p_3^\nu + p_4^\nu p_3^\mu - (p_3 \cdot p_4) g^{\mu \nu}]\\
-			&= \frac{1}{3}g^2 \hat{s}
+			\sum_{s_3, s_4, \text{pol}}|\mathcal{M}|^2&=  \frac{1}{4} \frac{g^2}{2} Z_{\mu\nu}N^{\mu\nu}\\
+			&= \frac{1}{4} \frac{g^2}{2}   \left(-g_{\mu\nu} + \frac{k_\mu k_\nu}{M_W^2}\right) 8[p_4^\mu p_3^\nu + p_4^\nu p_3^\mu - (p_3 \cdot p_4) g^{\mu \nu} - i\epsilon^{\mu \nu \rho \sigma}p_{3\rho}p_{4\sigma}].
 	\end{aligned}
 \end{equation}
-where the factor of 1/3 in the last line came from averaging over initial polarisation states for $W^+.$
+Contracting $g_{\mu \nu}$ with the terms in the square brackets gives,
+
+\begin{equation}
+	\begin{aligned}
+		-8[p_{4\mu}p_3^\mu + p_{3\mu}p_4^\mu -4(p_3 \cdot p_4) -ig_{\mu\nu}\epsilon^{\mu \nu \rho \sigma}p_{3\rho}p_{4\sigma}] &= 8[-2(p_3 \cdot p_4) + 4(p_3 \cdot p_4)- 0] \\
+		&= 16(p_3 \cdot p_4)
+	\end{aligned}
+\end{equation}
+The contraction of $g_{\mu\nu}\epsilon^{\mu \nu \rho \sigma}p_{3\rho}p_{4\sigma}$ goes to zero because the Levi-Civita is totally antisymmetric and the metric tensor is symmetric under the exchange of indices. Contracting $\frac{k_\mu k_\nu}{M_W^2}$ gives, 
+
+$$\frac{8}{M_W^2}[2(p_3 + p_4) \cdot p_4 (p_3 +p_4 )\cdot p_3 - (2p_3\cdot p_4)(p_3 \cdot p_4)]  = \frac{8}{M_W^2}[2(p_3 \cdot p_4)^2 - 2(p_3 \cdot p_4)^2] = 0.$$	
+Therefore,
+
+$$ \sum_{s_3, s_4, \text{pol}}|\mathcal{M}|^2=  \frac{1}{4} \frac{g^2}{2} Z_{\mu\nu}N^{\mu\nu} = \frac{1}{4} \frac{g^2}{2}  16(p_3 \cdot p_4) = 2g^2(p_3 \cdot p_4).$$
+
+For the final step, $(p_3 \cdot p_4)$ can be expressed in terms of the Mandelstam variable, $s$. The Mandelstam variables are defined for a 2 $\rightarrow$ 2 scattering process; the decay of a W$^+$ boson is a 1 $\rightarrow$ 2 process. However, one can still use the variable $s = (p_3 + p_4)^2 = k^2$. Assuming that the $e^+$ and $\nu_e$ are massless, $s = 2(p_3 \cdot p_4) =k^2$, and due to the on-shell condition, $k^2 = M_W^2$. Thus, 
+\begin{equation}
+	 \sum_{s_1, s_2, \text{pol}}|\mathcal{M}|^2 = \frac{1}{3}g^2 M_W^2,	
+\end{equation}
+where the factor of 1/3 came from averaging over initial polarisation states for $W^+.$
 
 
-%Barger and Phillips turn s hat into M_W squared; maybe to enforce energy-momentum conservation.
 
 
 \subsection{Calculating decay rates}
-One can derive the differential decay rate, $d \Gamma$, via a small modification to the general expression of the differential cross-section (Eq. \ref{general_cross}). Specifically, one can remove factors that involve a multi-particle initial state; the decaying particle --- let's say particle A --- is assumed to be at rest, so the factor 1/E$_A$ becomes 1/$m_A$. Thus the differential decay rate formula is,
+One can derive the differential decay rate, $d \Gamma$, via a small modification to the general expression of the differential cross-section (Eq. \ref{general_cross}). Specifically, one can remove factors that involve a multi-particle initial state; the decaying $W^+$ boson is assumed to be at rest, so the factor 1/E$_A$ becomes 1/$M_W$. Thus the differential decay rate formula is,
 
 \begin{equation}
-	d\Gamma= \frac{|\mathcal{M}|^2 }{2m_A} d\Phi_{n_f},
+	d\Gamma= \frac{|\mathcal{M}|^2 }{2M_W} d\Phi_{n_f},
 \end{equation}
 where,
 
-$$ d\Phi_{n_f}=	 \left(\prod_{f}^{N_f}\frac{d^3\boldsymbol{p}_f}{(2\pi)^32E_f},\right) (2\pi)^4 \delta^4 (p_A - \Sigma p_f),$$
+$$ d\Phi_{n_f}=	 \left(\prod_{f}^{N_f}\frac{d^3\boldsymbol{p}_f}{(2\pi)^32E_f}\right) (2\pi)^4 \delta^4 (p_A - \Sigma p_f),$$
 
 is the Lorentz-invariant phase space factor, $N_f$ is the number of final state particles, $p_f$ is the momenta of the final state particle and $m_A$ is the mass of the initial (decaying) particle. Hence the differential decay rate in the $W^+$ rest frame is,
 
+\begin{equation}
+	d\Gamma (W^+ \rightarrow e^+ \nu_e) =  \frac{1}{2M_W} \left(\frac{1}{3}g^2 M_W^2\right) d\Phi_{2}.
+\end{equation}
+
+Working out the phase space integral is straightforward. 
+
+\begin{equation}
+	\begin{aligned}
+		d\Phi_{2}&=	 \left(\frac{d^3\boldsymbol{p}_e d^3\boldsymbol{p}_\nu}{4(2\pi)^6E_eE_\nu}\right) (2\pi)^4 \delta^4 (p_W -  p_e - p_\nu) \\
+		&= \left(\frac{d^3\boldsymbol{p}_e d^3\boldsymbol{p}_\nu}{4(2\pi)^6E_eE_\nu}\right) (2\pi)^4 \delta(M_W - E_e - E_\nu)\delta^3 (\boldsymbol{p}_W -  \boldsymbol{p}_e - \boldsymbol{p}_\nu),
+	\end{aligned}
+\end{equation}
+where the 4-dimensional delta function is split into 1-dimensional energy and 3-dimensional momentum components. Since the W$^+$ is assumed to be at rest, $E_W = M_W$.
+
+
 $$
-d\Gamma (W^+ \rightarrow e^+ \nu_e) =  \frac{1}{2M_W} \left(\frac{1}{3}g^2 \hat{s}\right) d\Phi_{2}.
+\int d\Phi_{2} =  \frac{1}{4} \frac{1}{(2\pi)^2}\int  \left(\frac{d^3\boldsymbol{p}_e d^3\boldsymbol{p}_\nu}{E_eE_\nu}\right) \delta(M_W - E_e - E_\nu)\delta^3 (\boldsymbol{p}_W -  \boldsymbol{p}_e - \boldsymbol{p}_\nu).
+$$
+One can assume the masses of the positron and electron neutrino to be zero; this is justified as $m_e, m_\nu << M_W$. Thus, $E_e = |\boldsymbol{p_e}| $ and $E_\nu = |\boldsymbol{p}_\nu| $. Since the $W^+$ is assumed to be at rest, it is trivially the center-of-mass frame, so $\boldsymbol{p}_e = - \boldsymbol{p}_\nu$,  and so it follows that $E_e = E_\nu= E^*$. One can do the  $d^3\boldsymbol{p}_\nu$ integral using $\delta^3 (\boldsymbol{p}_W -  \boldsymbol{p}_e - \boldsymbol{p}_\nu)$, 
+% i think here, you integrate momentum of nu using delta function to fix the moomentum of nu 
+$$
+\int d^3\boldsymbol{p}_2\; \delta^3 (\boldsymbol{p}_W -  \boldsymbol{p}_e - \boldsymbol{p}_\nu) = 1,
+$$
+which gives,
+$$
+\int d\Phi_{2} = \frac{1}{4} \frac{1}{(2\pi)^2} \int  \left(\frac{d^3\boldsymbol{p}_e}{E^{*2}}\right)\delta(M_W - 2|\boldsymbol{p}_e|),
+$$
+where $-E_e - E_\nu= -|\boldsymbol{p}_e|-|\boldsymbol{p}_e| = -2|\boldsymbol{p}_e|$.
+One can work in spherical coordinates, where $d^3 \boldsymbol{p}_e = |\boldsymbol{p}_e|^2 d|\boldsymbol{p}_e| d\Omega$, where $d\Omega = \sin\theta d\theta d\phi$. Omitting the prefactor for now and changing to spherical coordinates gives, 
+
+\begin{equation}
+	\int \left(\frac{1}{E^{*2}}\right) |\boldsymbol{p}_e|^2 d|\boldsymbol{p}_e| d\Omega \; \delta(M_W - 2|\boldsymbol{p}_e|).
+\end{equation}
+
+
+Since $|\boldsymbol{p}_e|^2 = E^{*2}$, the factor $|\boldsymbol{p}_e|^2/E^{*2} =1$:
+
+$$
+\int  d|\boldsymbol{p}_e|\delta(M_W - 2|\boldsymbol{p}_e|) \int d\Omega.
+$$
+In Section \ref{sum-over-initial-pol-states}, the initial polarisation states of the W$^+$ was summed and averaged over which removes any preferred spin direction. If one worked in a frame where $\boldsymbol{p}_W \neq 0$, the momentum vector of the W$^+$ defines an axis of motion; decay products can be boosted along that axis, thus the angular distribution depends on the angle relative to $\boldsymbol{\hat{p}}_W$. It was assumed that the W$^+$ decays at rest, therefore, this calculation will work in the frame in which the decays have rotational symmetry, thus are isotropic. Integrating over the full solid angle gives,
+
+$$
+\int d\Omega = 4\pi.
+$$
+In order to do the $d|\boldsymbol{p}_e|$ integral, one needs to get the $2|\boldsymbol{p}_e|$ term in the delta function, $\delta(M_W - 2|\boldsymbol{p}_e|)$,  to match the integration variable $|\boldsymbol{p}_e|$. This is so that one can use,
+
+
+$$
+\int dx \; \delta(x) = 1.
 $$
 
-% since we summed over every polariation state , decay can be approximated to isotropic? YES, for a sample of unpolarised W bosons, decay is isotropic -- page 465 in slides has good explanations
+This can be accomplished through the identity,
 
-% use the slides on WZ.ppt
+$$
+	\delta(f(x))
+=
+\sum_{j=1}^{n}
+\frac{\delta(x-x_j)}{\bigl| f'(x_j) \bigr|},
+\qquad
+\text{for $n$ simple roots of f(x)}.
+$$
+ 
+Here, $f(x) = f(\boldsymbol{p}_e) = M_W - 2|\boldsymbol{p}_e|$ and has a simple root at $|\boldsymbol{p}_e| = M_W/2.  $ The first derivative of $f(\boldsymbol{p}_e) = -2$. The delta function becomes:
+
+$$
+\delta(M_W -2|\boldsymbol{p}_e|) = \frac{\delta(\boldsymbol{p}_e - M_W/2)}{2}.
+$$ 
+The remaining integral is therefore,
+
+$$
+\frac{1}{2}\int  d|\boldsymbol{p}_e| \delta(\boldsymbol{p}_e - M_W/2) = \frac{1}{2}.
+$$
+
+Putting all the factors back together, the integrated phase space factor is,
+
+$$
+\int d\Phi_{2} =  \frac{1}{4} \frac{4\pi}{(2\pi)^2} \frac{1}{2} = \frac{1}{8\pi},
+$$
+ which leads to the partial decay width,
+ 
+ \begin{equation}
+ 	\Gamma(W^+ \rightarrow e^+ \nu_e)= frac{1}{2M_W} \left(\frac{1}{3}g^2 M_W^2\right) \frac{1}{8\pi} = \frac{1}{48}g^2M_W
+ \end{equation}
 
 
 \end{document}
