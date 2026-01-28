@@ -198,7 +198,7 @@ Therefore the contraction with $g_{\mu\nu}$ is the only term that survives, give
 \end{equation}
 
 \subsection{Spin and colour averages}
-For an unpolarised beam, the initial spin is not known and so one must average over all possible spin states. The incoming up quark and anti-down quark each can have spin +$\frac{1}{2}$ or $-\frac{1}{2}$, thus, the average is $\frac{1}{4}$. In the same manner, one averages over initial colour states by dividing by the number of initial colour states.  The up and anti-down quark each have three possible colour states, ($r$,$g$,$b$) and ($\bar{r}$,$\bar{g}$,$\bar{b}$) respectively. The naive colour averaged factor is $\frac{1}{9}$. Since, the weak interaction is a colour singlet, a red quark can only annihilate with an anti-red, green with anti-green, and blue with anti-blue. The initial colour degree of freedom is reduced to 3 and the colour averaged factor is now $\frac{1}{3}$. One can express the amplitude in terms of the mass of the W boson, $M_W$, via the relation between $g$ and the Fermi constant, $G_F$,
+For an unpolarised beam, the initial spin is not known and so one must average over all possible spin states. The incoming up quark and anti-down quark each can have spin +$\frac{1}{2}$ or $-\frac{1}{2}$, thus, the average is $\frac{1}{4}$. In the same manner, one averages over initial colour states by dividing by the number of initial colour states.  The up and anti-down quark each have three possible colour states, ($r$,$g$,$b$) and ($\bar{r}$,$\bar{g}$,$\bar{b}$) respectively. The naive colour averaged factor is $\frac{1}{9}$. Since, the weak interaction is a colour singlet, a red quark can only annihilate with an anti-red, green with anti-green, and blue with anti-blue. The initial colour degree of freedom is reduced to 3 and the colour averaged factor is now $\frac{1}{3}$. One can express the amplitude in terms of the mass of the W boson, $M_W$, via the relation between the weak coupling constant, $g$, and the Fermi constant, $G_F$,
 
 $$G_F = \frac{\sqrt{2} g^2}{8M_W^2}$$. One can then express the amplitude as,
 
@@ -566,8 +566,62 @@ $$
  which leads to the partial decay width,
  
  \begin{equation}
- 	\Gamma(W^+ \rightarrow e^+ \nu_e)= frac{1}{2M_W} \left(\frac{1}{3}g^2 M_W^2\right) \frac{1}{8\pi} = \frac{1}{48}g^2M_W
+ 	\Gamma(W^+ \rightarrow e^+ \nu_e)= \frac{1}{48}g^2M_W = \frac{G_F}{\sqrt{2}}\frac{M_W^3}{6\pi}.
  \end{equation}
+
+For $M_W = 80.369$ GeV \cite{CMS:2024lrd}, the numerical value of this partial decay width is,
+
+$$
+\Gamma(W^+ \rightarrow e^+ \nu_e) = 0.227\; \text{GeV} = \Gamma^0_W.
+$$
+
+\subsection{$W^+ \rightarrow e^+ \nu_e$ branching ratio calculation}
+Assuming all quark-antiquark decays eventually fragment to hadrons, one can do an inclusive calculation where the total hadronic decay rate is the approximated by the quark-antiquark decay rate. In the massless fermion approximation, it is justified for the tree-level partial decay widths of $\mu$, $\tau$ leptons and quarks to be identical, where the quark channels differ up to a colour and CKM factor:
+
+$$
+\Gamma(W^+ \rightarrow e^+ \nu_e) = \Gamma(W^+ \rightarrow \mu^+  \nu_\mu) = \Gamma(W^+  \rightarrow \tau^+  \nu_\tau) = \Gamma^0_W 
+$$
+and, 
+
+$$ \Gamma(W^+ \rightarrow q\bar{q}) = 3 |V_{q\bar{q}}|^2 \Gamma^0_W,$$
+
+where the factor of 3 comes from summing the three colours. For the kinematically accessible decays, one can use CKM unitarity where,
+
+$$
+\sum_{q\bar{q}} |V_{q\bar{q}}|^2 = 2, 
+$$
+where $q = u,c$ and $\bar{q} = d, s, b$. The specific contributions are,
+
+\begin{equation*}
+	\begin{align}
+	|V_{ud}|^2 + |V_{us}|^2 +|V_{ub}|^2  =1\\
+	|V_{cd}|^2 + |V_{cs}|^2 +|V_{cb}|^2  =1, 	
+	\end{align}
+\end{equation*}
+which would give a value of $\Gamma(W \rightarrow q\bar{q}) = 6\Gamma^0_W$. The naive contribution would include decays into top-quark and corresponding down-type quarks. Therefore the total decay width is, 
+
+$$
+\Gamma(W^+ \rightarrow \text{all}) \simeq \Gamma(W^+ \rightarrow \text{hadrons}) + \Gamma(W^+ \rightarrow \text{leptons}) \simeq 6\Gamma^0_W + 3\Gamma^0_W \simeq 9\Gamma^0_W = 2.025\; \text{GeV}.
+$$
+Including contributions from $W^+$ decays into top-quarks increases the total decay width to $2.7$ GeV. Given that 1 GeV $= 1.52 \cross 10^{24} s^{-1}$, the mean lifetime of  $W^+$ is $\tau = 1/\Gamma \simeq 3.249 \cross 10^{-25} s$. The branching ratio of $W^+$ decaying into $e^+ \nu_e$ is given as,
+
+\begin{equation}
+	BR(W \rightarrow e^+ \nu_e) \simeq \frac{\Gamma(W^+ \rightarrow e^+ \nu_e) }{\Gamma(W^+ \rightarrow \text{all})} = \frac{1}{9}
+\end{equation}
+
+
+
+\bibliographystyle{unsrt}
+\bibliography{major-project-bibliography}
+
+
+
+
+
+
+
+
+
 
 
 \end{document}
