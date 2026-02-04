@@ -10,8 +10,10 @@
 \usepackage{doi}
 \usepackage{url}
 \usepackage{cite}
+\usepackage{xcolor}
 \usepackage{dsfont}
 \usepackage{slashed}
+\usepackage{minted}
 \usepackage{leftindex}
 \usepackage{physics}
 
@@ -30,8 +32,10 @@
 \date{today}
 
 \begin{document}
-	
+\tableofcontents
+
 \section{$u\bar{d} \rightarrow W^+$ cross-section derivation}
+\subsection{Obtaining the partonic cross-section $\hat{\sigma}(u\bar{d} \rightarrow W^+)$}
 Generally, calculating tree-level amplitudes of electroweak interactions involve two or more spinors contracted with each other by boson propagators. After writing down the Feynman diagram corresponding to the interaction, one uses the Feynman rules to formulate an amplitude, $\mathcal{M}$, which is used in the analytical expression for the cross-section with an appropriate spin and/or colour sum or average.\\
 
 The interaction that is of interest is the hadronic production of $W \rightarrow e \nu $. To predict $W \rightarrow e \nu$ distributions, one must calculate the complete production and decay subprocesses, $$u \bar{d} \rightarrow W^+ \rightarrow e^+ \nu_e.$$ To start, the cross-section for a simple $u \bar{d} \rightarrow W^+$ is derived below.
@@ -68,7 +72,7 @@ The interaction that is of interest is the hadronic production of $W \rightarrow
  	|\mathcal{M}|^2 = \frac{1}{4} \frac{g^2}{2} (\epsilon_\mu \bar{u}[\overline{\gamma^\mu (1-\gamma^5)}]v)(\bar{v}[\gamma^\nu (1-\gamma^5] u \epsilon_\nu^*).
  \end{equation}
  
- \subsection{Summing over quark spin states}\label{completeness}
+ \subsubsection{Summing over quark spin states}\label{completeness}
  When $|\mathcal{M}|^2 $ is summed over the possible values of the spin indices, $s_1$ and $s_2$, terms like $\sum_{s_1} \bar{u}u$ and $\sum_{s_2} \bar{v}v$ will appear; these can be evaluated using the completeness relation for Dirac spinors: %can add proof of completeness realtions using lecture notes
  \begin{itemize}
  	\item $\sum_{s}u\bar{u} =  \slashed{p}+m  $
@@ -157,7 +161,7 @@ Using, $ \text{Tr}[\slashed{p}\gamma^\mu \slashed{k} \gamma^\nu] = 4[p^\mu k^\nu
 \end{equation}
 $p_{1\rho}$ and $p_{2 \sigma}$ are components of 4-momenta for the up-quark and anti-down-quark respectively, and can be taken out of the trace (i.e. the trace of a scalar is the scalar itself). The cyclicity of traces (Tr$[ABC]=$Tr$[ABC]=$Tr$[ABC]$, where $ABC$ are matrices) was used on the second line to move $\gamma^5$ the right most side of the trace. The $\rho$ index was switched with the $\nu$ index, in the third line to the fourth line, producing a minus sign that cancels with the pre-existing minus. The spin-summed squared amplitude becomes, $$S^{\mu\nu}= 8[p_2^\mu p_1^\nu + p_2^\nu p_1^\mu - (p_1 \cdot p_2) g^{\mu \nu} -i \epsilon^{\mu \nu \rho \sigma}p_{1\rho}p_{2\sigma}].$$ 
 
-\subsection{Summing over final polarisation states}\label{pol}
+\subsubsection{Summing over final polarisation states}\label{pol}
 As mentioned earlier, the W$^{+}$ is an external particle in the $u\bar{d} \rightarrow W^+$ process. A W boson has two transverse and on longitudinal polarisation, and the cross section must include the contribution of every polarisation state, thus must be summed over. For a massive W boson with momentum $p^\mu$ and mass $M_W$, summing over polarisation states gives,
 
 \begin{equation}
@@ -197,7 +201,7 @@ Therefore the contraction with $g_{\mu\nu}$ is the only term that survives, give
 	\sum_{s_1, s_2, \text{pol}} |\mathcal{M}|^2= \frac{1}{4} \frac{g^2}{2}16(p_1 \cdot p_2)
 \end{equation}
 
-\subsection{Spin and colour averages}
+\subsubsection{Spin and colour averages}
 For an unpolarised beam, the initial spin is not known and so one must average over all possible spin states. The incoming up quark and anti-down quark each can have spin +$\frac{1}{2}$ or $-\frac{1}{2}$, thus, the average is $\frac{1}{4}$. In the same manner, one averages over initial colour states by dividing by the number of initial colour states.  The up and anti-down quark each have three possible colour states, ($r$,$g$,$b$) and ($\bar{r}$,$\bar{g}$,$\bar{b}$) respectively. The naive colour averaged factor is $\frac{1}{9}$. Since, the weak interaction is a colour singlet, a red quark can only annihilate with an anti-red, green with anti-green, and blue with anti-blue. The initial colour degree of freedom is reduced to 3 and the colour averaged factor is now $\frac{1}{3}$. One can express the amplitude in terms of the mass of the W boson, $M_W$, via the relation between the weak coupling constant, $g$, and the Fermi constant, $G_F$,
 
 $$G_F = \frac{\sqrt{2} g^2}{8M_W^2}$$. One can then express the amplitude as,
@@ -211,7 +215,7 @@ Finally the $(p_1 \cdot p_2)$ term can be expressed in terms of the Mandelstam v
 	\sum_{s_1, s_2, \text{pol}} |\mathcal{M}|^2= \frac{\sqrt{2}}{3}G_F M_W^2 \hat{s}
 \end{equation}
 
-\subsection{Calculating cross-sections}
+\subsubsection{Cross-section formula derivation}
 One can think of the initial quarks as wave-packets that can evolve with time and overlap with wave-packets representing a desired set of final-state particles. This will lead to a probability amplitude for producing that final state, which can be related to the cross-section. One can define a time-independent creation operator for a particle with momentum around $\boldsymbol{k}_i$ as
 
 \begin{equation}\label{creation op}
@@ -347,11 +351,11 @@ which gives,
 Therefore, the differential cross-section is given by substituting the Lorentz invariant flux factor Eq.(\ref{flux}), the one-particle final state phase factor Eq.(\ref{LIPS}), and the squared amplitude from Eq.(\ref{amp}) into $d\sigma$, which gives,
 
 \begin{equation}\label{dsigma}
-		d\sigma  =\frac{1}{2} \frac{\sqrt{2}}{3}G_F M_W^2 (2\pi)^4 \delta^4(p_u +p_{\bar{d}} - p_W) \frac{d^3\boldsymbol{p}_W}{(2\pi)^32E_W},
+		d\hat{\sigma}  =\frac{1}{2} \frac{\sqrt{2}}{3}G_F M_W^2 (2\pi)^4 \delta^4(p_u +p_{\bar{d}} - p_W) \frac{d^3\boldsymbol{p}_W}{(2\pi)^32E_W},
 \end{equation}
-where $\hat{s}$ cancels out. To get the total cross-section, one has to integrate over the phase space.
+where $\hat{s}$ cancels out and hat on $\sigma$ specifies that the quantity is the partonic cross-section. To get the total partonic  cross-section, one has to integrate over the phase space.
 
-$$\sigma = \int d\sigma = C \int \delta^4(p_u +p_{\bar{d}} - p_W) d^3\boldsymbol{p}_W, $$
+$$\hat{\sigma} = \int d\sigma = C \int \delta^4(p_u +p_{\bar{d}} - p_W) d^3\boldsymbol{p}_W, $$
 
 where $C =\frac{1}{2}\frac{\sqrt{2}}{3}G_FM^2_W(2\pi)^4\frac{1}{(2\pi)^32E_W} $. The four-dimensional delta function can be split into its 1D and 3D components,
 
@@ -375,13 +379,65 @@ which subsequently  turns (\ref{delta-int}) into $\delta(E_u + E_{\bar{d}} - M_W
 
 In this case, $f(s) = \sqrt{\hat{s}} - M_W $ has zeros at $\hat{s}= M_W^2$. The derivative of $f(s)$ at its zeros $f'(s_0) = 1/2M_W$. Therefore,  $\delta(\sqrt{\hat{s}} - M_W) = 2M_W\delta(\hat{s} - M_W)$. The cross-section is then expressed as,
 
-$$\sigma =\frac{1}{2}\frac{\sqrt{2}}{3}G_FM^2_W(2\pi)^4\frac{1}{(2\pi)^32E_W}2M_W\delta(\hat{s} - M_W^2), $$
+$$\hat{\sigma} =\frac{1}{2}\frac{\sqrt{2}}{3}G_FM^2_W(2\pi)^4\frac{1}{(2\pi)^32E_W}2M_W\delta(\hat{s} - M_W^2), $$
 This can be simplified by cancelling factors of $2\pi$ and setting $E_W = M_W$  in the centre-of-mass frame which ends up cancelling with the factor of $M_W$ from the phase space integration, the final expression for cross-section becomes,
 
 \begin{equation}
-	\sigma =\frac{\pi \sqrt{2}}{3}G_FM^2_W\delta(\hat{s} - M_W^2).
+	\hat{\sigma} (u\bar{d} \rightarrow W^+) =\frac{\pi \sqrt{2}}{3}G_FM^2_W\delta(\hat{s} - M_W^2).
 \end{equation}
 $G_F$ has dimensions GeV$^{-2}$, $M^2_W$ has dimensions GeV$^2$, and the delta function has the inverse dimensions of its argument, thus is GeV$^{-2}$. 
+
+\subsection{Obtaining the hadronic cross-section $\sigma (pp \rightarrow W^+)$}
+In the previous section, the cross-section for an up and anti-down quark annihilating into a W$^+$ boson was obtained. In practice, high-energy collisions of this type involve protons/anti-protons --- more generally, hadrons --- rather than free quarks or gluons. The partonic cross-section describes the hard scattering of individual partons, but the inital parton momenta are not fixed since each parton carries only a fraction $x$ of the proton’s total momentum and are distributed according to the proton’s parton distribution functions (PDF). The PDFs $f_i(x, \mu)$ give the probability density that a parton of type $i$ has momentum fraction $x$; $\mu$ refers to the factorisation scale and it accounts for the fact that the parton distribution depends on the resolution at which one probes the proton. In order to obtain the physically observable hadronic cross section, $\sigma(pp\rightarrow W^+)$, one must convolute the partonic cross section with the PDFs over all possible momentum fractions:
+
+\begin{equation}\label{convolution1}
+	\sigma(pp \rightarrow W^+) = \int_0^1 dx_1 \int_0^1 dx_2\; f_u(x_1, \mu)f_{\bar{d}}(x_2,\mu) \hat{\sigma}(u \bar{d} \rightarrow W^+),
+\end{equation}
+
+
+where $\hat{\sigma}(u \bar{d} \rightarrow W^+) =\frac{\pi \sqrt{2}}{3}G_FM^2_W\delta(\hat{s} - M_W^2)$. One can preform a change of variables by setting $M_W^2/s = \tau$ and $\hat{s}= x_1x_2s$. This changes the delta function that appears inside $\hat{\sigma}(u \bar{d} \rightarrow W^+)$:
+
+$$
+\delta(\hat{s} - M_W^2) \rightarrow \delta(x_1x_2s - s\tau) = \delta(s(x_1x_2  - \tau)). 
+$$
+One can use the property,
+
+\begin{equation}\label{simple-scaling}
+	\delta(ax) = \frac{1}{|a|}\delta(x),
+\end{equation}
+
+
+where $a$ is a constant. 
+
+$$
+\delta(s(x_1x_2  - \tau)) = \frac{1}{s}\delta(x_1x_2 - \tau).
+$$
+Using property \ref{delta-fn-scaling-property}, where the root of the function, $x_1x_2 - \tau$ is $x_2 = \tau /x_1$ and the derivative of the function with respect to $x_2$ is $x_1$, transforms the delta function:
+
+$$
+\delta(x_1x_2 - \tau) = \frac{\delta(x_2 - \tau/x_1)}{sx_1}.
+$$
+Inserting this form of the delta function into Eq.(\ref{convolution1}) gives,
+
+$$
+\sigma(pp \rightarrow W^+) = \frac{\pi \sqrt{2}}{3}G_FM^2_W \int_0^1 dx_1 \int_0^1 dx_2\; f_u(x_1, \mu)f_{\bar{d}}(x_2,\mu) \frac{\delta(x_2 - \tau/x_1)}{sx_1}. 
+$$
+Now, one can collapse the $dx_2$ integral, and set $x_2 = \tau/x_1$. Note that the integration limits also change; since $x_2$ is defined between 0 and 1, i.e. $0 \leq x_2 \leq 1$,  and now $x_2 = \tau/x_1$, it leads to $0 \leq \tau \leq 1$. This sets a lower bound for the integration as $\tau$.
+
+\begin{equation}\label{convolution-final}
+	\sigma(pp \rightarrow W^+) = \frac{\pi \sqrt{2}}{3}\frac{G_FM^2_W}{s} \int_\tau^1 \frac{dx_1}{x_1}\;  f_u(x_1, \mu)f_{\bar{d}}(\tau/x_1,\mu).	
+\end{equation}
+
+\subsubsection{Numerical evaluation of the hadronic cross-section}%idk how much detail I should go into; step by step maybe??
+The convoluted integral (\ref{convolution-final}) can be solved numerically. The $ f_u(x_1, \mu)$ and $f_{\bar{d}}(x_2,\mu)$ PDFs are imported from LHAPDF --- specifically the PDF4LHC21$\_$40 set is used \cite{PDF4LHCWorkingGroup:2022cjn}. Running the code given in Appendix \ref{Numerical integration code}, outputs a value for the inclusive hadronic cross-section,
+
+$$
+	\sigma(pp \rightarrow W^+) = 0.706 \pm 0.004\; \text{nb}
+$$
+
+
+
+
 
 
 \section{$\Gamma (W^+ \rightarrow e^+ \nu_e)$ derivation}
@@ -408,7 +464,8 @@ and then squaring gives,
 
 $$ |\mathcal{M}|^2= |\mathcal{M}^*\mathcal{M}|= \frac{g^2}{2}\frac{1}{4}\left(\bar{u}(p_4, s_4) \left[\gamma^\mu (1-\gamma^5) \epsilon_\mu (k, \lambda)\right] v(p_3, s_3)\right)^*\left(\bar{u}(p_4, s_4) \left[\gamma^\nu (1-\gamma^5) \epsilon_\nu (k, \lambda)\right] v(p_3, s_3)\right). $$
 
-The squared amplitude can be simplified by using the relation $\bar{u} = u^{\dagger}\gamma^0$ and the identity from \ref{gamma_id}:
+The squared amplitude can be simplified by using the relation $\bar{u} = u^{\dagger}\gamma^0$ and the 
+ from \ref{gamma_id}:
 
 $$|\mathcal{M}|^2 = \frac{1}{4} \frac{g^2}{2} (\epsilon_\mu^* \bar{v}[\overline{\gamma^\mu (1-\gamma^5)}]u)(\bar{u}[\gamma^\nu (1-\gamma^5] v \epsilon_\nu). $$
 
@@ -419,7 +476,7 @@ $$|\mathcal{M}|^2 = \frac{1}{4} \frac{g^2}{2} (\epsilon_\mu^* \bar{v}[\overline{
  
  $$N^{\mu\nu}= 2\text{Tr}\left[\gamma^\mu (1-\gamma^5)(\slashed{p_4}-m_4)\gamma^\nu (1-\gamma^5) (\slashed{p_3}-m_3)\right],$$
  
- where the identity \ref{overline-id} was used to convert $\overline{\gamma^\mu (1-\gamma^5)}$ back into $\gamma^\mu (1-\gamma^5).$ One can use the projector representation of $(1-\gamma^5)$ as $P_L = \frac{1}{2}(1-\gamma^5)$, and its properties to omit the mass terms in the expression, 
+ where the property \ref{overline-id} was used to convert $\overline{\gamma^\mu (1-\gamma^5)}$ back into $\gamma^\mu (1-\gamma^5).$ One can use the projector representation of $(1-\gamma^5)$ as $P_L = \frac{1}{2}(1-\gamma^5)$, and its properties to omit the mass terms in the expression, 
  
  \begin{equation}
  	\begin{aligned}
@@ -537,7 +594,7 @@ $$
 \int dx \; \delta(x) = 1.
 $$
 
-This can be accomplished through the identity,
+This can be accomplished through the property,
 
 $$
 	\delta(f(x))
@@ -609,17 +666,64 @@ Including contributions from $W^+$ decays into top-quarks increases the total de
 	BR(W \rightarrow e^+ \nu_e) \simeq \frac{\Gamma(W^+ \rightarrow e^+ \nu_e) }{\Gamma(W^+ \rightarrow \text{all})} = \frac{1}{9}
 \end{equation}
 
+\subsection{Obtaining total cross-section $\sigma(pp \rightarrow W^+ \rightarrow e^+ \nu_e)$ using NWA}
+
+To obtain the observable rate for the leptonic final state we multiply the inclusive hadronic production cross section for an on-shell W$^+$ by the branching ratio for the decay $W^+ \rightarrow e^+ \nu_e$ . Under the  narrow-width approximation the production and decay factorise: production sets the number of on-shell W$^+$ bosons, and the branching ratio gives the fraction of those that decay to the chosen channel. Hence the total cross section for producing an $e^+ \nu_e$ final state is,
+
+$$
+	\sigma(pp \rightarrow W^+ \rightarrow e^+ \nu_e) = 	\sigma(pp \rightarrow W^+) \cross BR(W \rightarrow e^+ \nu_e).
+$$
+This relation is valid only if: the total width of W$^+$ is smaller that its mass ($\Gamma << M_W$); the daughter particles are much less massive than the parent ($m_{e^+}, m_{\nu_e} << M_W$); the scattering energy is much larger than the $M_W$, ($\sqrt{s} >> M_W$); there is no significant interference with non-resonant processes; and the resonant propagator is separable from the matrix element \cite{Berdine:2007uv}.
+
+\appendix
+\section{Numerical integration code}\label{Numerical integration code}
+\begin{minted}
+[
+frame=lines,
+framesep=1mm,
+baselinestretch=1.0,
+bgcolor=LightGray,
+fontsize=\scriptsize,
+linenos
+]
+{python}
+import lhapdf
+import scipy.integrate as integrate
+import math
+
+pdf = lhapdf.mkPDF("PDF4LHC21_40", 0) #importing the PDF set
+
+#constants
+MW = 80.379
+GF = 1.1663787e-5 
+s = (13000)**2 #for a 13 TeV collider
+tau = MW**2/s
+
+prefactor= ((math.pi*math.sqrt(2))/2) * GF * MW * (1/s)
+
+
+crssctn, error = integrate.quad(
+lambda x1: prefactor * 1/x1 * (pdf.xfxQ(2, x1, MW))/x1 * (pdf.xfxQ(-1, tau/x1, MW))/ (tau/x1), tau, 1.0
+
+)
+# scipy.integrate.quad() has two outputs in the form: value, err.
+#   -  quad() has args (func, a, b). 
+
+# arg of xfxQ looks like: (id: PDG Parton id, x: momentum fraction, q: energy/ renormalisation scale)
+#   -  id, https://pdg.lbl.gov/2022/reviews/rpp2022-rev-monte-carlo-numbering.pdf   
+#   -  q, LHAPDF squares internally, hence MW not MW**2
+
+
+print(f'{crssctn * 0.389379 * 1e6} ± {error * 0.389379 * 1e6} nb' )
+
+
+
+# 1 GeV^-2 = 0.389379 mb 
+\end{minted}
 
 
 \bibliographystyle{unsrt}
 \bibliography{major-project-bibliography}
-
-
-
-
-
-
-
 
 
 
