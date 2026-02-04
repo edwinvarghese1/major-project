@@ -29,10 +29,29 @@
 }
 
 
-\date{today}
+\title{\textbf{Partonic and Hadronic Cross-section Calculations for $pp \rightarrow W^+ \rightarrow e^+ \nu_e$}}
+
+\author{
+	Edwin Varghese\\[10pt]
+	\small Department of Physics, Royal Holloway, University of London, Egham Hill, TW20 0EX, U.K.\\
+	\texttt{\small zkap069@live.rhul.ac.uk}
+}
+
+\date{}
 
 \begin{document}
-\tableofcontents
+	
+	\maketitle
+	
+	\begin{abstract}
+	
+		
+		
+	\end{abstract}
+	
+	
+	\newpage
+	\tableofcontents
 
 \section{$u\bar{d} \rightarrow W^+$ cross-section derivation}
 \subsection{Obtaining the partonic cross-section $\hat{\sigma}(u\bar{d} \rightarrow W^+)$}
@@ -388,7 +407,10 @@ This can be simplified by cancelling factors of $2\pi$ and setting $E_W = M_W$  
 $G_F$ has dimensions GeV$^{-2}$, $M^2_W$ has dimensions GeV$^2$, and the delta function has the inverse dimensions of its argument, thus is GeV$^{-2}$. 
 
 \subsection{Obtaining the hadronic cross-section $\sigma (pp \rightarrow W^+)$}
-In the previous section, the cross-section for an up and anti-down quark annihilating into a W$^+$ boson was obtained. In practice, high-energy collisions of this type involve protons/anti-protons --- more generally, hadrons --- rather than free quarks or gluons. The partonic cross-section describes the hard scattering of individual partons, but the inital parton momenta are not fixed since each parton carries only a fraction $x$ of the proton’s total momentum and are distributed according to the proton’s parton distribution functions (PDF). The PDFs $f_i(x, \mu)$ give the probability density that a parton of type $i$ has momentum fraction $x$; $\mu$ refers to the factorisation scale and it accounts for the fact that the parton distribution depends on the resolution at which one probes the proton. In order to obtain the physically observable hadronic cross section, $\sigma(pp\rightarrow W^+)$, one must convolute the partonic cross section with the PDFs over all possible momentum fractions:
+In the previous section, the cross-section for an up and anti-down quark annihilating into a W$^+$ boson was obtained. In practice, high-energy collisions of this type involve protons/anti-protons --- more generally, hadrons --- rather than free quarks or gluons. The partonic cross-section describes the hard scattering of individual partons, but the inital parton momenta are not fixed since each parton carries only a fraction $x$ of the proton’s total momentum and are distributed according to the proton’s parton distribution functions (PDF). The PDFs $f_i(x, \mu)$ give the probability density that a parton of type $i$ has momentum fraction $x$; $\mu$ refers to the factorisation scale and it accounts for the fact that the parton distribution depends on the resolution at which one probes the proton. 
+\subsubsection{Hadronic c onvolution integral derivation}
+
+In order to obtain the physically observable hadronic cross section, $\sigma(pp\rightarrow W^+)$, one must convolute the partonic cross section with the PDFs over all possible momentum fractions:
 
 \begin{equation}\label{convolution1}
 	\sigma(pp \rightarrow W^+) = \int_0^1 dx_1 \int_0^1 dx_2\; f_u(x_1, \mu)f_{\bar{d}}(x_2,\mu) \hat{\sigma}(u \bar{d} \rightarrow W^+),
@@ -429,13 +451,17 @@ Now, one can collapse the $dx_2$ integral, and set $x_2 = \tau/x_1$. Note that t
 \end{equation}
 
 \subsubsection{Numerical evaluation of the hadronic cross-section}%idk how much detail I should go into; step by step maybe??
-The convoluted integral (\ref{convolution-final}) can be solved numerically. The $ f_u(x_1, \mu)$ and $f_{\bar{d}}(x_2,\mu)$ PDFs are imported from LHAPDF --- specifically the PDF4LHC21$\_$40 set is used \cite{PDF4LHCWorkingGroup:2022cjn}. Running the code given in Appendix \ref{Numerical integration code}, outputs a value for the inclusive hadronic cross-section,
+The convoluted integral (\ref{convolution-final}) can be solved numerically. The $ f_u(x_1, \mu)$ and $f_{\bar{d}}(x_2,\mu)$ PDFs are imported from LHAPDF --- specifically the PDF4LHC21$\_$40 set is used \cite{PDF4LHCWorkingGroup:2022cjn}. Running the code given in Appendix \ref{Numerical integration code}, outputs a value for the inclusive hadronic cross-section at $\sqrt{s} = 13$ TeV,
 
 $$
-	\sigma(pp \rightarrow W^+) = 0.706 \pm 0.004\; \text{nb}
+	\sigma(pp \rightarrow W^+) = 0.7085 \pm 0.0042\; \text{nb}.
 $$
+For a proton-anti-proton collision at $\sqrt{s} = 13$ TeV,
 
-
+$$
+\sigma(p\bar{p} \rightarrow W^+) = 0.9068 \pm 0.0033\; \text{nb}.
+$$
+It is assumed that the probability for an anti-down quark in the anti-proton to have momentum fraction $x_1$ is equivalent to the probability for a down quark in the proton to have the same momentum fraction. Thus, the only change in the code was a sign inversion to depict a down quark in the proton.
 
 
 
@@ -673,7 +699,15 @@ To obtain the observable rate for the leptonic final state we multiply the inclu
 $$
 	\sigma(pp \rightarrow W^+ \rightarrow e^+ \nu_e) = 	\sigma(pp \rightarrow W^+) \cross BR(W \rightarrow e^+ \nu_e).
 $$
-This relation is valid only if: the total width of W$^+$ is smaller that its mass ($\Gamma << M_W$); the daughter particles are much less massive than the parent ($m_{e^+}, m_{\nu_e} << M_W$); the scattering energy is much larger than the $M_W$, ($\sqrt{s} >> M_W$); there is no significant interference with non-resonant processes; and the resonant propagator is separable from the matrix element \cite{Berdine:2007uv}.
+This relation is valid only if: the total width of W$^+$ is smaller that its mass ($\Gamma << M_W$); the daughter particles are much less massive than the parent ($m_{e^+}, m_{\nu_e} << M_W$); the scattering energy is much larger than the $M_W$, ($\sqrt{s} >> M_W$); there is no significant interference with non-resonant processes; and the resonant propagator is separable from the matrix element \cite{Berdine:2007uv}. One gets the total hadronic cross-section at $\sqrt{s} = 13$ TeV as,
+
+\begin{equation}
+		\sigma(pp \rightarrow W^+ \rightarrow e^+ \nu_e) = 	0.7085 \pm 0.0042\; \text{nb} \cross \frac{1}{9} = 0.0787 \pm 0.0004\; \text{nb},
+\end{equation}
+and for a proton-anti-proton collision, 
+\begin{equation}
+	\sigma(p\bar{p} \rightarrow W^+ \rightarrow e^+ \nu_e) = 0.9068 \pm 0.0033\; \text{nb} \cross \frac{1}{9} = 0.1008 \pm 0.0004\; \text{nb}.
+\end{equation}
 
 \appendix
 \section{Numerical integration code}\label{Numerical integration code}
