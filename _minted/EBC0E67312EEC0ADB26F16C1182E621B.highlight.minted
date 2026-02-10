@@ -1,0 +1,29 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+	
+	\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{numpy}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{np}
+	\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{lhapdf}
+	\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{math}
+	
+	\PYG{n}{pdf} \PYG{o}{=} \PYG{n}{lhapdf}\PYG{o}{.}\PYG{n}{mkPDF}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{PDF4LHC21\PYGZus{}40}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{}importing the PDF set}
+	
+	\PYG{c+c1}{\PYGZsh{}constants}
+	\PYG{n}{MW} \PYG{o}{=} \PYG{l+m+mf}{80.379}
+	\PYG{n}{GF} \PYG{o}{=} \PYG{l+m+mf}{1.1663787e\PYGZhy{}5}
+	\PYG{n}{s} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{13000}\PYG{p}{)}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2} \PYG{c+c1}{\PYGZsh{}for a 13 TeV collider}
+	\PYG{n}{tau} \PYG{o}{=} \PYG{n}{MW}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{o}{/}\PYG{n}{s}
+	
+	\PYG{n}{prefactor}\PYG{o}{=} \PYG{p}{(}\PYG{p}{(}\PYG{n}{math}\PYG{o}{.}\PYG{n}{pi}\PYG{o}{*}\PYG{n}{math}\PYG{o}{.}\PYG{n}{sqrt}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{p}{)}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{)} \PYG{o}{*} \PYG{n}{GF} \PYG{o}{*} \PYG{n}{MW} \PYG{o}{*} \PYG{p}{(}\PYG{l+m+mi}{1}\PYG{o}{/}\PYG{n}{s}\PYG{p}{)}
+	
+	\PYG{n}{f}\PYG{o}{=} \PYG{k}{lambda} \PYG{n}{x1}\PYG{p}{:} \PYG{n}{prefactor} \PYG{o}{*} \PYG{l+m+mi}{1}\PYG{o}{/}\PYG{n}{x1} \PYG{o}{*} \PYG{p}{(}\PYG{n}{pdf}\PYG{o}{.}\PYG{n}{xfxQ}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n}{x1}\PYG{p}{,} \PYG{n}{MW}\PYG{p}{)}\PYG{p}{)}\PYG{o}{/}\PYG{n}{x1} \PYG{o}{*} \PYG{p}{(}\PYG{n}{pdf}\PYG{o}{.}\PYG{n}{xfxQ}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{tau}\PYG{o}{/}\PYG{n}{x1}\PYG{p}{,} \PYG{n}{MW}\PYG{p}{)}\PYG{p}{)}\PYG{o}{/} \PYG{p}{(}\PYG{n}{tau}\PYG{o}{/}\PYG{n}{x1}\PYG{p}{)}
+	\PYG{n}{rand} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{uniform}\PYG{p}{(}\PYG{n}{tau}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{1000}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{}generate a 1000 length array of random numbers from tau to 1}
+	\PYG{n}{rand\PYGZus{}comp} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{(}\PYG{p}{[}\PYG{n}{f}\PYG{p}{(}\PYG{n}{x1}\PYG{p}{)} \PYG{k}{for} \PYG{n}{x1} \PYG{o+ow}{in} \PYG{n}{rand}\PYG{p}{]}\PYG{p}{)}
+	\PYG{c+c1}{\PYGZsh{}loops over every entry in the rand array, feeds them into pdf.xfxQ, and creates an array of the output}
+	\PYG{n}{est}\PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{1}\PYG{o}{\PYGZhy{}}\PYG{n}{tau}\PYG{p}{)}\PYG{o}{*}\PYG{n}{rand\PYGZus{}comp}\PYG{o}{.}\PYG{n}{mean}\PYG{p}{(}\PYG{p}{)}
+	\PYG{c+c1}{\PYGZsh{}lhapdf function only itakes 0\PYGZhy{}Dim arrays i.e. a single value}
+	
+	\PYG{n}{err} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{1} \PYG{o}{\PYGZhy{}} \PYG{n}{tau}\PYG{p}{)} \PYG{o}{*} \PYG{n}{rand\PYGZus{}comp}\PYG{o}{.}\PYG{n}{std}\PYG{p}{(}\PYG{n}{ddof}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)} \PYG{o}{/}\PYG{n}{np}\PYG{o}{.}\PYG{n}{sqrt}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{rand}\PYG{p}{)}\PYG{p}{)}
+	\PYG{c+c1}{\PYGZsh{} rand\PYGZus{}comp.std(ddof=1) is the SD of the evaluated points}
+	
+	
+	\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{cross\PYGZhy{}section: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{est}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mf}{0.389379}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mf}{1e6}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{ ± }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{err}\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mf}{0.389379}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mf}{1e6}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{ nb}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+\end{MintedVerbatim}

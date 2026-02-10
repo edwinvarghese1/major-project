@@ -1,9 +1,11 @@
 {
   "jobname": "u-dbar-W-derivation",
   "md5": "C73B5F9AC459C97AEDA98BED001E93D4",
-  "timestamp": "20260202230325Z",
+  "timestamp": "20260210153234Z",
   "cachefiles": [
-    "63BD55FD3EC73CD94307D5A65A55B95E.highlight.minted",
+    "1F96464EBA08AC0D9F82A3363FB92B23.highlight.minted",
+    "7CFA5D8704F9F124C958C147A2D02CC9.highlight.minted",
+    "EBC0E67312EEC0ADB26F16C1182E621B.highlight.minted",
     "_C73B5F9AC459C97AEDA98BED001E93D4.index.minted",
     "default.style.minted"
   ]

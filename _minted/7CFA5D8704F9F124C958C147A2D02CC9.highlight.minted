@@ -1,0 +1,34 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{lhapdf}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{math}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{vegas}
+
+\PYG{n}{pdf} \PYG{o}{=} \PYG{n}{lhapdf}\PYG{o}{.}\PYG{n}{mkPDF}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{PDF4LHC21\PYGZus{}40}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{}importing the PDF set}
+
+\PYG{c+c1}{\PYGZsh{}constants}
+\PYG{n}{MW} \PYG{o}{=} \PYG{l+m+mf}{80.379}
+\PYG{n}{GF} \PYG{o}{=} \PYG{l+m+mf}{1.1663787e\PYGZhy{}5}
+\PYG{n}{s} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{13000}\PYG{p}{)}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2} \PYG{c+c1}{\PYGZsh{}for a 13 TeV collider}
+\PYG{n}{tau} \PYG{o}{=} \PYG{n}{MW}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{o}{/}\PYG{n}{s}
+
+\PYG{n}{prefactor}\PYG{o}{=} \PYG{p}{(}\PYG{p}{(}\PYG{n}{math}\PYG{o}{.}\PYG{n}{pi}\PYG{o}{*}\PYG{n}{math}\PYG{o}{.}\PYG{n}{sqrt}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{p}{)}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{)} \PYG{o}{*} \PYG{n}{GF} \PYG{o}{*} \PYG{n}{MW} \PYG{o}{*} \PYG{p}{(}\PYG{l+m+mi}{1}\PYG{o}{/}\PYG{n}{s}\PYG{p}{)}
+
+
+\PYG{n}{f} \PYG{o}{=} \PYG{k}{lambda} \PYG{n}{x}\PYG{p}{:} \PYG{n}{prefactor} \PYG{o}{*} \PYG{l+m+mi}{1}\PYG{o}{/}\PYG{n}{x}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{*} \PYG{p}{(}\PYG{n}{pdf}\PYG{o}{.}\PYG{n}{xfxQ}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n}{x}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{,} \PYG{n}{MW}\PYG{p}{)}\PYG{p}{)}\PYG{o}{/}\PYG{n}{x}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{*} \PYG{p}{(}\PYG{n}{pdf}\PYG{o}{.}\PYG{n}{xfxQ}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{tau}\PYG{o}{/}\PYG{n}{x}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{,} \PYG{n}{MW}\PYG{p}{)}\PYG{p}{)}\PYG{o}{/} \PYG{p}{(}\PYG{n}{tau}\PYG{o}{/}\PYG{n}{x}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} VEGAS passes a list/array, even for 1D integrals i.e. x = [0.234]; this format is useful for multi\PYGZhy{}D integrals}
+\PYG{c+c1}{\PYGZsh{} where x = [0.212, 0.111, 0.442,...]}
+
+\PYG{c+c1}{\PYGZsh{} The list contains all the randomly sampled points per integration variable.}
+\PYG{c+c1}{\PYGZsh{} but LHAPDF pdf.xfxQ() expects a float.}
+\PYG{c+c1}{\PYGZsh{} Solution: x\PYGZus{}1 \PYGZhy{}\PYGZhy{}\PYGZgt{} x[0] (for 1D intgration) which extracts the first element of the list (a float) and passes}
+\PYG{c+c1}{\PYGZsh{} that into LHAPDF.}
+
+\PYG{n}{integ} \PYG{o}{=} \PYG{n}{vegas}\PYG{o}{.}\PYG{n}{Integrator}\PYG{p}{(}\PYG{p}{[}\PYG{p}{[}\PYG{n}{tau}\PYG{p}{,} \PYG{l+m+mf}{1.0}\PYG{p}{]}\PYG{p}{]}\PYG{p}{)}  \PYG{c+c1}{\PYGZsh{} single variable x1}
+\PYG{n}{result} \PYG{o}{=} \PYG{n}{integ}\PYG{p}{(}\PYG{n}{f}\PYG{p}{,} \PYG{n}{nitn}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{n}{neval}\PYG{o}{=}\PYG{l+m+mi}{1000}\PYG{p}{)}  \PYG{c+c1}{\PYGZsh{} 10 iterations, 1000 evaluations per iteration}
+
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{result}\PYG{o}{.}\PYG{n}{summary}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{result = }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{result}\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mf}{0.389379}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mf}{1e6}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{ ± }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{result}\PYG{o}{.}\PYG{n}{sdev}\PYG{+w}{  }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mf}{0.389379}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mf}{1e6}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{ nb}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+\end{MintedVerbatim}

@@ -28,7 +28,5 @@
 
 \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{crssctn}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mf}{0.389379}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mf}{1e6}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{ ± }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{error}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mf}{0.389379}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mf}{1e6}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{ nb}\PYG{l+s+s1}{\PYGZsq{}} \PYG{p}{)}
 
-
-
 \PYG{c+c1}{\PYGZsh{} 1 GeV\PYGZca{}\PYGZhy{}2 = 0.389379 mb}
 \end{MintedVerbatim}

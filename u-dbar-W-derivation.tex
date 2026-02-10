@@ -408,7 +408,7 @@ $G_F$ has dimensions GeV$^{-2}$, $M^2_W$ has dimensions GeV$^2$, and the delta f
 
 \subsection{Obtaining the hadronic cross-section $\sigma (pp \rightarrow W^+)$}
 In the previous section, the cross-section for an up and anti-down quark annihilating into a W$^+$ boson was obtained. In practice, high-energy collisions of this type involve protons/anti-protons --- more generally, hadrons --- rather than free quarks or gluons. The partonic cross-section describes the hard scattering of individual partons, but the inital parton momenta are not fixed since each parton carries only a fraction $x$ of the proton’s total momentum and are distributed according to the proton’s parton distribution functions (PDF). The PDFs $f_i(x, \mu)$ give the probability density that a parton of type $i$ has momentum fraction $x$; $\mu$ refers to the factorisation scale and it accounts for the fact that the parton distribution depends on the resolution at which one probes the proton. 
-\subsubsection{Hadronic c onvolution integral derivation}
+\subsubsection{Hadronic convolution integral derivation}
 
 In order to obtain the physically observable hadronic cross section, $\sigma(pp\rightarrow W^+)$, one must convolute the partonic cross section with the PDFs over all possible momentum fractions:
 
@@ -417,7 +417,7 @@ In order to obtain the physically observable hadronic cross section, $\sigma(pp\
 \end{equation}
 
 
-where $\hat{\sigma}(u \bar{d} \rightarrow W^+) =\frac{\pi \sqrt{2}}{3}G_FM^2_W\delta(\hat{s} - M_W^2)$. One can preform a change of variables by setting $M_W^2/s = \tau$ and $\hat{s}= x_1x_2s$. This changes the delta function that appears inside $\hat{\sigma}(u \bar{d} \rightarrow W^+)$:
+where $\hat{\sigma}(u \bar{d} \rightarrow W^+) =\frac{\pi \sqrt{2}}{3}G_FM^2_W\delta(\hat{s} - M_W^2)$. One can preform a change of variables by setting $M_W^2/s = \tau$ and $\hat{s}= x_1x_2s$ \cite{Ellis:1990pp}. This changes the delta function that appears inside $\hat{\sigma}(u \bar{d} \rightarrow W^+)$:
 
 $$
 \delta(\hat{s} - M_W^2) \rightarrow \delta(x_1x_2s - s\tau) = \delta(s(x_1x_2  - \tau)). 
@@ -450,8 +450,8 @@ Now, one can collapse the $dx_2$ integral, and set $x_2 = \tau/x_1$. Note that t
 	\sigma(pp \rightarrow W^+) = \frac{\pi \sqrt{2}}{3}\frac{G_FM^2_W}{s} \int_\tau^1 \frac{dx_1}{x_1}\;  f_u(x_1, \mu)f_{\bar{d}}(\tau/x_1,\mu).	
 \end{equation}
 
-\subsubsection{Numerical evaluation of the hadronic cross-section}%idk how much detail I should go into; step by step maybe??
-The convoluted integral (\ref{convolution-final}) can be solved numerically. The $ f_u(x_1, \mu)$ and $f_{\bar{d}}(x_2,\mu)$ PDFs are imported from LHAPDF --- specifically the PDF4LHC21$\_$40 set is used \cite{PDF4LHCWorkingGroup:2022cjn}. Running the code given in Appendix \ref{Numerical integration code}, outputs a value for the inclusive hadronic cross-section at $\sqrt{s} = 13$ TeV,
+\subsubsection{Numerical evaluation via \texttt{SciPy}}%idk how much detail I should go into; step by step maybe??
+The convoluted integral (\ref{convolution-final}) can be solved numerically. The $ f_u(x_1, \mu)$ and $f_{\bar{d}}(x_2,\mu)$ PDFs are imported from LHAPDF --- specifically the PDF4LHC21$\_$40 set is used \cite{PDF4LHCWorkingGroup:2022cjn}. Running the code given in Appendix \ref{integration-scipy}, outputs a value for the inclusive hadronic cross-section at $\sqrt{s} = 13$ TeV,
 
 $$
 	\sigma(pp \rightarrow W^+) = 0.7085 \pm 0.0042\; \text{nb}.
@@ -462,6 +462,98 @@ $$
 \sigma(p\bar{p} \rightarrow W^+) = 0.9068 \pm 0.0033\; \text{nb}.
 $$
 It is assumed that the probability for an anti-down quark in the anti-proton to have momentum fraction $x_1$ is equivalent to the probability for a down quark in the proton to have the same momentum fraction. Thus, the only change in the code was a sign inversion to depict a down quark in the proton.
+
+\subsubsection{Numerical evaluation via Monte Carlo integration}
+Monte Carlo integration is a numerical technique for approximating integrals that are too complex to evaluate analytically. The method proceeds by evaluating the function being integrated at uniformly generated random points, and then forming an estimate of the integral by averaging the resulting values\cite{tang2023notemontecarlointegration}. The integrand does not need to be continuous or analytic for the method to preform, thus is very robust \cite{Lepage:2020tgj}. Take the integral,
+$$
+\int_a^b f(x) dx,
+$$
+one can sample random numbers, ${x_i}$, uniformly between $[a,b]$, and then compute an average,
+
+$$
+\overline{f(x_i)} = \frac{1}{N}\sum_{i=1}^{N}f(x_i).
+$$
+Multiplying the average by the difference between the integration limits approximates the area under the curve,
+
+$$
+I_{MC} \approx (b-a)\cross \overline	{f(x_i)} = \frac{(b-a)}{N}\sum_{i=1}^{N}f(x_i),
+$$
+where $I_{MC}$ is the Monte Carlo integration estimate\cite{a2025_4}. The power of this method becomes clear when $N$ is very large, as when
+
+$$
+N \rightarrow \infty,\;  \frac{1}{N}\sum_{i=1}^{N}f(x_i) \rightarrow  \frac{1}{(b-a)}\int_a^b f(x_i),
+$$
+the average of $f(x_i)$ converges to the true mean over $[a,b]$,
+
+$$
+I_{MC} = \frac{(b-a)}{(b-a)}\int_a^b f(x_i) = \int_a^b f(x_i) = I,
+$$
+where $I$ is the true value for the integral. One can calculate the variance of $I_{MC}$:
+
+
+\begin{equation*}
+	\begin{aligned}
+		\text{Var}(I_{MC}) &= \text{Var}\left(\frac{(b-a)}{N}\sum_{i=1}^{N}f(x_i)\right)\\ 
+		&= (b-a)^2 \frac{\text{Var}(f(x))}{N}\\
+	\end{aligned}
+\end{equation*}
+
+where the $(b-a)^2$ term comes from the fact that, $X = c \cdot Y$, where $c$ is a constant, then $\text{Var}(X) = c^2 \cdot \text{Var}(Y)$. The standard deviation is then,
+
+$$
+\text{error} = \sqrt{	\text{Var}(I_{MC})} = (b-a)\frac{\sigma}{\sqrt{N}}.
+$$
+One can see that the standard error decreases like $\sim 1/\sqrt{N}$; increasing the sample size, $N$, improves the estimate of the integral. This improvement is independent of the number of dimensions of the integral, thus remains effective at higher dimensions. Running the code in Appendix \ref{basic-mc-integration} gives the Monte Carlo estimate of the integral \ref{convolution-final},
+
+$$
+\sigma(pp \rightarrow W^+) = 0.7244 \pm 0.0949\; \text{nb}.
+$$
+For a proton-anti-proton collision at $\sqrt{s} = 13$ TeV,
+
+$$
+\sigma(p\bar{p} \rightarrow W^+) = 1.1744 \pm 0.4327\; \text{nb}.
+$$
+One can see that the basic Monte Carlo integration, at 1000 samples, has a larger error than \texttt{scipy} integration. Yet, increasing the sample size to $1\cross10^6$ samples, the error on the estimate turns out to be the same order of magnitude,
+
+$$
+\sigma(pp \rightarrow W^+) = 0.7133 \pm 0.003\; \text{nb}.
+$$
+For a proton-anti-proton collision at $\sqrt{s} = 13$ TeV,
+
+$$
+\sigma(p\bar{p} \rightarrow W^+) = 0.9167 \pm 0.008\; \text{nb}.
+$$
+A limitation of calculating integrals this way is that in order to reduce the error by a factor of $k$, one needs to increase the number of sample points by a factor of $k^2$. Each Monte Carlo iteration requires an evaluation of the integrand, if one increases the sample size  by $k^2$, then $k^2$ points have to be computed. Additionally, complex integrands also takes more time to evaluate. Another limitation arises when the region of interest occupies only a small fraction of the entire integration volume. Since the random points are sampled uniformly between the integration limits, each point in integration space has an equal probability to be evaluated, thus any sharp peaks --- regions where the integrand contributes the most --- may be poorly sampled.
+
+
+\subsubsection{Monte Carlo integration using \texttt{VEGAS}}
+A popular Monte Carlo algorithm for evaluating multidimensional integrals in particle physics is \texttt{VEGAS}, which uses importance sampling to reduce variance in high-dimensional integrals\cite{Lepage:2020tgj}. Rather than sampling uniformly, \texttt{VEGAS} performs importance sampling by introducing a change of variables. It samples points according to a probability density that resembles the integrand, so that regions where the integrand is large are sampled more often. The algorithm does this by dividing the integration volume into a grid of hypercubes\cite{Lepage:1980dq}. In the first iteration,  points are distributed such that the density of points per hypercube is the same. With each iteration, the increments on each axis are adjusted, which essentially concentrates the hypercubes in regions where the integrand is the largest --- the parts of the function that contribute the most to the integral. An example of this can be seen in Fig.\ref{fig:grid}.
+%map is the coordinate transformation that does the importance eamplin
+\begin{figure}[tb!]
+	\centering
+	\includegraphics[width=0.5\linewidth]{graphics/grid} 
+	\caption{Grid corresponding to a \texttt{VEGAS} map for a 4-dimensional integral; grid lines shown are for every 50th increment along $x_1$ and $x_2$ axes. The grid is constructed to have a higher density of increments near 0.33 and 0.67 for $x_1$ and near 0.5 for $x_2$. The increment densities for $x_3$ and $x_4$ are the same as $x_2$. Figure taken from \cite{Lepage:2020tgj}.}
+	\label{fig:grid}
+\end{figure}
+
+
+In evaluating high-dimensional integrals, adaptive strategies are crucial since parts of the integrand that are interesting may take up only a small fraction of the entire integration volume \cite{Lepage:2020tgj}. The usual Monte Carlo methods would be inefficient as random samples will only rarely hit the desired parts.\\
+
+Running the code given in Appendix \ref{integration-vegas}, outputs a value for the inclusive hadronic cross-section at $\sqrt{s} = 13$ TeV,
+
+$$
+\sigma(pp \rightarrow W^+) = 0.7087 \pm 0.0003\; \text{nb}.
+$$
+For a proton-anti-proton collision at $\sqrt{s} = 13$ TeV,
+
+$$
+\sigma(p\bar{p} \rightarrow W^+) = 0.9058 \pm 0.0005\; \text{nb}.
+$$
+
+The cross-section value for both numerical methods agree up to 3 decimal places for proton-proton and up to 2 decimal places for proton-anti-proton. 
+
+%yet, \texttt{VEGAS} demonstrates slightly higher precise than \texttt{SciPy} since the variance is an order of magnitude smaller.
+
 
 
 
@@ -699,7 +791,7 @@ To obtain the observable rate for the leptonic final state we multiply the inclu
 $$
 	\sigma(pp \rightarrow W^+ \rightarrow e^+ \nu_e) = 	\sigma(pp \rightarrow W^+) \cross BR(W \rightarrow e^+ \nu_e).
 $$
-This relation is valid only if: the total width of W$^+$ is smaller that its mass ($\Gamma << M_W$); the daughter particles are much less massive than the parent ($m_{e^+}, m_{\nu_e} << M_W$); the scattering energy is much larger than the $M_W$, ($\sqrt{s} >> M_W$); there is no significant interference with non-resonant processes; and the resonant propagator is separable from the matrix element \cite{Berdine:2007uv}. One gets the total hadronic cross-section at $\sqrt{s} = 13$ TeV as,
+This relation is valid only if: the total width of W$^+$ is smaller that its mass ($\Gamma \ll M_W$); the daughter particles are much less massive than the parent ($m_{e^+}, m_{\nu_e} \ll M_W$); the scattering energy is much larger than the $M_W$, ($\sqrt{s} \gg M_W$); there is no significant interference with non-resonant processes; and the resonant propagator is separable from the matrix element \cite{Berdine:2007uv}. One gets the total hadronic cross-section at $\sqrt{s} = 13$ TeV as,
 
 \begin{equation}
 		\sigma(pp \rightarrow W^+ \rightarrow e^+ \nu_e) = 	0.7085 \pm 0.0042\; \text{nb} \cross \frac{1}{9} = 0.0787 \pm 0.0004\; \text{nb},
@@ -710,7 +802,8 @@ and for a proton-anti-proton collision,
 \end{equation}
 
 \appendix
-\section{Numerical integration code}\label{Numerical integration code}
+\section{Numerical integration code}
+\subsection{Integration via \texttt{SciPy}}\label{integration-scipy}
 \begin{minted}
 [
 frame=lines,
@@ -750,14 +843,134 @@ lambda x1: prefactor * 1/x1 * (pdf.xfxQ(2, x1, MW))/x1 * (pdf.xfxQ(-1, tau/x1, M
 
 print(f'{crssctn * 0.389379 * 1e6} ± {error * 0.389379 * 1e6} nb' )
 
-
-
 # 1 GeV^-2 = 0.389379 mb 
+\end{minted}
+\subsection{Basic Monte Carlo Integration}\label{basic-mc-integration}
+\begin{minted}
+		[
+	frame=lines,
+	framesep=1mm,
+	baselinestretch=1.0,
+	bgcolor=LightGray,
+	fontsize=\scriptsize,
+	linenos
+	]
+	{python}
+	
+	import numpy as np 
+	import lhapdf
+	import math
+	
+	pdf = lhapdf.mkPDF("PDF4LHC21_40", 0) #importing the PDF set
+	
+	#constants
+	MW = 80.379
+	GF = 1.1663787e-5 
+	s = (13000)**2 #for a 13 TeV collider
+	tau = MW**2/s
+	
+	prefactor= ((math.pi*math.sqrt(2))/2) * GF * MW * (1/s)
+	
+	f= lambda x1: prefactor * 1/x1 * (pdf.xfxQ(2, x1, MW))/x1 * (pdf.xfxQ(-1, tau/x1, MW))/ (tau/x1)
+	rand = np.random.uniform(tau, 1, 1000) #generate a 1000 length array of random numbers from tau to 1
+	rand_comp = np.array([f(x1) for x1 in rand])
+	#loops over every entry in the rand array, feeds them into pdf.xfxQ, and creates an array of the output
+	est= (1-tau)*rand_comp.mean()
+	#lhapdf function only itakes 0-Dim arrays i.e. a single value
+	
+	err = (1 - tau) * rand_comp.std(ddof=1) /np.sqrt(len(rand))
+	# rand_comp.std(ddof=1) is the SD of the evaluated points
+	
+	
+	print(f'cross-section: {est * 0.389379 * 1e6} ± {err* 0.389379 * 1e6} nb')
 \end{minted}
 
 
+\subsection{Integration via \texttt{VEGAS}}\label{integration-vegas}
+\begin{minted}
+	[
+	frame=lines,
+	framesep=1mm,
+	baselinestretch=1.0,
+	bgcolor=LightGray,
+	fontsize=\scriptsize,
+	linenos
+	]
+	{python}
+
+import lhapdf
+import math
+import vegas
+
+pdf = lhapdf.mkPDF("PDF4LHC21_40", 0) #importing the PDF set
+
+#constants
+MW = 80.379
+GF = 1.1663787e-5 
+s = (13000)**2 #for a 13 TeV collider
+tau = MW**2/s
+
+prefactor= ((math.pi*math.sqrt(2))/2) * GF * MW * (1/s)
+
+
+f = lambda x: prefactor * 1/x[0] * (pdf.xfxQ(2, x[0], MW))/x[0] * (pdf.xfxQ(-1, tau/x[0], MW))/ (tau/x[0])
+
+# VEGAS passes a list/array, even for 1D integrals i.e. x = [0.234]; this format is useful for multi-D integrals
+# where x = [0.212, 0.111, 0.442,...]
+
+# The list contains all the randomly sampled points per integration variable.
+# but LHAPDF pdf.xfxQ() expects a float.
+# Solution: x_1 --> x[0] (for 1D intgration) which extracts the first element of the list (a float) and passes 
+# that into LHAPDF.
+
+integ = vegas.Integrator([[tau, 1.0]])  # single variable x1
+result = integ(f, nitn=10, neval=1000)  # 10 iterations, 1000 evaluations per iteration
+
+print(result.summary())
+
+print(f'result = {result* 0.389379 * 1e6} ± {result.sdev  * 0.389379 * 1e6} nb')
+\end{minted}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \bibliographystyle{unsrt}
+
+
 \bibliography{major-project-bibliography}
+
+
 
 
 
