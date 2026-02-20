@@ -1,5 +1,5 @@
 \documentclass[a4paper,11pt]{article}
-\usepackage{amsmath,amssymb,graphicx,hyperref}
+\usepackage{amsmath,amssymb,graphicx,hyperref, mathtools}
 \usepackage[margin=0.85in]{geometry}
 
 \usepackage{tocloft} % For custom table of contents
@@ -76,7 +76,11 @@ The interaction that is of interest is the hadronic production of $W \rightarrow
   $$ \left(\bar{v}(p_2, s_2)\gamma^\mu (1-\gamma^5) u(p_1,  s_1) \epsilon_\mu^*(k, \lambda) \right)^* \equiv \left(\bar{v}(p_2, s_2)\gamma^\mu (1-\gamma^5) u(p_1, s_1) \epsilon_\mu^*(k, \lambda) \right)^\dagger. $$ Using the relation, $\bar{v}=v^\dagger \gamma^0$, 
   $$ \left(v^\dagger(p_2, s_2)\gamma^0 \gamma^\mu (1-\gamma^5) u(p_1, s_1) \epsilon_\mu^*(k, \lambda) \right)^\dagger.$$
   
-  From here on, the brackets indicating the four-momentum and spin of the quarks and the momentum four-vector and polarisation vector of the W will be omitted; using the reverse-order law, $(ABC)^\dagger = C^\dagger B^\dagger A^\dagger$ where A,B, C are matrices, and $\gamma^{0 \dagger} = \gamma^0$,  one gets:
+  From here on, the brackets indicating the four-momentum and spin of the quarks and the momentum four-vector and polarisation vector of the W will be omitted; using the reverse-order law, 
+  \begin{equation}\label{rev-order-law}
+	  (ABC)^\dagger = C^\dagger B^\dagger A^\dagger,  	
+  \end{equation}
+where A,B, C are matrices, and $\gamma^{0 \dagger} = \gamma^0$,  one gets:
  \begin{equation}\label{gamma_id}
  	\begin{aligned}
  		 	\epsilon_\mu u^\dagger \left[\gamma^\mu (1-\gamma^5)\right]^\dagger \gamma^0 v &= \epsilon_\mu u^\dagger \gamma^0 \gamma^0 \left[\gamma^\mu (1-\gamma^5)\right]^\dagger \gamma^0 v \\
@@ -113,7 +117,7 @@ In order to sum over the spins of the up-quark (i.e. the Dirac u-spinor), let $\
 The matrix multiplication $(\bar{u}\Lambda u)$ can be written in component form as 
 $$(\bar{u}\Lambda u)= \sum_{a,b=1}^4 (\bar{u})_a (\Lambda)_{ab} (u)_b = \sum_{a,b=1}^4 (\Lambda)_{ab} (u)_b(\bar{u})_a = \sum_{a,b=1}^4 (\Lambda)_{ab} (u\bar{u})_{ba} \sum_{a= 1}^4 = [\Lambda u\bar{u}]_{aa} = \text{Tr}[\Lambda u \bar{u}].$$ Summing over $s_1$ gives 
 
-$$ \bar{u}\Lambda u = \sum_{s_1} \text{Tr}[\Lambda u \bar{u}] = \text{Tr}[\Lambda(\slashed{p}_1+m_1)].$$ Unpacking $\Lambda$ gives the end result $$S^{\mu\nu}= \text{Tr}\left[\overline{\gamma^\mu (1-\gamma^5)} (\slashed{p}_2-m_2) \gamma^\nu (1-\gamma^5)(\slashed{p}_1+m_1)\right].$$ This procedure is known as Casimir's trick which replace the sum over spin states with the spinor completeness relations, in order to turn products of spinors into a trace over gamma matrices that one can evaluate with standard trace identities. Since the $\bar{\Gamma}= \gamma^0 \Gamma^\dagger \gamma^0$ identity was used to soak up two of the $\gamma^0$s in Eq.(\ref{gamma_id}), it can be shown that,
+$$ \bar{u}\Lambda u = \sum_{s_1} \text{Tr}[\Lambda u \bar{u}] = \text{Tr}[\Lambda(\slashed{p}_1+m_1)].$$ Unpacking $\Lambda$ gives the end result $$S^{\mu\nu}= \text{Tr}\left[\overline{\gamma^\mu (1-\gamma^5)} (\slashed{p}_2-m_2) \gamma^\nu (1-\gamma^5)(\slashed{p}_1+m_1)\right].$$ This procedure is known as Casimir's trick \cite{Griffiths:2008zz} which replace the sum over spin states with the spinor completeness relations, in order to turn products of spinors into a trace over gamma matrices that one can evaluate with standard trace identities. Since the $\bar{\Gamma}= \gamma^0 \Gamma^\dagger \gamma^0$ identity was used to soak up two of the $\gamma^0$s in Eq.(\ref{gamma_id}), it can be shown that,
 
 \begin{equation}\label{overline-id}
 	\begin{aligned}
@@ -210,7 +214,7 @@ This expression needs to be evaluated by contracting the indices. Contracting th
 		\frac{8}{M_W^2}[2(p_2 \cdot k)(p_1 \cdot k ) - k^2 (p_1 \cdot p_2)+ k_\mu k_\nu (\epsilon^{\mu \nu \rho \sigma}p_{1\rho}p_{2\sigma})] &=  \frac{8}{M_W^2}[2(p_2 \cdot k)(p_1 \cdot k ) - k^2 (p_1 \cdot p_2)+ 0] 
  	\end{aligned}
  \end{equation}
-Similarly, the $k_\mu k_\nu (\epsilon^{\mu \nu \rho \sigma}p_{1\rho}p_{2\sigma})$ goes to zero, for all $\rho$ and $\sigma$, due to $k_\mu k_\nu$ being totally symmetric under exchange of indicies and the Levi-Civita being totally antisymmetric under the exchange of indicies. Momentum has to be conserved, so one can assume that $k = p_1 + p_2$, which corresponds to saying that the W$^+$ boson carries the momentum of both up and anti-down quarks, and thus $k^2 = ( p_1 + p_2)^2 = p_1^2 + p_2^2 +2p_1\cdot p_2$. Assuming massless quarks, $p^2 = E^2 - |p|^2 = 0 $, so $k^2 = 2p_1\cdotp_2$. Substituting back into Eq. \ref{k} gives,
+Similarly, the $k_\mu k_\nu (\epsilon^{\mu \nu \rho \sigma}p_{1\rho}p_{2\sigma})$ goes to zero, for all $\rho$ and $\sigma$, due to $k_\mu k_\nu$ being symmetric under exchange of indicies and the Levi-Civita being totally antisymmetric under the exchange of indicies. Momentum has to be conserved, so one can assume that $k = p_1 + p_2$, which corresponds to saying that the W$^+$ boson carries the momentum of both up and anti-down quarks, and thus $k^2 = ( p_1 + p_2)^2 = p_1^2 + p_2^2 +2p_1\cdot p_2$. Assuming massless quarks, $p^2 = E^2 - |p|^2 = 0 $, so $k^2 = 2p_1\cdotp_2$. Substituting back into Eq. \ref{k} gives,
 
 $$\frac{8}{M_W^2}[2(p_1 + p_2) \cdot p_2 (p_1 +p_2 )\cdot p_1 - (2p_1\cdot p_2)(p_1 \cdot p_2)]  = \frac{8}{M_W^2}[2(p_1 \cdot p_2)^2 - 2(p_1 \cdot p_2)^2] = 0.$$	
 Therefore the contraction with $g_{\mu\nu}$ is the only term that survives, given the massless fermion approximation. The spin- and  polarisation-summed amplitude squared gives,
@@ -475,9 +479,11 @@ $$
 $$
 Multiplying the average by the difference between the integration limits approximates the area under the curve,
 
-$$
-I_{MC} \approx (b-a)\cross \overline	{f(x_i)} = \frac{(b-a)}{N}\sum_{i=1}^{N}f(x_i),
-$$
+\begin{equation}
+	I_{MC} \approx (b-a)\cross \overline	{f(x_i)} = \frac{(b-a)}{N}\sum_{i=1}^{N}f(x_i),	
+\end{equation}
+
+
 where $I_{MC}$ is the Monte Carlo integration estimate\cite{a2025_4}. The power of this method becomes clear when $N$ is very large, as when
 
 $$
@@ -498,11 +504,13 @@ where $I$ is the true value for the integral. One can calculate the variance of 
 	\end{aligned}
 \end{equation*}
 
-where the $(b-a)^2$ term comes from the fact that, $X = c \cdot Y$, where $c$ is a constant, then $\text{Var}(X) = c^2 \cdot \text{Var}(Y)$. The standard deviation is then,
+where the $(b-a)^2$ term comes from the fact that, if $X = c \cdot Y$, where $c$ is a constant, then $\text{Var}(X) = c^2 \cdot \text{Var}(Y)$. The standard error is then,
 
-$$
-\text{error} = \sqrt{	\text{Var}(I_{MC})} = (b-a)\frac{\sigma}{\sqrt{N}}.
-$$
+\begin{equation}
+	\text{error} = \sqrt{	\text{Var}(I_{MC})} = (b-a)\frac{\sigma}{\sqrt{N}}.
+\end{equation}
+
+
 One can see that the standard error decreases like $\sim 1/\sqrt{N}$; increasing the sample size, $N$, improves the estimate of the integral. This improvement is independent of the number of dimensions of the integral, thus remains effective at higher dimensions. Running the code in Appendix \ref{basic-mc-integration} gives the Monte Carlo estimate of the integral \ref{convolution-final},
 
 $$
@@ -800,6 +808,151 @@ and for a proton-anti-proton collision,
 \begin{equation}
 	\sigma(p\bar{p} \rightarrow W^+ \rightarrow e^+ \nu_e) = 0.9068 \pm 0.0033\; \text{nb} \cross \frac{1}{9} = 0.1008 \pm 0.0004\; \text{nb}.
 \end{equation}
+
+\section{Full $ u \bar{d} \rightarrow W^+ \rightarrow e^+ \nu_e$ amplitude derivation }
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{graphics/full-amp}
+	\caption{Tree-level Feynman diagram for $u\bar{d} \rightarrow W^+ \rightarrow e^+ \nu_e$ }
+	\label{fig:full-amp}
+\end{figure}
+Following the fermion line backwards on the left, the anti-down quark is represented as a Dirac $\bar{v}$-spinor, where the bar corresponds to a four-component row vector, with four-momentum $p_2$, mass $m_2$ and spin $s_2$. The up quark is represented as a Dirac $u$-spinor, which corresponds to a four-component column vector, with four-momentum $p_1$, mass $m_1$ and spin $s_1$.
+The W-quark vertex is represented as, $$-i\frac{g}{\sqrt{2}}\frac{1}{2}\gamma^\mu (1-\gamma^5)V_{\text{ud}},$$ where $V_\text{ud}$ is an element of the CKM matrix.
+The W$^+$ propagator is represented as, $$ \frac{-ig_{\mu\nu} +(\xi - 1)p_\mu p_\nu /(p^2 - \xi M_W^2)}{p^2 - M_W^2 +i\epsilon}.$$ For Standard Model processes, the two main gauges used are the R$_\xi$ gauge and the Unitary gauge; the latter is the limit as $\xi$ goes to infinity, of the R$_\xi$ gauge\cite{Wu:2016ljg}. Choosing the Feynman gauge ($\xi = 1$) results in a more simple expression for the propagator, $$\frac{-ig_{\mu\nu}}{p^2 - M_W^2 +i\epsilon}.$$ Fixing the gauge also introduces new terms in the Lagrangian; deriving the Feynman rules for this modified Lagrangian includes propagators for Goldstone Bosons and Faddeev-Popov ghosts, and interaction vertices \cite{Peskin:1995ev}. Goldstone Bosons and Faddeev-Popov ghosts are unphysical, yet, must be included in higher-order loop diagrams.\\
+	
+Choosing the Unitary gauge ($\xi \rightarrow \infty$), removes the Goldstone fields from the Lagrangian, and only physical fields remain \cite{Peskin:1995ev}. This leaves the W propagator as, $$ \frac{-i(g_{\mu\nu}+p_\mu p_\nu/ M_W^2 ) }{p^2 - M_W^2 +i\epsilon}.$$ Tree-level diagrams do not contain the unphysical ghost fields and Goldstone bosons; Sec (\textit{insert here}) shows how choosing the Unitary gauge gives the same result as if one chose the Feynman gauge. In order to get a precise result, one needs to take into account the higher order loops via Dyson resummation. This technique is used to sum an infinite subset of Feynman diagrams in a perturbative series to get a finite and physical result. This leads to an addition of the factor $iM_W\Gamma_W$ in the denominator of W propagator; in the Feynman gauge, $$\frac{-ig_{\mu\nu}}{p^2 - M_W^2 +iM_W\Gamma_W}.$$
+
+Following the fermion line backwards on the right, the electron-neutrino is represented as a Dirac $\bar{u}$-spinor, where the bar corresponds to a four-component row vector, with four-momentum $p_4$ and spin $s_4$. The fermion line ends at the positron, which is represented as a Dirac $v$-spinor, which corresponds to a four-component column vector, with four-momentum $p_3$, mass $m_3$ and spin $s_3$. The W-lepton vertex is represented as, $$-i\frac{g}{\sqrt{2}}\frac{1}{2}\gamma^\nu (1-\gamma^5).$$ 
+Using the W propagator in the Feynman gauge, the amplitude, $\mathcal{M}$, is therefore: 
+
+\begin{equation*}
+	\begin{align}
+		\mathcal{M} &=\\
+		& \bar{v}(p_2, s_2) \left[-i\frac{g}{\sqrt{2}}\frac{\gamma^\mu}{2}(1-\gamma^5)V_\text{ud}\right]u(p_1, s_1)\left(\frac{-ig_{\mu \nu}}{p^2 - M_W^2+ iM_W\Gamma_W}\right)\bar{u}(p_4, s_4)\left[-i\frac{g}{\sqrt{2}}\frac{\gamma^\nu}{2}(1-\gamma^5)\right] v(p_3, s_3).
+	\end{align}
+\end{equation*}
+To simplify, one can contract the metric tensor with $\gamma^\nu$, and also use the relation $$ G_F = \frac{\sqrt{2}g^2}{8M_W^2},$$ to write the weak coupling constant, $g$, in terms of the Fermi constant, $G_F$, and the mass of the W boson, $M_W$:
+\begin{equation}\label{full-amp}
+	\mathcal{M}= i \frac{G_FM_W^2}{\sqrt{2}} \frac{ \bar{v}(p_2, s_2)\left[\gamma^\mu(1-\gamma^5)V_\text{ud}\right]u(p_1, s_1)\bar{u}(p_4, s_4) \left[\gamma_\mu(1-\gamma^5)\right]    v(p_3, s_3)}{{p^2 - M_W^2+ iM_W\Gamma_W}}.
+\end{equation}
+In the process of obtaining the complex amplitude,
+
+The amplitude is a complex scalar, so the complex conjugate is equivalently the conjugate transpose, $\mathcal{M}^* = \mathcal{M}^\dagger$.
+$$
+\mathcal{M}^\dagger = \frac{-iG_FM_W^2V_\text{ud}}{\sqrt{2}(p^2 - M_W^2- iM_W\Gamma_W)}}\left(\bar{v}(p_2, s_2)\left[\gamma^\mu(1-\gamma^5)\right]u(p_1, s_1)\bar{u}(p_4, s_4) \left[\gamma_\mu(1-\gamma^5)\right]    v(p_3, s_3)\right)^\dagger,
+$$
+where the factor $iM_W\Gamma_W$ in the denominator flips its sign to $-iM_W\Gamma_W$; the $i$ factor in the numerator also flips its sign. Since the components in the round brackets are matrices, one can apply the reverse order law \ref{rev-order-law}. From here on, the spin and mass number labels will be contained in the subscript of the Dirac spinors (i.e. $v_3 \coloneq v(p_3,m_3)$).
+
+\begin{equation*}
+	\begin{align}
+		v_3^\dagger [\gamma_\mu (1-\gamma^5)]^\dagger \gamma^0 u_4 u_1^\dagger [\gamma^\mu (1-\gamma^5)]^\dagger \gamma^0 v_2.
+	\end{align}
+\end{equation*}
+where, $ \bar{u}_4 = u_4^\dagger \gamma^0$ and $\bar{v}_2 = v_2^\dagger \gamma^0$ and $\gamma^{0\dagger} = \gamma^0.$ One can introduce factor of $\gamma^0$ on either side of $[\gamma_\mu (1-\gamma^5)]^\dagger$, so that the identity, $\bar{\Gamma}= \gamma^0 \Gamma^\dagger \gamma^0$, where $\Gamma = \gamma^\mu (1-\gamma^5)$, can be used and so that $v_3^\dagger$ and $u_1^\dagger$ can soak up a factor $\gamma^0$ to create $\bar{v}^\dagger_3$ and $\bar{u}^\dagger_1$ respectively. The complex amplitude becomes,
+
+\begin{equation}\label{complex-full-amp}
+	\mathcal{M}^\dagger = -i \frac{G_FM_W^2 }{\sqrt{2}}\frac{\bar{v}_3 \overline{\left[\gamma_\mu (1-\gamma^5)\right]}u_4\bar{u}_1 \overline{\left[\gamma^\mu (1-\gamma^5)\right]}v_2}{p^2 - M_W^2- iM_W\Gamma_W}.
+\end{equation}
+The squared amplitude is then the product of Eq.\ref{full-amp} and Eq.\ref{complex-full-amp},
+
+\begin{equation}\label{squared-full-amp}
+	\left(\frac{G_FM_W^2}{\sqrt{2}}\right)^2|V_\text{ud}|^2 \frac{\left( \bar{v}_3 \overline{\left[\gamma_\mu (1-\gamma^5)\right]}u_4\bar{u}_1 \overline{\left[\gamma^\mu (1-\gamma^5)\right]}v_2\right) \left( \bar{v}_2\left[\gamma^\mu(1-\gamma^5)\right]u_1\bar{u}_4 \left[\gamma_\mu(1-\gamma^5)\right]v_3\right)}{p^2+M_W^2)^2 +M_W^2\Gamma_W^2}.
+\end{equation}
+
+\subsection{Summing over spin states for hadronic and leptonic currents}
+The hadronic current defined as, $$ H^{\alpha\mu} = \bar{u}_1 \left[\gamma^\mu (1-\gamma^5)\right]v_2\right)\bar{v}_2\left[\gamma^\mu(1-\gamma^5)\right]u_1,$$
+and the leptonic current is defined as, $$L_{\alpha\mu}= \bar{v}_3 \left[\gamma_\mu (1-\gamma^5)\right]u_4\bar{u}_4 \left[\gamma_\mu(1-\gamma^5)\right]v_3.$$
+
+Note that the identity \ref{overline-id} was used to unpack $\overline{\gamma^\mu(1-\gamma^5)}$ and $\overline{\gamma_\mu(1-\gamma^5)}$ to $\gamma^\mu(1-\gamma^5)$ and $\gamma_\mu(1-\gamma^5)$ respectively. One can use Casimir's trick \cite{Griffiths:2008zz} to calculate the spin-summed amplitude in terms of traces,
+ 
+ 
+ $$ H^{\alpha\mu}} = \text{Tr}\left[\slashed{p_2}\gamma^\alpha(1-\gamma^5) \slashed{p_1} \gamma^\mu(1-\gamma^5)     \right]$$
+$$ L_{\alpha\mu} = \text{Tr}\left[ \slashed{p_4}\gamma_\alpha(1-\gamma^5) \slashed{p_3} \gamma_\mu(1-\gamma^5)   \right],$$
+where it is approximated that the masses of the up and down quarks and the positron and electron neutrino are negligible in comparison to the centre-of-mass energy.
+
+\subsection{Evaluating the $H^{\alpha\mu}$ and $L_{\alpha \mu}$ traces}
+In the same fashion as in Sec \ref{completeness}, one can use the projector representation of $(1-\gamma^5)$ to simplify $H^{\alpha\mu}$ and $L_{\alpha \mu}$. The currents can be written as,
+
+ $$ H^{\alpha\mu}} = 2\text{Tr}\left[\slashed{p_2}\gamma^\alpha P_L \slashed{p_1} \gamma^\mu P_L     \right]$$
+$$ L_{\alpha\mu} = 2\text{Tr}\left[ \slashed{p_4}\gamma_\alpha P_L \slashed{p_3} \gamma_\mu P_L \right],$$
+
+where the left-handed chirality projection operator is defined as $P_L = \frac{1}{2}(1-\gamma^5)$ and the right-handed chirality projection operator is defined as $P_R= (1+\gamma^5)$. 
+
+\begin{equation*}
+	\begin{aligned}
+	 H^{\alpha\mu}} &= 2\text{Tr}\left[\slashed{p_2}\gamma^\alpha P_L \slashed{p_1} \gamma^\mu P_L     \right]\\
+	 &= 2\text{Tr}\left[\slashed{p_2}\gamma^\alpha P_L \slashed{p_1} P_R \gamma^\mu \right]\\
+	 		&= 2\text{Tr}\left[\slashed{p_2}\gamma^\alpha P_L \slashed{p_1} \gamma^\mu \right] = 2\text{Tr}\left[\slashed{p_2}\gamma^\alpha (1-\gamma^5) \slashed{p_1} \gamma^\mu \right]  .
+	\end{aligned}
+\end{equation*}
+In the second, the $P_L \gamma^\mu =\gamma^\mu P_R$ property was used and to go from the second to third line, $P_L \gamma^\mu =\gamma^\mu P_R$ and  $P_L^2 = P_L$ was used. Writing the hadronic currents as, 
+
+$$H^{\alpha\mu}} = 2\text{Tr}\left[\slashed{p_2}\gamma^\alpha\slashed{p_1} \gamma^\mu \right] - 2\text{Tr}\left[\slashed{p_2}\gamma^\alpha\gamma^5\slashed{p_1} \gamma^\mu \right].$$
+
+Evaluating both traces leads to,
+
+$$2\text{Tr}\left[\slashed{p_2}\gamma^\alpha\slashed{p_1} \gamma^\mu \right] = 8[p_2^\alpha p_1^\mu + p_2^\mu p_1^\alpha - (p_2 \cdot p_1) g^{\alpha \mu}],$$
+and, 
+
+$$2\text{Tr}\left[\slashed{p_2}\gamma^\alpha\gamma^5\slashed{p_1} \gamma^\mu \right] = 8i \epsilon^{\alpha \mu \rho \psi}p_{2\rho}p_{1\psi}, $$
+thus, the hadronic current is of the form, 
+
+$$
+H^{\alpha\mu} = 8[p_2^\alpha p_1^\mu + p_2^\mu p_1^\alpha - (p_2 \cdot p_1) g^{\alpha \mu} - i \epsilon^{\alpha \mu \rho \psi}p_{2\rho}p_{1\psi}].
+$$
+Similarly, the leptonic current has the form, 
+
+$$
+L_{\alpha\mu} = 8[p_{4\alpha} p_{3\mu} + p_{4\mu} p_{3\alpha} - (p_4 \cdot p_3) g_{\alpha \mu} - i \epsilon_{\alpha \mu \beta \sigma}p_{4\beta}p_{3\sigma}].
+$$
+The squared, spin-summed amplitude has the form,
+
+\begin{equation}\label{spin-sum-sq-full-amp}
+	\sum_{s_1,s_2,s_3,s_4}|\mathcal{M}|^2 = 	\left(\frac{G_FM_W^2}{\sqrt{2}}\right)^2|V_\text{ud}|^2 \frac{H^{\alpha \mu}L_{\alpha \mu}}{p^2+M_W^2)^2 +M_W^2\Gamma_W^2}.
+\end{equation}
+
+
+
+\subsection{Contracting $H^{\alpha \mu}$ and $L_{\alpha \mu}$}
+To simplify the contraction, one can split both currents into its symmetric and anti-symmetric components: $$H^{\alpha \mu} = H^{\alpha \mu}_\text{S} + H^{\alpha \mu}_{\text{AS}},$$ where $H^{\alpha \mu}_\text{S} =8 \left(p_{4\alpha} p_{3\mu} + p_{4\mu} p_{3\alpha} - (p_4 \cdot p_3) g_{\alpha \mu}\left) $ and $H^{\alpha \mu}_{\text{AS}} = - 8i\left( \epsilon^{\alpha \mu \rho \psi}p_{2\rho}p_{1\psi}\right)$.  $$L_{\alpha \mu} = L_{\alpha \mu, \text{S}} + L_{\alpha \mu,\text{AS}},$$ where $L_{\alpha \mu, \text{S}} = 8\left(p_{4\alpha} p_{3\mu} + p_{4\mu} p_{3\alpha} - (p_4 \cdot p_3) g_{\alpha \mu} \right)$ and $L_{\alpha \mu,\text{AS}} = - 8i\left(\epsilon_{\alpha \mu \beta \sigma}p_{4\beta}p_{3\sigma} \right).$
+Since the cross-terms between the symmetric and antisymmetric components vanish, what remains are $H^{\alpha \mu}_S L_{ \alpha \mu,\text{S}}$ and $H^{\alpha \mu}_\text{AS}L_{\alpha \mu, \text{AS}}.$
+
+\begin{equation}
+	\begin{aligned}
+		H^{\alpha \mu}_\text{AS}L_{\alpha \mu, \text{AS}} &= 64(- i \epsilon^{\alpha \mu \rho \psi}p_{2\rho}p_{1\psi})( - i \epsilon_{\alpha \mu \beta \sigma}p_{4\beta}p_{3\sigma})\\
+		&=-64(\epsilon^{\alpha \mu \rho \psi} \epsilon_{\alpha \mu \beta \sigma}})p_{2\rho}p_{1\psi}p_{4\beta}p_{3\sigma}\\
+		&= 128(\delta^\rho_\beta \delta^\psi_\sigma - \delta^\rho_\sigma \delta^\psi_\beta) p_{2\rho}p_{1\psi}p_{4\beta}p_{3\sigma}\\
+		&= 128 (p_{2\beta}p_{1\sigma}p_{4\beta}p_{3\sigma} - p_{2\sigma}p_{1\beta}p_{4\beta}p_{3\sigma})\\
+		&= 128 \left[(p_2 \cdot p_4) (p_1 \cdot p_3) - (p_2 \cdot p_3)(p_1 \cdot p_4)\right],
+	\end{aligned}
+\end{equation}
+where the identity $\epsilon^{\mu \nu \alpha \beta}\epsilon_{\mu \nu \rho \sigma} = -2(\delta^\alpha_\rho \delta^\beta_\sigma - \delta^\alpha_\sigma \delta^\beta_\rho)$ \cite{Barger:2019ydb}. One also gets for the contraction of symmetric components,
+
+$$ 
+H^{\alpha \mu}_\text{S}L_{\alpha \mu, \text{S}} = 128\left[(p_4 \cdot p_2)(p_3 \cdot p_1)+(p_4 \cdot p_1)(p_3 \cdot p_2)   \right].
+$$
+ One has,
+ 
+ \begin{equation*}
+ 	\begin{aligned}
+ 		 H^{\alpha \mu}L_{\alpha \mu} &= H^{\alpha \mu}_\text{AS}L_{\alpha \mu, \text{AS}} + H^{\alpha \mu}_\text{S}L_{\alpha \mu, \text{S}}\\
+ 		 &=  128 \left[(p_2 \cdot p_4) (p_1 \cdot p_3) - (p_2 \cdot p_3)(p_1 \cdot p_4) +(p_4 \cdot p_2)(p_3 \cdot p_1)+(p_2 \cdot p_4)(p_1 \cdot p_3)   \right]\\
+ 		 &= 128\left[ (p_4 \cdot p_2)(p_3 \cdot p_1) + (p_2 \cdot p_4)(p_1 \cdot p_3)\right].
+ 	\end{aligned}
+ \end{equation*}
+In the massless fermion approximation, the Mandelstam variable $\hat{t} = 2(p_1 \cdot p_3) = 2(p_2 \cdot p_4)$;  each dot product term can be expressed in terms of $\hat{t}/2$,
+
+\begin{equation}\label{currents-contracted}
+	H^{\alpha \mu}L_{\alpha \mu} = \frac{128\hat{t}^2}{2} = 64 \hat{t}^2.
+\end{equation}
+Now, substituting Eq.\ref{currents-contracted} back into Eq.\ref{spin-sum-sq-full-amp} gives the full spin-summed, squared amplitude,
+
+\begin{equation}\label{final-total-amp}
+	\sum_{s_1,s_2,s_3,s_4}|\mathcal{M}|^2 = \left(\frac{G_FM_W^2}{\sqrt{2}}\right)^2|V_\text{ud}|^2 \frac{64 \hat{t}^2}{(p^2+M_W^2)^2 +M_W^2\Gamma_W^2}.
+\end{equation}
+ 
+ 
 
 \appendix
 \section{Numerical integration code}
