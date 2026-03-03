@@ -411,7 +411,7 @@ This can be simplified by cancelling factors of $2\pi$ and setting $E_W = M_W$  
 $G_F$ has dimensions GeV$^{-2}$, $M^2_W$ has dimensions GeV$^2$, and the delta function has the inverse dimensions of its argument, thus is GeV$^{-2}$. 
 
 \subsection{Obtaining the hadronic cross-section $\sigma (pp \rightarrow W^+)$}\label{had-crosssec-sec}
-In the previous section, the cross-section for an up and anti-down quark annihilating into a W$^+$ boson was obtained. In practice, high-energy collisions of this type involve protons/anti-protons --- more generally, hadrons --- rather than free quarks or gluons. The partonic cross-section describes the hard scattering of individual partons, but the inital parton momenta are not fixed since each parton carries only a fraction $x$ of the proton’s total momentum and are distributed according to the proton’s parton distribution functions (PDF). The PDFs $f_i(x, \mu)$ give the probability density that a parton of type $i$ has momentum fraction $x$; $\mu$ refers to the factorisation scale and it accounts for the fact that the parton distribution depends on the resolution at which one probes the proton. 
+In the previous section, the cross-section for an up and anti-down quark annihilating into a W$^+$ boson was obtained. In practice, high-energy collisions of this type involve protons/anti-protons --- more generally, hadrons --- rather than free quarks or gluons. The partonic cross-section describes the hard scattering of individual partons, but the initial parton momenta are not fixed since each parton carries only a fraction $x$ of the proton’s total momentum and are distributed according to the proton’s parton distribution functions (PDF). The PDFs $f_i(x, \mu)$ give the probability density that a parton of type $i$ has momentum fraction $x$; $\mu$ refers to the factorisation scale and it accounts for the fact that the parton distribution depends on the resolution at which one probes the proton. 
 \subsubsection{Hadronic convolution integral derivation}
 
 In order to obtain the physically observable hadronic cross section, $\sigma(pp\rightarrow W^+)$, one must convolute the partonic cross section with the PDFs over all possible momentum fractions:
@@ -567,7 +567,7 @@ The cross-section value for both numerical methods agree up to 3 decimal places 
 
 
 \section{$\Gamma (W^+ \rightarrow e^+ \nu_e)$ derivation}
-Calculating the squared amplitude of the $W^+ \rightarrow e^+ \nu_e$ process follows similar arguments as for the $u \bar{d} \rightarrow W^+$ case. One starts with the Feynman diagram and follows the Feynman rules to get an amplitude.
+Calculating the squared amplitude of the $W^+ \rightarrow e^+ \nu_e$ process follows similar arguments as for the $u \bar{d} \rightarrow W^+$ case. One starts wfith the Feynman diagram and follows the Feynman rules to get an amplitude.
 
 \begin{figure}[h]
 	\centering
@@ -1164,7 +1164,26 @@ For a proton-anti-proton collision at $\sqrt{s} = 13$ TeV, it is assumed that th
 \begin{equation}
 	\sigma(p\bar{p} \rightarrow W^+ \rightarrow e^+ \nu_e) = 15.98 \pm 29.48\; \text{nb}.
 \end{equation}
-According to Table 3 in \cite{ATLAS:2016fij}, the measured cross-section of $W^+ \rightarrow l\nu$ from proton-proton collision at the same centre-of-mass energy is $\sigma = 11.83 \pm 0.02$. The central value from the result in \ref{pp} agrees with this value within 5.1\%, yet, one can see immediately the values have large uncertainty, and thus is not a precise prediction. This stems from the nature of the...
+According to Table 3 in \cite{ATLAS:2016fij}, the measured cross-section of $W^+ \rightarrow l\nu$ from proton-proton collision at the same centre-of-mass energy is $\sigma = 11.83 \pm 0.02$. The central value from the result in \ref{pp} agrees with this value within 5.1\%, yet, one can see immediately that the value has a large error, and thus is not a precise prediction. This stems from the way \texttt{scipy} handles integrating over a Breit-Wigner resonance peak.\\
+
+\subsubsection{$n$-point Gauss-Kronrad Quadratures.}
+The integrals were computed using \texttt{scipy.integrate.quad}, which is a wrapper of the Fortran library, QUADPACK, which is a library for numerical evaluation of one-dimensional integrals. The evaluation can be extended to some multi-dimensional cases\cite{QUADPACKFavati}. \texttt{scipy.integrate.quad} specifically uses the \texttt{QAGS}, \texttt{QAGP}, and \texttt{QAGI} routines from the QUADPACK library, which use Gauss–Kronrod quadrature\footnote{Quadrature, derived from Latin for "square," refers to finding a square with the same area as a given shape or curve. In modern contexts, it refers to the use of numerical methods to approximate the value of a definite integral.} rules --- which is an extension of the Gauss quadrature--- to do numerical integration\cite{QUADPACK:wiki}. The Gauss quadrature is as follows: one approximates an integral,
+
+$$\int_a^b f(x) dx,$$
+as a weighted sum of n function evaluations at special points $x_i$. Instead of averaging the function at equally spaced points, the Gauss quadrature picks special points and weights, $w_i$ that improve the accuracy of the approximation,
+
+$$\int_a^b f(x) dx \approx \sum_{i =1}^N w_i f(x_i),$$
+This approximation is exact for all polynomials up to degree $2n-1$ for $x_n$ points, and is called the $n$-point Gauss rule. For example, if one wants to approximate the integral,
+
+\begin{equation}\label{example-polynomial}
+	\int_{-1}^{-1} x^3 +x^2+x+1 dx.	
+\end{equation}
+
+Using 2 points ($x_n = 2$ with corresponding $w_1$ and $w_2$), the 2-point Gauss rule says that the approximation will be exact for any polynomial up to the $3^\text{rd}$ degree ($2(2) - 1 = 3$). For the example integral, this means that the approximation will be exact. If the function had a $x^4$ term or higher, the 2-point Gauss  rule will approximate it, but there will be a non-zero error. \\
+
+The process starts by  subdividing the interval $[a,b]$ adaptively: the Gauss rule is first applied to the full interval, and if the estimated error is too large, the interval is split into smaller subintervals where the rule is reapplied. The Gauss–Kronrod extension adds n+1 additional points to the same set, forming a 2n+1-point rule. A 2-point Gauss would not be able to give an exact result for a polynomial with a higher order than 3, but a 2-point Gauss-Kronrod will up to the $5^\text{th}$ order ($2(2)+1 = 5$). Since the original Gauss points are contained within the Kronrod rule, both approximations can be computed together, and their difference provides an estimate of the integration error\cite{QUADPACKwiki}.\\
+
+Near the resonance, the Breit-Wigner function changes very fast; outside this peak the function is almost zero. The source of the large error comes from when the the rules are applied on the subdivided Breit-Wigner. The Gauss-Kronrod rule has higher polynomial degree of exactness, and thus picks up higher-order features that the Gauss rule misses. This results in a large difference between the rules and therefore, the intergrator treats this as a large error. It is important to note that the central value of the integral is the best estimate given by the adaptive quadrature; the difference between Gauss and Gauss-Kronrod is used only to estimate the error. This explains why the error in \ref{pp} is large, even though the central value is relatively close to the empirical value.
 
 \subsection{Numerical evaluation using Monte Carlo Integration}
 Running the code from Appendix \ref{basic-MC-total}, gives a value for the total cross-section at $\sqrt{s} = 13$ TeV,
@@ -1189,6 +1208,15 @@ and for proton-anti-proton collisions at the same centre-of-mass energy, one get
 \begin{equation}
 	\sigma(p\bar{p} \rightarrow W^+ \rightarrow e^+ \nu_e)= 16.32 \pm 0.02\; \text{nb}.
 \end{equation}
+
+
+
+\begin{figure}[tb]
+	\centering
+	\includegraphics[width=0.9\linewidth]{graphics/comparison-plots}
+	\caption{Comparison of \texttt{SciPy}, Basic Monte Carlo, and \texttt{VEGAS} integration methods in the context of PDF convolution with the total partonic cross-section.}
+	\label{fig:comparison-plots}
+\end{figure}
 
 \appendix
 \section{Numerical integration code for hadronic $W^+$ production.}
