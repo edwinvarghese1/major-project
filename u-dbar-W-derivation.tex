@@ -16,6 +16,8 @@
 \usepackage{minted}
 \usepackage{leftindex}
 \usepackage{physics}
+\usepackage{booktabs}    % for clean tables
+\usepackage{subcaption}  % for side-by-side tables
 
 
 \definecolor{LightGray}{gray}{0.9}
@@ -29,7 +31,7 @@
 }
 
 
-\title{\textbf{Partonic and Hadronic Cross-section Calculations for $pp \rightarrow W^+ \rightarrow e^+ \nu_e$}}
+\title{\textbf{Narrow-Width Approximation and Off-shell Calculations for the $pp \rightarrow W^+ \rightarrow e^+ \nu_e$ Cross-section}}
 
 \author{
 	Edwin Varghese\\[10pt]
@@ -52,7 +54,9 @@
 	
 	\newpage
 	\tableofcontents
-
+\section{Introduction}
+%Introduce NWA like in this paper: https://pmc.ncbi.nlm.nih.gov/articles/PMC4464706/pdf/10052_2015_Article_3472.pdf
+%also follow the theme in which you say In Sec1, blah blah.. In sec.2 etc
 \section{$u\bar{d} \rightarrow W^+$ cross-section derivation}
 \subsection{Obtaining the partonic cross-section $\hat{\sigma}(u\bar{d} \rightarrow W^+)$}
 Generally, calculating tree-level amplitudes of electroweak interactions involve two or more spinors contracted with each other by boson propagators. After writing down the Feynman diagram corresponding to the interaction, one uses the Feynman rules to formulate an amplitude, $\mathcal{M}$, which is used in the analytical expression for the cross-section with an appropriate spin and/or colour sum or average.\\
@@ -1028,7 +1032,7 @@ and so, $\widetilde{\mathcal{M}} = 0$. The amplitude in the Unitary gauge (at tr
 Substituting the amplitude \ref{final-total-amp} into the general formula for differential cross-section \ref{general_cross}, one gets,
 
 $$
-	d\sigma  =  \frac{1}{4\hat{s}}\left(\frac{G_FM_W^2}{\sqrt{2}}\right)^2|V_\text{ud}|^2 \frac{64 \hat{t}^2}{(p^2-M_W^2)^2 +M_W^2\Gamma_W^2}d\Phi_{2},
+	d\hat{\sigma}  =  \frac{1}{4\hat{s}}\left(\frac{G_FM_W^2}{\sqrt{2}}\right)^2|V_\text{ud}|^2 \frac{64 \hat{t}^2}{(p^2-M_W^2)^2 +M_W^2\Gamma_W^2}d\Phi_{2},
 $$
 
 where, 
@@ -1167,7 +1171,7 @@ For a proton-anti-proton collision at $\sqrt{s} = 13$ TeV, it is assumed that th
 According to Table 3 in \cite{ATLAS:2016fij}, the measured cross-section of $W^+ \rightarrow l\nu$ from proton-proton collision at the same centre-of-mass energy is $\sigma = 11.83 \pm 0.02$. The central value from the result in \ref{pp} agrees with this value within 5.1\%, yet, one can see immediately that the value has a large error, and thus is not a precise prediction. This stems from the way \texttt{scipy} handles integrating over a Breit-Wigner resonance peak.\\
 
 \subsubsection{$n$-point Gauss-Kronrad Quadratures.}
-The integrals were computed using \texttt{scipy.integrate.quad}, which is a wrapper of the Fortran library, QUADPACK, which is a library for numerical evaluation of one-dimensional integrals. The evaluation can be extended to some multi-dimensional cases\cite{QUADPACKFavati}. \texttt{scipy.integrate.quad} specifically uses the \texttt{QAGS}, \texttt{QAGP}, and \texttt{QAGI} routines from the QUADPACK library, which use Gauss–Kronrod quadrature\footnote{Quadrature, derived from Latin for "square," refers to finding a square with the same area as a given shape or curve. In modern contexts, it refers to the use of numerical methods to approximate the value of a definite integral.} rules --- which is an extension of the Gauss quadrature--- to do numerical integration\cite{QUADPACK:wiki}. The Gauss quadrature is as follows: one approximates an integral,
+The integrals were computed using \texttt{scipy.integrate.quad}, which is a wrapper of the Fortran library, QUADPACK, which is a library for numerical evaluation of one-dimensional integrals. The evaluation can be extended to some multi-dimensional cases \cite{QUADPACKFavati}. \texttt{scipy.integrate.quad} specifically uses the \texttt{QAGS}, \texttt{QAGP}, and \texttt{QAGI} routines from the QUADPACK library, which use Gauss–Kronrod quadrature\footnote{Quadrature, derived from Latin for "square," refers to finding a square with the same area as a given shape or curve. In modern contexts, it refers to the use of numerical methods to approximate the value of a definite integral.} rules --- which is an extension of the Gauss quadrature--- to do numerical integration\cite{QUADPACKwiki}. The Gauss quadrature is as follows: one approximates an integral,
 
 $$\int_a^b f(x) dx,$$
 as a weighted sum of n function evaluations at special points $x_i$. Instead of averaging the function at equally spaced points, the Gauss quadrature picks special points and weights, $w_i$ that improve the accuracy of the approximation,
@@ -1183,7 +1187,7 @@ Using 2 points ($x_n = 2$ with corresponding $w_1$ and $w_2$), the 2-point Gauss
 
 The process starts by  subdividing the interval $[a,b]$ adaptively: the Gauss rule is first applied to the full interval, and if the estimated error is too large, the interval is split into smaller subintervals where the rule is reapplied. The Gauss–Kronrod extension adds n+1 additional points to the same set, forming a 2n+1-point rule. A 2-point Gauss would not be able to give an exact result for a polynomial with a higher order than 3, but a 2-point Gauss-Kronrod will up to the $5^\text{th}$ order ($2(2)+1 = 5$). Since the original Gauss points are contained within the Kronrod rule, both approximations can be computed together, and their difference provides an estimate of the integration error\cite{QUADPACKwiki}.\\
 
-Near the resonance, the Breit-Wigner function changes very fast; outside this peak the function is almost zero. The source of the large error comes from when the the rules are applied on the subdivided Breit-Wigner. The Gauss-Kronrod rule has higher polynomial degree of exactness, and thus picks up higher-order features that the Gauss rule misses. This results in a large difference between the rules and therefore, the intergrator treats this as a large error. It is important to note that the central value of the integral is the best estimate given by the adaptive quadrature; the difference between Gauss and Gauss-Kronrod is used only to estimate the error. This explains why the error in \ref{pp} is large, even though the central value is relatively close to the empirical value.
+Near the resonance, the Breit-Wigner function changes very fast; outside this peak the function is almost zero. The source of the large error comes from when the the rules are applied on the subdivided Breit-Wigner. The Gauss-Kronrod rule has higher polynomial degree of exactness, and thus picks up higher-order features that the Gauss rule misses. This results in a large difference between the rules and therefore, the intergrator treats this as a large error. It is important to note that the central value of the integral is the best estimate given by the adaptive quadrature; the difference between Gauss and Gauss-Kronrod is used only to estimate the error. This explains why the error in Equation \ref{pp} is large, even though the central value is relatively close to the empirical value.
 
 \subsection{Numerical evaluation using Monte Carlo Integration}
 Running the code from Appendix \ref{basic-MC-total}, gives a value for the total cross-section at $\sqrt{s} = 13$ TeV,
@@ -1208,15 +1212,64 @@ and for proton-anti-proton collisions at the same centre-of-mass energy, one get
 \begin{equation}
 	\sigma(p\bar{p} \rightarrow W^+ \rightarrow e^+ \nu_e)= 16.32 \pm 0.02\; \text{nb}.
 \end{equation}
+\section{Comparison of methods}
 
-
-
-\begin{figure}[tb]
+\begin{table}[tb]
 	\centering
-	\includegraphics[width=0.9\linewidth]{graphics/comparison-plots}
-	\caption{Comparison of \texttt{SciPy}, Basic Monte Carlo, and \texttt{VEGAS} integration methods in the context of PDF convolution with the total partonic cross-section.}
-	\label{fig:comparison-plots}
-\end{figure}
+	\begin{tabular}{ccc}
+		\toprule
+		& \multicolumn{2}{c}{Hadronic Cross-section (value $\pm$ stat) nb} \\
+		\midrule
+		Convolution Method & Narrow-Width Approximation & Full Amplitude (off-shell) \\
+		\midrule
+		\texttt{SciPy} & $0.07872 \pm 0.00046$ & $12.43 \pm 29.42$  \\
+		Basic Monte Carlo & $0.08049 \pm 0.01054$  & $11.17 \pm 1.73$  \\
+		\texttt{VEGAS} & $0.08744 \pm 0.00003$ & $12.75 \pm 0.01$  \\
+		\bottomrule
+	\end{tabular}
+	\caption{Calculated total hadronic cross-sections (nb) computed with three numerical convolution methods. Columns give results in the narrow-width approximation versus using the full (off-shell) amplitude.}
+	\label{tab:hadronic-cross}
+\end{table}
+
+The Narrow-Width Approximation provides a convenient factorisation of production and decay processes for unstable particles, which simplifies cross-section calculations. Yet, this simplification introduces some limitations that affect the accuracy of the result. In contrast, computing cross sections using the full amplitude retains all off-shell and interference effects but introduces its own challenges.\\
+
+For a 13 TeV proton-proton collision at the Large Hadron Collider (LHC), the measured total cross-section for the combined electron and muon channels of W$^+$ production is, $\sigma_{\text{LHC}} = 11.83 \pm 0.02$ nb \cite{ATLAS:2016fij}. One can see from Table \ref{tab:hadronic-cross} that the NWA approach underestimates the cross-section by two orders of magnitude; this is explained by how the approximation treats the Breit-Wigner resonance. 
+
+\subsection{Limitations of Narrow-Width Approximation}
+In the Narrow-Width Approximation, the Breit-Wigner is replaced by a delta function ($\delta(\sqrt{s} = M)$). Thus, the cross-section is calculated at the resonance and the non-resonant tails of the Breit-Wigner are suppressed \cite{Fuchs:2014ola}. However, NWA can become inaccurate if the non-resonant processes give non-negligible contributions to the total cross-section. This becomes clear when considering the convolution of parton density functions with a resonant hard scattering process\cite{Uhlemann:2008pm}. Convolution with steeply falling PDFs, typical for hadron colliders, gives relatively more weight to regions around the threshold for producing decay products on-shell\cite{Kauer:2007zc}, thus, the Breit–Wigner tail and off-shell region near and below the threshold can become significant.\\
+
+For non-scalar particles, complete factorisation into the production and decay processes is not permitted since the propagator carries Lorentz indices that correlate the initial current to the final current\cite{Uhlemann:2008pm}. For a scalar propagator (i.e. Higgs boson), the factor is,
+
+$$
+\frac{i}{p^2 - M_H^2+i\epsilon}.
+$$
+One can write an amplitude schematically, 
+
+$$
+\mathcal{M} = J^\mu \frac{i}{p^2 - M_H^2+i\epsilon} J^\nu,
+$$ 
+where $J^\mu$ and $J^\nu$ represent the initial and final state currents respectively. One can see that no Lorentz indices exist that allows the coupling of the initial current to the final current; the initial production and final decay can be treated as independent. However in the case of a W$^+$ propagator, the schematic (in the Feynman gauge) becomes,
+
+$$
+\mathcal{M} = J^\mu \frac{-ig_{\mu\nu}}{p^2 - M_W^2 +iM_W\Gamma_W}, J^\nu = J^\mu \frac{-i}{p^2 - M_W^2 +iM_W\Gamma_W}, J_\mu.
+$$
+The factor of $g_{\mu\nu}$ lowers the index on the final state current and allows the initial current --- with an upper index --- to contract; the propagator acts as a bridge to connect the two currents and so one cannot treat them as separate processes. The spin correlation is more apparent in the Unitary gauge as the numerator of the propagator carries an additional factor of $p_\mu p_\nu/M_W^2$.
+
+\subsection{Limitations of full (off-shell) amplitude}
+The amplitude for a process is obtained by summing contributions from all relevant Feynman diagrams, each representing a perturbative contribution to the transition amplitude, and then squaring the entire sum. This procedure is straightforward for simple 2 $\rightarrow$ 2 scattering processes, but the number of Feynman diagrams grows rapidly when increasing the number of external legs. Since each diagram represents a distinct way of connecting particles through interaction vertices, when more particles are considered, there exists more topologically distinct graphs.\\
+
+Increasing the perturbation order also increases the number of Feynman diagrams that one has to consider. Loops appear when internal particles interact with themselves or exchange virtual particles, producing integrals over internal momentum. Beyond leading order, amplitudes receive loop corrections, where each tree-level diagram gives rise to a set of higher-order diagrams with internal loops. These radiative corrections introduce ultraviolet ($k \rightarrow \infty$) and infrared ($k \rightarrow 0$) singularities that must be regularised and then renormalised \cite{Peskin:1995ev}.
+
+%add stuff about PS integration and convolution integrals.
+
+\section{Conclusions}
+	
+%\begin{figure}[tb]
+%	\centering 
+%	\includegraphics[width=0.9\linewidth]{graphics/comparison-plots}
+%	\caption{Comparison of \texttt{SciPy}, Basic Monte Carlo, and \texttt{VEGAS} integration methods in the context of PDF convolution with the total partonic cross-section.}
+%	\label{fig:comparison-plots}
+%\end{figure}
 
 \appendix
 \section{Numerical integration code for hadronic $W^+$ production.}
