@@ -234,7 +234,7 @@ For an unpolarised beam, the initial spin is not known and so one must average o
 $$G_F = \frac{\sqrt{2} g^2}{8M_W^2}$$. One can then express the amplitude as,
 
 
-$$\sum_{s_1, s_2, \text{pol}} |\mathcal{M}|^2=  \frac{G_F}{\sqrt{2}} M_W^2 \left(\frac{1}{4}\right)_{\text{spin}}\left(\frac{1}{3}\right)_{\text{colour}}16(p_1 \cdot p_2)  =  \frac{G_F}{\sqrt{2}} M_W^2 \frac{4}{3}(p_1 \cdot p_2) $$
+$$\sum_{s_1, s_2, \text{pol}} |\mathcal{M}|^2=  \frac{G_F}{\sqrt{2}} M_W^2 \left(\frac{1}{4}\right)_{\text{spin}}\left(\frac{1}{3}\right)_{\text{colour}}16(p_1 \cdot p_2)  =  \frac{2\sqrt{2}}{3}G_F M_W^2	(p_1 \cdot p_2) $$
 
 Finally the $(p_1 \cdot p_2)$ term can be expressed in terms of the Mandelstam variable, $\hat{s}$; this is useful since $\sqrt{\hat{s}}$ is equivalent to the centre of mass energy of the up-anti-down pair, which is a measurable quantity. In the massless quark approximation,  $\hat{s} = (p_1+p_2)^2 = 2p_1 \cdot p_2$, thus, 
 
@@ -378,7 +378,7 @@ which gives,
 Therefore, the differential cross-section is given by substituting the Lorentz invariant flux factor Eq.(\ref{flux}), the one-particle final state phase factor Eq.(\ref{LIPS}), and the squared amplitude from Eq.(\ref{amp}) into $d\sigma$, which gives,
 
 \begin{equation}\label{dsigma}
-		d\hat{\sigma}  =\frac{1}{2} \frac{\sqrt{2}}{3}G_F M_W^2 (2\pi)^4 \delta^4(p_u +p_{\bar{d}} - p_W) \frac{d^3\boldsymbol{p}_W}{(2\pi)^32E_W},
+		d\hat{\sigma}  =\frac{\sqrt{2}}{3}G_F M_W^2 (2\pi)^4 \delta^4(p_u +p_{\bar{d}} - p_W) \frac{d^3\boldsymbol{p}_W}{(2\pi)^32E_W},
 \end{equation}
 where $\hat{s}$ cancels out and hat on $\sigma$ specifies that the quantity is the partonic cross-section. To get the total partonic  cross-section, one has to integrate over the phase space.
 
@@ -406,7 +406,7 @@ which subsequently  turns (\ref{delta-int}) into $\delta(E_u + E_{\bar{d}} - M_W
 
 In this case, $f(s) = \sqrt{\hat{s}} - M_W $ has zeros at $\hat{s}= M_W^2$. The derivative of $f(s)$ at its zeros $f'(s_0) = 1/2M_W$. Therefore,  $\delta(\sqrt{\hat{s}} - M_W) = 2M_W\delta(\hat{s} - M_W^2)$. The cross-section is then expressed as,
 
-$$\hat{\sigma} =\frac{1}{2}\frac{\sqrt{2}}{3}G_FM^2_W(2\pi)^4\frac{1}{(2\pi)^32E_W}2M_W\delta(\hat{s} - M_W^2), $$
+$$\hat{\sigma} =\frac{\sqrt{2}}{3}G_FM^2_W(2\pi)^4\frac{1}{(2\pi)^32E_W}2M_W\delta(\hat{s} - M_W^2), $$
 This can be simplified by cancelling factors of $2\pi$ and setting $E_W = M_W$  in the centre-of-mass frame which ends up cancelling with the factor of $M_W$ from the phase space integration, the final expression for cross-section becomes,
 
 \begin{equation}
@@ -455,23 +455,23 @@ $$
 Now, one can collapse the $dx_2$ integral, and set $x_2 = \tau/x_1$. Note that the integration limits also change; since $x_2$ is defined between 0 and 1, i.e. $0 \leq x_2 \leq 1$,  and now $x_2 = \tau/x_1$, it leads to $0 \leq \tau \leq 1$. This sets a lower bound for the integration as $\tau$.
 
 \begin{equation}\label{convolution-final}
-	\sigma(pp \rightarrow W^+) = \frac{\pi \sqrt{2}}{3}\frac{G_FM^2_W}{s} \int_\tau^1 \frac{dx_1}{x_1}\;  f_u(x_1, \mu)f_{\bar{d}}(\tau/x_1,\mu).	
+	\sigma(pp \rightarrow W^+) = \frac{2\pi \sqrt{2}}{3}\frac{G_FM^2_W}{s} \int_\tau^1 \frac{dx_1}{x_1}\;  f_u(x_1, \mu)f_{\bar{d}}(\tau/x_1,\mu).	
 \end{equation}
 
 \subsubsection{Numerical evaluation via \texttt{SciPy}}\label{numerical-scipy}
 The convoluted integral (\ref{convolution-final}) can be solved numerically. The $ f_u(x_1, \mu)$ and $f_{\bar{d}}(x_2,\mu)$ PDFs are imported from LHAPDF --- specifically the PDF4LHC21$\_$40 set is used \cite{PDF4LHCWorkingGroup:2022cjn}. Running the code given in Appendix \ref{integration-scipy}, outputs a value for the inclusive hadronic cross-section at $\sqrt{s} = 13$ TeV,
 
 $$
-	\sigma(pp \rightarrow W^+) = 0.7085 \pm 0.0042\; \text{nb}.
+	\sigma(pp \rightarrow W^+) = 37.96 \pm 0.02\; \text{nb}.
 $$
 For a proton-anti-proton collision at $\sqrt{s} = 13$ TeV,
 
 $$
-\sigma(p\bar{p} \rightarrow W^+) = 0.9068 \pm 0.0033\; \text{nb}.
+\sigma(p\bar{p} \rightarrow W^+) = 48.580 \pm 0.004\; \text{nb}.
 $$
 It is assumed that the probability for an anti-down quark in the anti-proton to have momentum fraction $x_1$ is equivalent to the probability for a down quark in the proton to have the same momentum fraction. Thus, the only change in the code was a sign inversion to depict a down quark in the proton.
 
-\subsubsection{Numerical evaluation via Monte Carlo integration}
+\subsubsection{Numerical evaluation via Monte Carlo integration}\label{numerical-MC}
 Monte Carlo integration is a numerical technique for approximating integrals that are too complex to evaluate analytically. The method proceeds by evaluating the function being integrated at uniformly generated random points, and then forming an estimate of the integral by averaging the resulting values\cite{tang2023notemontecarlointegration}. The integrand does not need to be continuous or analytic for the method to preform, thus is very robust \cite{Lepage:2020tgj}. Take the integral,
 $$
 \int_a^b f(x) dx,
@@ -518,27 +518,26 @@ where the $(b-a)^2$ term comes from the fact that, if $X = c \cdot Y$, where $c$
 One can see that the standard error decreases like $\sim 1/\sqrt{N}$; increasing the sample size, $N$, improves the estimate of the integral. This improvement is independent of the number of dimensions of the integral, thus remains effective at higher dimensions. Running the code in Appendix \ref{basic-mc-integration} gives the Monte Carlo estimate of the integral \ref{convolution-final},
 
 $$
-\sigma(pp \rightarrow W^+) = 0.7244 \pm 0.0949\; \text{nb}.
+\sigma(pp \rightarrow W^+) = 33.32 \pm 2.54\; \text{nb}.
 $$
 For a proton-anti-proton collision at $\sqrt{s} = 13$ TeV,
 
 $$
-\sigma(p\bar{p} \rightarrow W^+) = 1.1744 \pm 0.4327\; \text{nb}.
+\sigma(p\bar{p} \rightarrow W^+) = 45.36 \pm 7.64 \; \text{nb}.
 $$
-One can see that the basic Monte Carlo integration, at 1000 samples, has a larger error than \texttt{scipy} integration. Yet, increasing the sample size to $1\cross10^6$ samples, the error on the estimate turns out to be the same order of magnitude,
-
+One can see that the basic Monte Carlo integration, at 1000 samples, has a larger error than \texttt{scipy} integration. Yet, increasing the sample size to $1\cross10^6$ samples gives, 
 $$
-\sigma(pp \rightarrow W^+) = 0.7133 \pm 0.003\; \text{nb}.
+\sigma(pp \rightarrow W^+) = 37.99 \pm 0.16\; \text{nb}.
 $$
 For a proton-anti-proton collision at $\sqrt{s} = 13$ TeV,
 
 $$
-\sigma(p\bar{p} \rightarrow W^+) = 0.9167 \pm 0.008\; \text{nb}.
+\sigma(p\bar{p} \rightarrow W^+) = 47.98\pm 0.40\; \text{nb}.
 $$
 A limitation of calculating integrals this way is that in order to reduce the error by a factor of $k$, one needs to increase the number of sample points by a factor of $k^2$. Each Monte Carlo iteration requires an evaluation of the integrand, if one increases the sample size  by $k^2$, then $k^2$ points have to be computed. Additionally, complex integrands also takes more time to evaluate. Another limitation arises when the region of interest occupies only a small fraction of the entire integration volume. Since the random points are sampled uniformly between the integration limits, each point in integration space has an equal probability to be evaluated, thus any sharp peaks --- regions where the integrand contributes the most --- may be poorly sampled.
 
 
-\subsubsection{Monte Carlo integration using \texttt{VEGAS}}
+\subsubsection{Monte Carlo integration using \texttt{VEGAS}}\label{numerical-vegas}
 A popular Monte Carlo algorithm for evaluating multidimensional integrals in particle physics is \texttt{VEGAS}, which uses importance sampling to reduce variance in high-dimensional integrals\cite{Lepage:2020tgj}. Rather than sampling uniformly, \texttt{VEGAS} performs importance sampling by introducing a change of variables. It samples points according to a probability density that resembles the integrand, so that regions where the integrand is large are sampled more often. The algorithm does this by dividing the integration volume into a grid of hypercubes\cite{Lepage:1980dq}. In the first iteration,  points are distributed such that the density of points per hypercube is the same. With each iteration, the increments on each axis are adjusted, which essentially concentrates the hypercubes in regions where the integrand is the largest --- the parts of the function that contribute the most to the integral. An example of this can be seen in Figure \ref{fig:grid}.
 %map is the coordinate transformation that does the importance eamplin
 \begin{figure}[tb!]
@@ -554,15 +553,14 @@ In evaluating high-dimensional integrals, adaptive strategies are crucial since 
 Running the code given in Appendix \ref{integration-vegas}, outputs a value for the inclusive hadronic cross-section at $\sqrt{s} = 13$ TeV,
 
 $$
-\sigma(pp \rightarrow W^+) = 0.7087 \pm 0.0003\; \text{nb}.
+\sigma(pp \rightarrow W^+) =  37.97007 \pm 2\times10^{-5}\; \text{nb}.
 $$
 For a proton-anti-proton collision at $\sqrt{s} = 13$ TeV,
 
 $$
-\sigma(p\bar{p} \rightarrow W^+) = 0.9058 \pm 0.0005\; \text{nb}.
+\sigma(p\bar{p} \rightarrow W^+) = 48.58034\pm 4\times10^{-5}\; \text{nb}.
 $$
 
-The cross-section value for both numerical methods agree up to 3 decimal places for proton-proton and up to 2 decimal places for proton-anti-proton. 
 
 %yet, \texttt{VEGAS} demonstrates slightly higher precise than \texttt{SciPy} since the variance is an order of magnitude smaller.
 
@@ -663,7 +661,7 @@ where the factor of 1/3 came from averaging over initial polarisation states for
 \subsection{Calculating decay rates}
 One can derive the differential decay rate, $d \Gamma$, via a small modification to the general expression of the differential cross-section (Eq. \ref{general_cross}). Specifically, one can remove factors that involve a multi-particle initial state; the decaying $W^+$ boson is assumed to be at rest, so the factor 1/E$_A$ becomes 1/$M_W$. Thus the differential decay rate formula is,
 
-\begin{equation}
+\begin{equation}\label{decay-formula}
 	d\Gamma= \frac{|\mathcal{M}|^2 }{2M_W} d\Phi_{n_f},
 \end{equation}
 where,
@@ -1263,13 +1261,13 @@ Increasing the perturbation order also increases the number of Feynman diagrams 
 %add stuff about PS integration and convolution integrals.
 
 \section{Conclusions}
-	
-%\begin{figure}[tb]
-%	\centering 
-%	\includegraphics[width=0.9\linewidth]{graphics/comparison-plots}
-%	\caption{Comparison of \texttt{SciPy}, Basic Monte Carlo, and \texttt{VEGAS} integration methods in the context of PDF convolution with the total partonic cross-section.}
-%	\label{fig:comparison-plots}
-%\end{figure}
+The cross-section for the $pp \rightarrow W^+ \rightarrow e^+ \nu_e$ process was derived using the full (off-shell) amplitude and in the Narrow-Width approximation. The derivation in the NWA started by constructing the squared-amplitude for $u\bar{d} \rightarrow W^+$.By applying Casimir’s trick, the spin sums are expressed as traces, after which the calculation reduces to standard trace algebra. Due to the presence of the W$^+$ in the final state, one also has to consider summing over final polarisation states. One then has an expression for the  W$+$ amplitude (\ref{amp}) and can substitute into the differential cross-section formula (\ref{general_cross}). One then integrates over the phase-space which restricts the domain over which $|\mathcal{M}|^2$ is integrated over to physically allowed regions. This process is a special case where the final state is a single on-shell particle, which resulted in a delta function. The physically observable hadronic cross section, $\sigma(pp \rightarrow W^+)$ is obtained by convoluting the partonic cross section with the parton distribution functions (PDFs) and integrating over all possible momentum fractions of the incoming partons. The convolution was computed using three different methods: \texttt{SciPy}, \texttt{VEGAS}, and a basic Monte Carlo implementation. Each method is described in detail in Sections \ref{numerical-scipy}, \ref{numerical-vegas}, \ref{numerical-MC} for \texttt{SciPy}, \texttt{VEGAS}, and Monte Carlo respectively.\\
+
+The derivation for the $W^+ \rightarrow e^+ \nu_e$ amplitude process follows the similar reasoning as for the $u\bar{d}\rightarrow W^+$ case. This amplitude is then substituted into the differential decay rate formula \ref{decay-formula}. Working in the W$^+$ rest frame, decay is isotropic, thus one simplifies the phase space integral by integrating over the full solid angle. One gets a value of $\Gamma^0_W= 0.227$ GeV for $\Gamma (W^+ \rightarrow e^+ \nu_e)$. In the massless fermion limit, the leptonic and quark tree-level widths are identical up to colour and CKM factors; the total decay rate is then: 
+$
+\Gamma(W^+ \rightarrow \text{all}) \simeq \Gamma(W^+ \rightarrow \text{hadrons}) + \Gamma(W^+ \rightarrow \text{leptons}) \simeq 6\Gamma^0_W + 3\Gamma^0_W \simeq 9\Gamma^0_W = 2.025\; \text{GeV},
+$ 
+and the branching ratio is $\Gamma^0_W/9\Gamma^0_W = 1/9.$  In the narrow-width approximation, the production and decay factorise such that one can multpily the production cross-section with the branching ratio: 
 
 \appendix
 \section{Numerical integration code for hadronic $W^+$ production.}
@@ -1296,7 +1294,7 @@ GF = 1.1663787e-5
 s = (13000)**2 #for a 13 TeV collider
 tau = MW**2/s
 
-prefactor= ((math.pi*math.sqrt(2))/2) * GF * MW * (1/s)
+prefactor= ((math.pi*math.sqrt(2))/3) * GF * MW**2 * (1/s)
 
 
 crssctn, error = integrate.quad(
@@ -1338,7 +1336,7 @@ print(f'{crssctn * 0.389379 * 1e6} ± {error * 0.389379 * 1e6} nb' )
 	s = (13000)**2 #for a 13 TeV collider
 	tau = MW**2/s
 	
-	prefactor= ((math.pi*math.sqrt(2))/2) * GF * MW * (1/s)
+	prefactor= ((math.pi*math.sqrt(2))/3) * GF * MW**2 * (1/s)
 	
 	f= lambda x1: prefactor * 1/x1 * (pdf.xfxQ(2, x1, MW))/x1 * (pdf.xfxQ(-1, tau/x1, MW))/ (tau/x1)
 	rand = np.random.uniform(tau, 1, 1000) #generate a 1000 length array of random numbers from tau to 1
@@ -1379,7 +1377,7 @@ GF = 1.1663787e-5
 s = (13000)**2 #for a 13 TeV collider
 tau = MW**2/s
 
-prefactor= ((math.pi*math.sqrt(2))/2) * GF * MW * (1/s)
+prefactor= ((math.pi*math.sqrt(2))/3) * GF * MW**2 * (1/s)
 
 
 f = lambda x: prefactor * 1/x[0] * (pdf.xfxQ(2, x[0], MW))/x[0] * (pdf.xfxQ(-1, tau/x[0], MW))/ (tau/x[0])
