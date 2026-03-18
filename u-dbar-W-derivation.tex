@@ -1,6 +1,6 @@
 \documentclass[a4paper,11pt]{article}
 \usepackage{amsmath,amssymb,graphicx,hyperref, mathtools}
-\usepackage[margin=0.85in]{geometry}
+\usepackage[margin=1in]{geometry}
 
 \usepackage{tocloft} % For custom table of contents
 \usepackage{xcolor}  % For link and text color
@@ -11,6 +11,7 @@
 \usepackage{url}
 \usepackage{cite}
 \usepackage{xcolor}
+\usepackage{parskip}
 \usepackage{dsfont}
 \usepackage{slashed}
 \usepackage{minted}
@@ -18,7 +19,6 @@
 \usepackage{physics}
 \usepackage{booktabs}    % for clean tables
 \usepackage{subcaption}  % for side-by-side tables
-
 
 \definecolor{LightGray}{gray}{0.9}
 % Set link colors
@@ -46,7 +46,7 @@
 	\maketitle
 	
 	\begin{abstract}
-	
+	The process $pp \rightarrow W^+ \rightarrow e^+ \nu_e$ is studied at leading order by deriving the relevant amplitudes and cross-sections within the Standard Model. The partonic production cross-section for $u\bar{d} \rightarrow W^+$ is obtained using spin-summed squared-amplitude and phase-space integration. The hadronic cross-section is computed by convolution with the \texttt{PDF4LHC21\_40} set of parton distribution functions numerically via three methods: \texttt{SciPy}, basic Monte Carlo, and \texttt{VEGAS}. The partial decay width $\Gamma(W^+ \rightarrow e^+ \nu_e)$ is calculated in the W$^+$ rest frame yielding a value of $\Gamma^0_W = 0.227$ GeV and a branching ratio of 1/9. In the narrow-width approximation, production and decay factorise, giving a total cross-section of $4.217 \pm 0.002$ nb (\texttt{SciPy}), $4.221 \pm 0.017$ nb (basic Monte Carlo), and $4.21888 \pm 2\times10^{-6}$ nb (\texttt{VEGAS}). The full off-shell amplitude is also derived, and yields the following values for the total hadronic cross-section: $4.143 \pm 9.807$ nb (\texttt{SciPy}), $4.255 \pm 0.003$ nb (\texttt{VEGAS}), $4.682 \pm 0.227$ nb (basic Monte Carlo).
 		
 		
 	\end{abstract}
@@ -55,10 +55,22 @@
 	\newpage
 	\tableofcontents
 \section{Introduction}
-%Introduce NWA like in this paper: https://pmc.ncbi.nlm.nih.gov/articles/PMC4464706/pdf/10052_2015_Article_3472.pdf
+%one-page about how W is used thorugh SM physics
+% one and more pages on the actual NWA developments and calculating cross sections i.e. In sec X the Y is explored...
+Electroweak theory predicted the existence of charged $W^{\pm}$ and neutral $Z$ gauge bosons and experimental confirmation came in 1983 with the discovery of the W-boson at the CERN Super Proton Synchrotron --- a proton-anti-proton collider with centre-of-mass energy of $540$ GeV\cite{UA1:1983crd}. The production of W-bosons in hadron colliders is important in precision tests phenomenology of the Standard Model. Due to the final state  of $W \rightarrow l \nu$ (where $l = e, \mu, \tau$ and  $\nu= \nu_e, \nu_\mu, \nu_\tau$), the W-boson played a direct role in aiding the discovery and subsequent study of the Higgs boson. In particular, $H \rightarrow WW$ was among the key channels used by the ATLAS and CMS experiments at the Large Hadron Collider (LHC) experiments to detect a Higgs signal. The W-boson, unlike the photon, gluon and Z-boson, only couples to left-handed fermions and right-handed anti-fermions. This chiral nature is characteristic of the parity-violating weak interaction, first established in the 1950s through investigations of beta decay, notably in the experiments conducted by Wu et al.\cite{PhysRev.105.1413}, which provided evidence of parity violation. In the Standard Model, left-handed fermions are grouped into $SU(2)$ doublets. For instance, the electron and its associated neutrino form one such doublet. The W boson mediates charged-current interactions, allowing transitions within these doublets: an up-type quark can emit a W$^+$ and become a down-type quark, or a neutrino can absorb a W$^-$ to become a charged lepton. These processes strictly involve the left-handed components of the fermion fields. Right-handed fermions, by contrast, do not participate in charged weak interactions and are singlets under $SU(2)$. This selectivity explains why weak decays are inherently parity-violating and why certain processes, such as neutrino scattering, only occur for left-handed neutrinos. The polarisation of W-bosons in proton-proton collisions is directly determined by the left-handed coupling of the W boson to fermions in the Standard Model and can be probed through the angular distributions of decay products\cite{Stirling:2012zt}. As these couplings directly influence the production rates and kinematic properties of W-bosons, measurements of the cross-sections and differential distributions provide a test of the Standard Model. Furthermore, many extensions of the Standard Model introduce new particles that couple to the electroweak gauge sector. These states can generate radiative corrections to the gauge-boson propagators (referred to as oblique corrections) which modify predictions for processes involving W bosons\cite{Peskin:1991sw}.\\
+
+
+ The search for and measurement of particle resonances rely on the ability to compute precise cross-sections, and to connect partonic calculations to what is observed in hadronic collisions. The SM as a quantum field theory has been very successful as a description of the fundamental interactions of nature; yet, in the S-Matrix formulation, the asymptotic (non-interacting) in-states and out-states are defined at $t\rightarrow-\infty$ and $t\rightarrow +\infty$ respectively\cite{Veltman:1963th}. The asymptotic states must be stable particles since unstable particles decay with time according to $N(t) \propto e^{-\Gamma t}$, where $\Gamma$ is the decay width and $N(t)$ is the number of unstable particles as a function of time $t$ \cite{QFTLectures}. In the limit $t\rightarrow \pm \infty$, $N(t)$ goes to 0 --- i.e. the probability of finding an unstable particle in an asymptotic state is zero. However, processes in collider physics involve many unstable particles which decay before detection. As a result, theoretical predictions must describe the full production and decay process with the unstable particle appearing only as an intermediate resonance. Although one could compute the complete process with only stable external states, this becomes impractical for many multi-particle final states and motivates the use of approximations such as the narrow-width approximation (NWA). The approximation applies in the limit $\Gamma_W \rightarrow 0$, where the squared propagator $\left[(p^2 - M_W^2)^2+M_W^2\Gamma_W^2\right]^{-1}$, where $p$ indicates 4-momentum, approaches the delta function $K\delta(p^2 -M_W^2)$, where $K = \pi/M_W\Gamma_W$\cite{Kauer:2007zc}. Thus, this approach restricts the unstable particle to an on-shell state and allows the factorisation of the production and decay processes. Treating the unstable particle as on-shell allows one to neglect non-resonant contributions which leads to simplifications of calculations in the SM and extensions of the SM\cite{Uhlemann:2008pm}. The narrow-width approximation relies on several conditions: the total decay width of the resonant particle is much smaller than its mass ($\Gamma \ll M$ ); the masses of the decay products are negligible compared to the parent particle ($m_d \ll M$); the scattering energy is much larger than the parent mass ($\sqrt{s} \gg M$); interference with non-resonant diagrams is negligible; and the resonant propagator factorises cleanly from the remaining matrix element\cite{Berdine:2007uv}.\\
+
+ On the other hand, this simplification comes with limitations. Narrow-width approximation can become inaccurate when considering the convolution of parton density functions (PDFs) with a resonant hard scattering process\cite{Uhlemann:2008pm}. At hadron colliders, the PDFs typically fall steeply with momentum fraction, which gives relatively more weight to partonic configurations near the threshold for producing the decay products on-shell\cite{Kauer:2007zc}. As a result, the Breit–Wigner tail and the off-shell region near and below threshold can contribute significantly to the total cross section. Additionally, for non-scalar particles, complete factorisation into independent production and decay processes is not possible because the initial state and the decay products are spin correlated\cite{Uhlemann:2008pm}. Another problem arises when considering processes with identical initial and final states. The narrow-width approximation assumes there is no significant interference with non-resonant processes\cite{Berdine:2007uv}; yet, there can exist other Feynman diagrams which produce identical final states without forming the resonant intermediate particle. In regions of phase space where resonant and non-resonant contributions overlap can lead to double-counting and amplitudes can interfere\cite{Kauer:2001sp}. For the process of interest, $u \bar{d} \rightarrow W^+ \rightarrow e^+ \nu_e$ at tree-level, there are no other diagrams that have identical initial and final states.\\ 
+ 
+In this work, the cross-section for the $pp\rightarrow W^+ \rightarrow e^+ \nu_e$ process at LO is calculated under the narrow-width approximation and using the full amplitude (off-shell). The paper is structured as follows. Section \ref{sec2} presents the derivation of the $pp \rightarrow W^+$ cross-section. The derivation starts by constructing an amplitude for the $u\bar{d} \rightarrow W^+$ process using the Feynman rules from \cite{Barger:2019ydb}. Casimir's trick is introduced to relate the sum over spin states to the trace of the amplitude-squared and after a short discussion about spin and colour averaging, the formula for the differential cross-section is derived as in \cite{Peskin:1995ev}. After obtaining the partonic cross-section via integrating over the phase space, the paper walks through the process of deriving the hadronic convolution integral. This is then numerically evaluated using three different methods: \texttt{SciPy}, a basic Monte Carlo python script, and \texttt{VEGAS}. Section \ref{sec3} follows the derivation of the branching ratio of $W^+ \rightarrow e^+\nu_e$. In similar fashion to Section \ref{sec2}, the amplitude was constructed using the Feynman rules, was squared and spin-summed then substituted into the decay rate formula. Working in the frame where the W$^+$ is at rest leads to isotropic decay, thus changing coordinates to spherical means one can integrate over the full solid angle when doing the phase space integration. Branching ratio was calculated by dividing the partial decay width, $\Gamma (W^+ \rightarrow e^+ \nu_e)$, by the total decay rate, $\Gamma (W^+ \rightarrow \text{all})$. Section \ref{sec4} details the use of the narrow-width approximation and presents a value for the total cross-section. Section \ref{sec5} follows the derivation of the full amplitude of $u \bar{d} \rightarrow W^+ \rightarrow e^+ \nu_e$ at tree-level. This section discusses the Unitary gauge and $R_{\xi}$ gauges, and also a short discussion on the equivalence of the Unitary and Feynman gauges at tree-level. Section \ref{sec6} derives the partonic cross-section using the amplitude from Section \ref{sec5} and Section \ref{sec7} convolutes this result with PDFs using \texttt{SciPy}, a basic Monte Carlo script, and \texttt{VEGAS}. A comparison is drawn between the NWA and off-shell calculations, and the limitations of each approach are discussed in Section \ref{sec8}.
+
+
+% aturally, the accuracy of these approximations needs to be tested, which requires a full calculation of off-shell effects.
 %also follow the theme in which you say In Sec1, blah blah.. In sec.2 etc
-\section{$u\bar{d} \rightarrow W^+$ cross-section derivation}
-\subsection{Obtaining the partonic cross-section $\hat{\sigma}(u\bar{d} \rightarrow W^+)$}
+\section{Cross-section derivation for $pp\rightarrow W^+$}\label{sec2} 
+\subsection{Partonic cross-section $\hat{\sigma}(u\bar{d} \rightarrow W^+)$ derivation}
 Generally, calculating tree-level amplitudes of electroweak interactions involve two or more spinors contracted with each other by boson propagators. After writing down the Feynman diagram corresponding to the interaction, one uses the Feynman rules to formulate an amplitude, $\mathcal{M}$, which is used in the analytical expression for the cross-section with an appropriate spin and/or colour sum or average.\\
 
 The interaction that is of interest is the hadronic production of $W \rightarrow e \nu $. To predict $W \rightarrow e \nu$ distributions, one must calculate the complete production and decay subprocesses, $$u \bar{d} \rightarrow W^+ \rightarrow e^+ \nu_e.$$ To start, the cross-section for a simple $u \bar{d} \rightarrow W^+$ is derived below.
@@ -99,7 +111,7 @@ where A,B, C are matrices, and $\gamma^{0 \dagger} = \gamma^0$,  one gets:
  	|\mathcal{M}|^2 = \frac{1}{4} \frac{g^2}{2} (\epsilon_\mu \bar{u}[\overline{\gamma^\mu (1-\gamma^5)}]v)(\bar{v}[\gamma^\nu (1-\gamma^5] u \epsilon_\nu^*).
  \end{equation}
  
- \subsubsection{Summing over quark spin states}\label{completeness}
+ \subsubsection{Quark spin state summation}\label{completeness}
  When $|\mathcal{M}|^2 $ is summed over the possible values of the spin indices, $s_1$ and $s_2$, terms like $\sum_{s_1} \bar{u}u$ and $\sum_{s_2} \bar{v}v$ will appear; these can be evaluated using the completeness relation for Dirac spinors: %can add proof of completeness realtions using lecture notes
  \begin{itemize}
  	\item $\sum_{s}u\bar{u} =  \slashed{p}+m  $
@@ -188,7 +200,7 @@ Using, $ \text{Tr}[\slashed{p}\gamma^\mu \slashed{k} \gamma^\nu] = 4[p^\mu k^\nu
 \end{equation}
 $p_{1\rho}$ and $p_{2 \sigma}$ are components of 4-momenta for the up-quark and anti-down-quark respectively, and can be taken out of the trace (i.e. the trace of a scalar is the scalar itself). The cyclicity of traces (Tr$[ABC]=$Tr$[ABC]=$Tr$[ABC]$, where $ABC$ are matrices) was used on the second line to move $\gamma^5$ the right most side of the trace. The $\rho$ index was switched with the $\nu$ index, in the third line to the fourth line, producing a minus sign that cancels with the pre-existing minus. The spin-summed squared amplitude becomes, $$S^{\mu\nu}= 8[p_2^\mu p_1^\nu + p_2^\nu p_1^\mu - (p_1 \cdot p_2) g^{\mu \nu} -i \epsilon^{\mu \nu \rho \sigma}p_{1\rho}p_{2\sigma}].$$ 
 
-\subsubsection{Summing over final polarisation states}\label{pol}
+\subsubsection{Final polarisation state summation}\label{pol}
 As mentioned earlier, the W$^{+}$ is an external particle in the $u\bar{d} \rightarrow W^+$ process. A W boson has two transverse and on longitudinal polarisation, and the cross section must include the contribution of every polarisation state, thus must be summed over. For a massive W boson with momentum $p^\mu$ and mass $M_W$, summing over polarisation states gives,
 
 \begin{equation}
@@ -239,7 +251,7 @@ $$\sum_{s_1, s_2, \text{pol}} |\mathcal{M}|^2=  \frac{G_F}{\sqrt{2}} M_W^2 \left
 Finally the $(p_1 \cdot p_2)$ term can be expressed in terms of the Mandelstam variable, $\hat{s}$; this is useful since $\sqrt{\hat{s}}$ is equivalent to the centre of mass energy of the up-anti-down pair, which is a measurable quantity. In the massless quark approximation,  $\hat{s} = (p_1+p_2)^2 = 2p_1 \cdot p_2$, thus, 
 
 \begin{equation}\label{amp}
-	\sum_{s_1, s_2, \text{pol}} |\mathcal{M}|^2= \frac{\sqrt{2}}{3}G_F M_W^2 \hat{s}
+	\sum_{s_1, s_2, \text{pol}} |\mathcal{M}|^2= \frac{2\sqrt{2}}{3}G_F M_W^2 \hat{s}
 \end{equation}
 
 \subsubsection{Cross-section formula derivation}
@@ -363,11 +375,11 @@ $$F = 4\sqrt{(p_A \cdot p_B)^2 - m_A^2m_B^2 }. $$
 As mentioned earlier, labels A and B are defined as the up and anti-down quark respectively. In the centre-of-mass frame $|\boldsymbol{p}_u|=|\boldsymbol{p}_{\bar{d}}| = \boldsymbol{p}$; in the massless quark approximation, $E = |\boldsymbol{p}|$, thus $E_A = E_B =E$. The flux factor becomes,
 
 
-$$ F = 4\sqrt{(p_u \cdot p_{\bar{d}})^2} = 4\sqrt{(E^2 - \boldsymbol{p}_u\cdot\boldsymbol{p}_{\bar{d}})^2} = 4\sqrt{(E^2 - (E^2 - \boldsymbol{p}^2))^2}  =4\sqrt{\boldsymbol{p}^4} =4E^2.$$
+$$ F = 4\sqrt{(p_u \cdot p_{\bar{d}})^2} = 4\sqrt{(E^2 + \boldsymbol{p}_u\cdot\boldsymbol{p}_{\bar{d}})^2} =4\cdot 2E^2 =8E^2.$$
 
 F can be expressed in terms of the Mandelstam variable, 
 
-$$ \hat{s} = (p_u+ p_{\bar{d}})^2 = p_u^2 + p_{\bar{d}}^2 +2p_u\cdot p_{\bar{d}} = 2E^2, $$
+$$ \hat{s} = (p_u+ p_{\bar{d}})^2 = p_u^2 + p_{\bar{d}}^2 +2p_u\cdot p_{\bar{d}} = 4E^2, $$
 
 which gives,
 
@@ -414,7 +426,7 @@ This can be simplified by cancelling factors of $2\pi$ and setting $E_W = M_W$  
 \end{equation}
 $G_F$ has dimensions GeV$^{-2}$, $M^2_W$ has dimensions GeV$^2$, and the delta function has the inverse dimensions of its argument, thus is GeV$^{-2}$. 
 
-\subsection{Obtaining the hadronic cross-section $\sigma (pp \rightarrow W^+)$}\label{had-crosssec-sec}
+\subsection{Hadronic cross-section derivation for $pp \rightarrow W^+$}\label{had-crosssec-sec}
 In the previous section, the cross-section for an up and anti-down quark annihilating into a W$^+$ boson was obtained. In practice, high-energy collisions of this type involve protons/anti-protons --- more generally, hadrons --- rather than free quarks or gluons. The partonic cross-section describes the hard scattering of individual partons, but the initial parton momenta are not fixed since each parton carries only a fraction $x$ of the proton’s total momentum and are distributed according to the proton’s parton distribution functions (PDF). The PDFs $f_i(x, \mu)$ give the probability density that a parton of type $i$ has momentum fraction $x$; $\mu$ refers to the factorisation scale and it accounts for the fact that the parton distribution depends on the resolution at which one probes the proton. 
 \subsubsection{Hadronic convolution integral derivation}
 
@@ -455,7 +467,7 @@ $$
 Now, one can collapse the $dx_2$ integral, and set $x_2 = \tau/x_1$. Note that the integration limits also change; since $x_2$ is defined between 0 and 1, i.e. $0 \leq x_2 \leq 1$,  and now $x_2 = \tau/x_1$, it leads to $0 \leq \tau \leq 1$. This sets a lower bound for the integration as $\tau$.
 
 \begin{equation}\label{convolution-final}
-	\sigma(pp \rightarrow W^+) = \frac{2\pi \sqrt{2}}{3}\frac{G_FM^2_W}{s} \int_\tau^1 \frac{dx_1}{x_1}\;  f_u(x_1, \mu)f_{\bar{d}}(\tau/x_1,\mu).	
+	\sigma(pp \rightarrow W^+) = \frac{\pi \sqrt{2}}{3}\frac{G_FM^2_W}{s} \int_\tau^1 \frac{dx_1}{x_1}\;  f_u(x_1, \mu)f_{\bar{d}}(\tau/x_1,\mu).	
 \end{equation}
 
 \subsubsection{Numerical evaluation via \texttt{SciPy}}\label{numerical-scipy}
@@ -469,7 +481,24 @@ For a proton-anti-proton collision at $\sqrt{s} = 13$ TeV,
 $$
 \sigma(p\bar{p} \rightarrow W^+) = 48.580 \pm 0.004\; \text{nb}.
 $$
-It is assumed that the probability for an anti-down quark in the anti-proton to have momentum fraction $x_1$ is equivalent to the probability for a down quark in the proton to have the same momentum fraction. Thus, the only change in the code was a sign inversion to depict a down quark in the proton.
+It is assumed that the probability for an anti-down quark in the anti-proton to have momentum fraction $x_1$ is equivalent to the probability for a down quark in the proton to have the same momentum fraction. Thus, the only change in the code was a sign inversion to depict a down quark in the proton.\\
+
+The integrals were computed using \texttt{scipy.integrate.quad}, which is a wrapper of the Fortran library, QUADPACK, which is a library for numerical evaluation of one-dimensional integrals. The evaluation can be extended to some multi-dimensional cases \cite{QUADPACKFavati}. \texttt{scipy.integrate.quad} specifically uses the \texttt{QAGS}, \texttt{QAGP}, and \texttt{QAGI} routines from the QUADPACK library, which use Gauss–Kronrod quadrature\footnote{Quadrature, derived from Latin for "square," refers to finding a square with the same area as a given shape or curve. In modern contexts, it refers to the use of numerical methods to approximate the value of a definite integral.} rules --- which is an extension of the Gauss quadrature--- to do numerical integration\cite{QUADPACKwiki}. The Gauss quadrature is as follows: one approximates an integral,
+
+$$\int_a^b f(x) dx,$$
+as a weighted sum of n function evaluations at special points $x_i$. Instead of averaging the function at equally spaced points, the Gauss quadrature picks special points and weights, $w_i$ that improve the accuracy of the approximation,
+
+$$\int_a^b f(x) dx \approx \sum_{i =1}^N w_i f(x_i),$$
+This approximation is exact for all polynomials up to degree $2n-1$ for $x_n$ points, and is called the $n$-point Gauss rule. For example, if one wants to approximate the integral,
+
+\begin{equation}\label{example-polynomial}
+	\int_{-1}^{-1} x^3 +x^2+x+1 dx.	
+\end{equation}
+
+Using 2 points ($x_n = 2$ with corresponding $w_1$ and $w_2$), the 2-point Gauss rule says that the approximation will be exact for any polynomial up to the $3^\text{rd}$ degree ($2(2) - 1 = 3$). For the example integral, this means that the approximation will be exact. If the function had a $x^4$ term or higher, the 2-point Gauss  rule will approximate it, but there will be a non-zero error. \\
+
+The process starts by  subdividing the interval $[a,b]$ adaptively: the Gauss rule is first applied to the full interval, and if the estimated error is too large, the interval is split into smaller subintervals where the rule is reapplied. The Gauss–Kronrod extension adds n+1 additional points to the same set, forming a 2n+1-point rule. A 2-point Gauss would not be able to give an exact result for a polynomial with a higher order than 3, but a 2-point Gauss-Kronrod will up to the $5^\text{th}$ order ($2(2)+1 = 5$). Since the original Gauss points are contained within the Kronrod rule, both approximations can be computed together, and their difference provides an estimate of the integration error\cite{QUADPACKwiki}.
+
 
 \subsubsection{Numerical evaluation via Monte Carlo integration}\label{numerical-MC}
 Monte Carlo integration is a numerical technique for approximating integrals that are too complex to evaluate analytically. The method proceeds by evaluating the function being integrated at uniformly generated random points, and then forming an estimate of the integral by averaging the resulting values\cite{tang2023notemontecarlointegration}. The integrand does not need to be continuous or analytic for the method to preform, thus is very robust \cite{Lepage:2020tgj}. Take the integral,
@@ -568,7 +597,7 @@ $$
 
 
 
-\section{$\Gamma (W^+ \rightarrow e^+ \nu_e)$ derivation}
+\section{Partial decay rate derivation for $W^+ \rightarrow e^+ \nu_e$}\label{sec3}
 Calculating the squared amplitude of the $W^+ \rightarrow e^+ \nu_e$ process follows similar arguments as for the $u \bar{d} \rightarrow W^+$ case. One starts wfith the Feynman diagram and follows the Feynman rules to get an amplitude.
 
 \begin{figure}[h]
@@ -597,7 +626,7 @@ The squared amplitude can be simplified by using the relation $\bar{u} = u^{\dag
 
 $$|\mathcal{M}|^2 = \frac{1}{4} \frac{g^2}{2} (\epsilon_\mu^* \bar{v}[\overline{\gamma^\mu (1-\gamma^5)}]u)(\bar{u}[\gamma^\nu (1-\gamma^5] v \epsilon_\nu). $$
 
- \subsection{Summing over lepton spin states}
+ \subsection{Lepton spin state summation}
  Once again, $\epsilon_{\mu}^*$ and $\epsilon_{\nu}$ will be treated separately later and will not contribute in the summation over spins. The notation for spin- and polarisation-summed amplitude squared will be split into the summation over spins component, denoted by $N^{\mu\nu}$, and summation over polarisation, denoted $Z_{\mu \nu}$, where, $$\sum_{s_3, s_4, \text{pol}}|\mathcal{M}|^2=  \frac{1}{4} \frac{g^2}{2} Z_{\mu\nu}N^{\mu\nu} $$\\
  
  Summing over the spin states of the electron-neutrino and positron can be done using the $v$-spinor and $u$-spinor completeness relations respectively \ref{completeness}. Using Casimir's trick, the spin summed component is given as,
@@ -621,7 +650,7 @@ $$|\mathcal{M}|^2 = \frac{1}{4} \frac{g^2}{2} (\epsilon_\mu^* \bar{v}[\overline{
  N^{\mu\nu}= 8[p_4^\mu p_3^\nu + p_4^\nu p_3^\mu - (p_3 \cdot p_4) g^{\mu \nu} -i \epsilon^{\mu \nu \rho \sigma}p_{3\rho}p_{4\sigma}].
  $$
  
- \subsection{Summing over initial polarisation states}\label{sum-over-initial-pol-states}
+ \subsection{Initial polarisation state summation}\label{sum-over-initial-pol-states}
  In similar fashion to Section \ref{pol}, one can sum over the different initial polarisation states of the W-boson:
  \begin{equation}
  	Z_{\mu\nu}= \sum_\text{pol} \epsilon_\mu^* \epsilon_\nu=  -g_{\mu\nu} + \frac{k_\mu k_\nu}{M_W^2}.
@@ -658,7 +687,7 @@ where the factor of 1/3 came from averaging over initial polarisation states for
 
 
 
-\subsection{Calculating decay rates}
+\subsection{Decay rate calculation}
 One can derive the differential decay rate, $d \Gamma$, via a small modification to the general expression of the differential cross-section (Eq. \ref{general_cross}). Specifically, one can remove factors that involve a multi-particle initial state; the decaying $W^+$ boson is assumed to be at rest, so the factor 1/E$_A$ becomes 1/$M_W$. Thus the differential decay rate formula is,
 
 \begin{equation}\label{decay-formula}
@@ -760,7 +789,7 @@ $$
 \Gamma(W^+ \rightarrow e^+ \nu_e) = 0.227\; \text{GeV} = \Gamma^0_W.
 $$
 
-\subsection{$W^+ \rightarrow e^+ \nu_e$ branching ratio calculation}
+\subsection{Branching ratio calculation}
 Assuming all quark-antiquark decays eventually fragment to hadrons, one can do an inclusive calculation where the total hadronic decay rate is the approximated by the quark-antiquark decay rate. In the massless fermion approximation, it is justified for the tree-level partial decay widths of $\mu$, $\tau$ leptons and quarks to be identical, where the quark channels differ up to a colour and CKM factor:
 
 $$
@@ -794,24 +823,28 @@ Including contributions from $W^+$ decays into top-quarks increases the total de
 	BR(W \rightarrow e^+ \nu_e) \simeq \frac{\Gamma(W^+ \rightarrow e^+ \nu_e) }{\Gamma(W^+ \rightarrow \text{all})} = \frac{1}{9}
 \end{equation}
 
-\subsection{Obtaining total cross-section $\sigma(pp \rightarrow W^+ \rightarrow e^+ \nu_e)$ using NWA}
+\section{Total cross-section calculation in the  Narrow-Width approximation}\label{sec4}
 
 To obtain the observable rate for the leptonic final state we multiply the inclusive hadronic production cross section for an on-shell W$^+$ by the branching ratio for the decay $W^+ \rightarrow e^+ \nu_e$ . Under the  narrow-width approximation the production and decay factorise: production sets the number of on-shell W$^+$ bosons, and the branching ratio gives the fraction of those that decay to the chosen channel. Hence the total cross section for producing an $e^+ \nu_e$ final state is,
 
 $$
 	\sigma(pp \rightarrow W^+ \rightarrow e^+ \nu_e) = 	\sigma(pp \rightarrow W^+) \cross BR(W \rightarrow e^+ \nu_e).
 $$
-This relation is valid only if: the total width of W$^+$ is smaller that its mass ($\Gamma \ll M_W$); the daughter particles are much less massive than the parent ($m_{e^+}, m_{\nu_e} \ll M_W$); the scattering energy is much larger than the $M_W$, ($\sqrt{s} \gg M_W$); there is no significant interference with non-resonant processes; and the resonant propagator is separable from the matrix element \cite{Berdine:2007uv}. One gets the total hadronic cross-section at $\sqrt{s} = 13$ TeV as,
+This relation is valid only if: the total width of W$^+$ is smaller that its mass ($\Gamma \ll M_W$); the daughter particles are much less massive than the parent ($m_{e^+}, m_{\nu_e} \ll M_W$); the scattering energy is much larger than the $M_W$, ($\sqrt{s} \gg M_W$); there is no significant interference with non-resonant processes; and the resonant propagator is separable from the matrix element \cite{Berdine:2007uv}. Using the three numerical methods of PDF convolution, one gets the total hadronic cross-section at $\sqrt{s} = 13$ TeV as,
 
 \begin{equation}
-		\sigma(pp \rightarrow W^+ \rightarrow e^+ \nu_e) = 	0.7085 \pm 0.0042\; \text{nb} \cross \frac{1}{9} = 0.0787 \pm 0.0004\; \text{nb},
+		\sigma_\text{\texttt{SciPy}}(pp \rightarrow W^+ \rightarrow e^+ \nu_e) = 37.96 \pm 0.02\; \text{nb} \cross \frac{1}{9} = 4.217 \pm 0.002\; \text{nb},
 \end{equation}
-and for a proton-anti-proton collision, 
+for the \texttt{SciPy} method, 
 \begin{equation}
-	\sigma(p\bar{p} \rightarrow W^+ \rightarrow e^+ \nu_e) = 0.9068 \pm 0.0033\; \text{nb} \cross \frac{1}{9} = 0.1008 \pm 0.0004\; \text{nb}.
+	\sigma_\text{MC}(pp\rightarrow W^+ \rightarrow e^+ \nu_e) = 37.99 \pm 0.16\; \text{nb} \cross \frac{1}{9} = 4.221 \pm 0.017\; \text{nb},
 \end{equation}
-
-\section{Total $ u \bar{d} \rightarrow W^+ \rightarrow e^+ \nu_e$ amplitude derivation }
+for the method using a basic Monte Carlo script, and 
+\begin{equation}
+	\sigma_\text{\texttt{VEGAS}}(pp\rightarrow W^+ \rightarrow e^+ \nu_e) = 37.97007 \pm 2\times10^{-5}\; \text{nb} \cross \frac{1}{9} = 4.21888 \pm 2\times10^{-6}\; \text{nb},
+\end{equation}
+using \texttt{VEGAS}.
+\section{Total amplitude derivation for $pp \rightarrow W^+ \rightarrow e^+ \nu_e$}\label{sec5}
 
 \begin{figure}[h]
 	\centering
@@ -876,35 +909,35 @@ The squared amplitude is then the product of Eq.\ref{full-amp} and Eq.\ref{compl
 	\left(\frac{G_FM_W^2}{\sqrt{2}}\right)^2|V_\text{ud}|^2 \frac{\left( \bar{v}_3 \overline{\left[\gamma_\alpha (1-\gamma^5)\right]}u_4\bar{u}_1 \overline{\left[\gamma^\alpha (1-\gamma^5)\right]}v_2\right) \left( \bar{v}_2\left[\gamma^\mu(1-\gamma^5)\right]u_1\bar{u}_4 \left[\gamma_\mu(1-\gamma^5)\right]v_3\right)}{(p^2-M_W^2)^2 +M_W^2\Gamma_W^2}.
 \end{equation}
 
-\subsection{Summing over spin states for hadronic and leptonic currents}
-The hadronic current defined as, $$ H^{\alpha\mu} = \bar{u}_1 \left[\gamma^\alpha (1-\gamma^5)\right]v_2\right)\bar{v}_2\left[\gamma^\mu(1-\gamma^5)\right]u_1,$$
+\subsection{Hadronic and leptonic currents spin state summation}
+The hadronic current defined as, $$ H^{\alpha\mu} = \bar{u}_1 \left[\gamma^\alpha (1-\gamma^5)\right]v_2\bar{v}_2\left[\gamma^\mu(1-\gamma^5)\right]u_1,$$
 and the leptonic current is defined as, $$L_{\alpha\mu}= \bar{v}_3 \left[\gamma_\alpha (1-\gamma^5)\right]u_4\bar{u}_4 \left[\gamma_\mu(1-\gamma^5)\right]v_3.$$
 
 Note that the identity \ref{overline-id} was used to unpack $\overline{\gamma^\mu(1-\gamma^5)}$ and $\overline{\gamma_\mu(1-\gamma^5)}$ to $\gamma^\mu(1-\gamma^5)$ and $\gamma_\mu(1-\gamma^5)$ respectively. One can use Casimir's trick \cite{Griffiths:2008zz} to calculate the spin-summed amplitude in terms of traces,
  
  
- $$ H^{\alpha\mu}} = \text{Tr}\left[\slashed{p_2}\gamma^\alpha(1-\gamma^5) \slashed{p_1} \gamma^\mu(1-\gamma^5)     \right]$$
+ $$ H^{\alpha\mu} = \text{Tr}\left[\slashed{p_2}\gamma^\alpha(1-\gamma^5) \slashed{p_1} \gamma^\mu(1-\gamma^5)\right]$$
 $$ L_{\alpha\mu} = \text{Tr}\left[ \slashed{p_4}\gamma_\alpha(1-\gamma^5) \slashed{p_3} \gamma_\mu(1-\gamma^5)   \right],$$
 where it is approximated that the masses of the up and down quarks and the positron and electron neutrino are negligible in comparison to the centre-of-mass energy.
 
-\subsection{Evaluating the $H^{\alpha\mu}$ and $L_{\alpha \mu}$ traces}
+\subsection{Trace evaluation}
 In the same fashion as in Sec \ref{completeness}, one can use the projector representation of $(1-\gamma^5)$ to simplify $H^{\alpha\mu}$ and $L_{\alpha \mu}$. The currents can be written as,
 
- $$ H^{\alpha\mu}} = 2\text{Tr}\left[\slashed{p_2}\gamma^\alpha P_L \slashed{p_1} \gamma^\mu P_L     \right]$$
+ $$ H^{\alpha\mu} = 2\text{Tr}\left[\slashed{p_2}\gamma^\alpha P_L \slashed{p_1} \gamma^\mu P_L     \right]$$
 $$ L_{\alpha\mu} = 2\text{Tr}\left[ \slashed{p_4}\gamma_\alpha P_L \slashed{p_3} \gamma_\mu P_L \right],$$
 
 where the left-handed chirality projection operator is defined as $P_L = \frac{1}{2}(1-\gamma^5)$ and the right-handed chirality projection operator is defined as $P_R= (1+\gamma^5)$. 
 
 \begin{equation*}
 	\begin{aligned}
-	 H^{\alpha\mu}} &= 2\text{Tr}\left[\slashed{p_2}\gamma^\alpha P_L \slashed{p_1} \gamma^\mu P_L     \right]\\
+	 H^{\alpha\mu} &= 2\text{Tr}\left[\slashed{p_2}\gamma^\alpha P_L \slashed{p_1} \gamma^\mu P_L     \right]\\
 	 &= 2\text{Tr}\left[\slashed{p_2}\gamma^\alpha P_L \slashed{p_1} P_R \gamma^\mu \right]\\
 	 		&= 2\text{Tr}\left[\slashed{p_2}\gamma^\alpha P_L \slashed{p_1} \gamma^\mu \right] = 2\text{Tr}\left[\slashed{p_2}\gamma^\alpha (1-\gamma^5) \slashed{p_1} \gamma^\mu \right]  .
 	\end{aligned}
 \end{equation*}
 In the second, the $P_L \gamma^\mu =\gamma^\mu P_R$ property was used and to go from the second to third line, $P_L \gamma^\mu =\gamma^\mu P_R$ and  $P_L^2 = P_L$ was used. Writing the hadronic currents as, 
 
-$$H^{\alpha\mu}} = 2\text{Tr}\left[\slashed{p_2}\gamma^\alpha\slashed{p_1} \gamma^\mu \right] - 2\text{Tr}\left[\slashed{p_2}\gamma^\alpha\gamma^5\slashed{p_1} \gamma^\mu \right].$$
+$$H^{\alpha\mu} = 2\text{Tr}\left[\slashed{p_2}\gamma^\alpha\slashed{p_1} \gamma^\mu \right] - 2\text{Tr}\left[\slashed{p_2}\gamma^\alpha\gamma^5\slashed{p_1} \gamma^\mu \right].$$
 
 Evaluating both traces leads to,
 
@@ -928,16 +961,13 @@ The squared, spin-summed amplitude has the form,
 	\sum_{s_1,s_2,s_3,s_4}|\mathcal{M}|^2 = 	\left(\frac{G_FM_W^2}{\sqrt{2}}\right)^2|V_\text{ud}|^2 \frac{H^{\alpha \mu}L_{\alpha \mu}}{(p^2-M_W^2)^2 +M_W^2\Gamma_W^2}.
 \end{equation}
 
-
-
-\subsubsection{Contracting $H^{\alpha \mu}$ and $L_{\alpha \mu}$}
 To simplify the contraction, one can split both currents into its symmetric and anti-symmetric components: $$H^{\alpha \mu} = H^{\alpha \mu}_\text{S} + H^{\alpha \mu}_{\text{AS}},$$ where $H^{\alpha \mu}_\text{S} =8 \left(p_{4\alpha} p_{3\mu} + p_{4\mu} p_{3\alpha} - (p_4 \cdot p_3) g_{\alpha \mu}\right) $ and $H^{\alpha \mu}_{\text{AS}} = - 8i\left( \epsilon^{\alpha \mu \rho \psi}p_{2\rho}p_{1\psi}\right)$.  $$L_{\alpha \mu} = L_{\alpha \mu, \text{S}} + L_{\alpha \mu,\text{AS}},$$ where $L_{\alpha \mu, \text{S}} = 8\left(p_{4\alpha} p_{3\mu} + p_{4\mu} p_{3\alpha} - (p_4 \cdot p_3) g_{\alpha \mu} \right)$ and $L_{\alpha \mu,\text{AS}} = - 8i\left(\epsilon_{\alpha \mu \beta \sigma}p_{4\beta}p_{3\sigma} \right).$
 Since the cross-terms between the symmetric and antisymmetric components vanish, what remains are $H^{\alpha \mu}_S L_{ \alpha \mu,\text{S}}$ and $H^{\alpha \mu}_\text{AS}L_{\alpha \mu, \text{AS}}.$
 
 \begin{equation}
 	\begin{aligned}
 		H^{\alpha \mu}_\text{AS}L_{\alpha \mu, \text{AS}} &= 64(- i \epsilon^{\alpha \mu \rho \psi}p_{2\rho}p_{1\psi})( - i \epsilon_{\alpha \mu \beta \sigma}p_{4\beta}p_{3\sigma})\\
-		&=-64(\epsilon^{\alpha \mu \rho \psi} \epsilon_{\alpha \mu \beta \sigma}})p_{2\rho}p_{1\psi}p_{4\beta}p_{3\sigma}\\
+		&=-64(\epsilon^{\alpha\mu\rho\psi}\epsilon_{\alpha\mu\beta\sigma})p_{2\rho}p_{1\psi}p_{4\beta}p_{3\sigma}\\
 		&= 128(\delta^\rho_\beta \delta^\psi_\sigma - \delta^\rho_\sigma \delta^\psi_\beta) p_{2\rho}p_{1\psi}p_{4\beta}p_{3\sigma}\\
 		&= 128 (p_{2\beta}p_{1\sigma}p_{4\beta}p_{3\sigma} - p_{2\sigma}p_{1\beta}p_{4\beta}p_{3\sigma})\\
 		&= 128 \left[(p_2 \cdot p_4) (p_1 \cdot p_3) - (p_2 \cdot p_3)(p_1 \cdot p_4)\right],
@@ -962,7 +992,7 @@ In the massless fermion approximation, the Mandelstam variable $\hat{t} = -2(p_1
 \begin{equation}\label{currents-contracted}
 	H^{\alpha \mu}L_{\alpha \mu} = \frac{128\hat{t}^2}{2} = 64 \hat{t}^2.
 \end{equation}
-Now, substituting Eq.\ref{currents-contracted} back into Eq.\ref{spin-sum-sq-full-amp} and adding a factor of 1/2 to account for initial spins gives the full spin-summed and averaged, squared amplitude,
+Now, substituting Eq.\ref{currents-contracted} back into Eq.\ref{spin-sum-sq-full-amp} and adding a factor of 1/2 to account for initial spins gives,
 
 \begin{equation}\label{final-total-amp}
 	\sum_{s_1,s_2,s_3,s_4}|\mathcal{M}|^2 = \frac{1}{2}\left(\frac{G_FM_W^2}{\sqrt{2}}\right)^2|V_\text{ud}|^2 \frac{64 \hat{t}^2}{(p^2-M_W^2)^2 +M_W^2\Gamma_W^2}.
@@ -1026,11 +1056,11 @@ and so, $\widetilde{\mathcal{M}} = 0$. The amplitude in the Unitary gauge (at tr
 
 
 
-\section{Partonic cross-section $\hat{\sigma}(u\bar{d} \rightarrow W^+ \rightarrow e^+ \nu_e)$ from total amplitude}
+\section{Partonic cross-section calculation from total amplitude}\label{sec6}
 Substituting the amplitude \ref{final-total-amp} into the general formula for differential cross-section \ref{general_cross}, one gets,
 
 $$
-	d\hat{\sigma}  =  \frac{1}{4\hat{s}}\left(\frac{G_FM_W^2}{\sqrt{2}}\right)^2|V_\text{ud}|^2 \frac{64 \hat{t}^2}{(p^2-M_W^2)^2 +M_W^2\Gamma_W^2}d\Phi_{2},
+	d\hat{\sigma}  =  \frac{1}{12\hat{s}}\left(\frac{G_FM_W^2}{\sqrt{2}}\right)^2|V_\text{ud}|^2 \frac{64 \hat{t}^2}{(p^2-M_W^2)^2 +M_W^2\Gamma_W^2}d\Phi_{2},
 $$
 
 where, 
@@ -1079,7 +1109,7 @@ $$ \int \delta^3(\boldsymbol{p}_{e^+} - \boldsymbol{p}_{\nu_e})d^3\boldsymbol{p}
 By doing this, one restricts the phase space to a surface that conserves momentum; specifically, it imposes $\boldsymbol{p}_{e^+} =  - \boldsymbol{p}_{\nu_e}$. Imposing this conditions means that one naturally works in the centre-of-mass frame. The phase space integral is now of the from,
 
 $$
-\int d\Phi_2} = \frac{1}{(2\pi)^2} \int \delta^3(\sqrt{s}- 2|\boldsymbol{p}_{e^+}|)  \frac{d^3\boldsymbol{p}_{e^+}}{4|\boldsymbol{p}_{e^+}|^2}.
+\int d\Phi_2 = \frac{1}{(2\pi)^2} \int \delta^3(\sqrt{s}- 2|\boldsymbol{p}_{e^+}|)  \frac{d^3\boldsymbol{p}_{e^+}}{4|\boldsymbol{p}_{e^+}|^2}.
 $$
 One can write $d^3\boldsymbol{p}_{e^+}$ in spherical coordinates: $d^3\boldsymbol{p}_{e^+} = |\boldsymbol{p}_{e^+}|^2 d|\boldsymbol{p}_{e^+}| d\Omega$, where $d\Omega = d\cos\theta d\theta d\phi$ is the full solid angle. Using the property of delta functions \ref{delta-fn-scaling-property}, 
 $$
@@ -1098,11 +1128,11 @@ $$
 thus the phase space integral is,
 
 $$
-\int d\Phi_2} = \frac{1}{(2\pi)^2} \int  \frac{1}{2}\delta^3\left(\frac{\sqrt{s}}{2}- |\boldsymbol{p}_{e^+}|}\right) \frac{d|\boldsymbol{p}_{e^+}| d\Omega}{4}.
+\int d\Phi_2 = \frac{1}{(2\pi)^2} \int  \frac{1}{2}\delta^3\left(\frac{\sqrt{s}}{2}- |\boldsymbol{p}_{e^+}|\right) \frac{d|\boldsymbol{p}_{e^+}| d\Omega}{4}.
 $$
 Now one can collapse the $d|\boldsymbol{p}_{e^+}|$ integral to get a factor of 1/2,
 
-$$\int \frac{1}{2} \delta^3\left(\frac{\sqrt{s}}{2}- |\boldsymbol{p}_{e^+}|}\right) d|\boldsymbol{p}_{e^+}| = \frac{1}{2}. $$
+$$\int \frac{1}{2} \delta^3\left(\frac{\sqrt{s}}{2}- |\boldsymbol{p}_{e^+}|\right) d|\boldsymbol{p}_{e^+}| = \frac{1}{2}. $$
 
 The phase space integral is,
 
@@ -1142,100 +1172,89 @@ $$\int_{-1}^1 (1+x)^2 dx = \frac{8}{3}.$$
 
 Finally, one has the expression for the total partonic cross-section:
 
-\begin{equation}
+\begin{equation}\label{total-partonic-full-amp}
 	\hat{\sigma}(u\bar{d} \rightarrow W^+ \rightarrow e^+ \nu_e) =\frac{1}{3\pi}\left(\frac{G_FM_W^2}{\sqrt{2}}\right)^2|V_\text{ud}|^2 \frac{\hat{s}}{(p^2-M_W^2)^2 +M_W^2\Gamma_W^2}.
 \end{equation}
 
-\section{Hadronic cross-section via convolution with PDFs}
+\section{Hadronic cross-section via convolution with PDFs}\label{sec7}
 Analogous to Section \ref{had-crosssec-sec}, in order to obtain the physically observable hadronic cross section, one must convolute the partonic cross-section with the PDFs over all possible momentum fractions:
 
 
 \begin{equation}\label{convolution_2}
-		\sigma(u\bar{d} \rightarrow W^+ \rightarrow e^+ \nu_e)= \int_0^1 dx_1 \int_0^1 dx_2\; f_u(x_1, \mu)f_{\bar{d}}(x_2,\mu) 	\hat{\sigma}(u\bar{d} \rightarrow W^+ \rightarrow e^+ \nu_e).
+		\sigma(u\bar{d} \rightarrow W^+ \rightarrow e^+ \nu_e)= \frac{1}{3}\int_0^1 dx_1 \int_0^1 dx_2\; f_u(x_1, \mu)f_{\bar{d}}(x_2,\mu) 	\hat{\sigma}(u\bar{d} \rightarrow W^+ \rightarrow e^+ \nu_e).
 \end{equation}
 The convolution integral can be solved numerically; the same parton density functions, $ f_u(x_1, \mu)$ and $f_{\bar{d}}(x_2,\mu)$, are used from Section \ref{numerical-scipy} --- specifically the PDF4LHC21$\_$40 set is used \cite{PDF4LHCWorkingGroup:2022cjn}. 
 
 \subsection{Numerical evaluation via \texttt{scipy}}
 Running the code in \ref{scipy-total}, gives a value for the total cross-section at $\sqrt{s} = 13$ TeV,
 
-\begin{equation}\label{pp}
-	\sigma(pp \rightarrow W^+ \rightarrow e^+ \nu_e) = 12.43 \pm 29.42\; \text{nb}.
+\begin{equation}\label{pp} 
+	\sigma(pp \rightarrow W^+ \rightarrow e^+ \nu_e) = 4.143 \pm 9.807\; \text{nb}.
 \end{equation}
 For a proton-anti-proton collision at $\sqrt{s} = 13$ TeV, it is assumed that the probability for an anti-down quark in the anti-proton to have momentum fraction $x_1$ is equivalent to the probability for a down quark in the proton to have the same momentum fraction. The total hadronic cross-section is therefore,
 
 \begin{equation}
-	\sigma(p\bar{p} \rightarrow W^+ \rightarrow e^+ \nu_e) = 15.98 \pm 29.48\; \text{nb}.
+	\sigma(p\bar{p} \rightarrow W^+ \rightarrow e^+ \nu_e) = 5.327 \pm 9.827\; \text{nb}.
 \end{equation}
 According to Table 3 in \cite{ATLAS:2016fij}, the measured cross-section of $W^+ \rightarrow l\nu$ from proton-proton collision at the same centre-of-mass energy is $\sigma = 11.83 \pm 0.02$. The central value from the result in \ref{pp} agrees with this value within 5.1\%, yet, one can see immediately that the value has a large error, and thus is not a precise prediction. This stems from the way \texttt{scipy} handles integrating over a Breit-Wigner resonance peak.\\
-
-\subsubsection{$n$-point Gauss-Kronrad Quadratures.}
-The integrals were computed using \texttt{scipy.integrate.quad}, which is a wrapper of the Fortran library, QUADPACK, which is a library for numerical evaluation of one-dimensional integrals. The evaluation can be extended to some multi-dimensional cases \cite{QUADPACKFavati}. \texttt{scipy.integrate.quad} specifically uses the \texttt{QAGS}, \texttt{QAGP}, and \texttt{QAGI} routines from the QUADPACK library, which use Gauss–Kronrod quadrature\footnote{Quadrature, derived from Latin for "square," refers to finding a square with the same area as a given shape or curve. In modern contexts, it refers to the use of numerical methods to approximate the value of a definite integral.} rules --- which is an extension of the Gauss quadrature--- to do numerical integration\cite{QUADPACKwiki}. The Gauss quadrature is as follows: one approximates an integral,
-
-$$\int_a^b f(x) dx,$$
-as a weighted sum of n function evaluations at special points $x_i$. Instead of averaging the function at equally spaced points, the Gauss quadrature picks special points and weights, $w_i$ that improve the accuracy of the approximation,
-
-$$\int_a^b f(x) dx \approx \sum_{i =1}^N w_i f(x_i),$$
-This approximation is exact for all polynomials up to degree $2n-1$ for $x_n$ points, and is called the $n$-point Gauss rule. For example, if one wants to approximate the integral,
-
-\begin{equation}\label{example-polynomial}
-	\int_{-1}^{-1} x^3 +x^2+x+1 dx.	
-\end{equation}
-
-Using 2 points ($x_n = 2$ with corresponding $w_1$ and $w_2$), the 2-point Gauss rule says that the approximation will be exact for any polynomial up to the $3^\text{rd}$ degree ($2(2) - 1 = 3$). For the example integral, this means that the approximation will be exact. If the function had a $x^4$ term or higher, the 2-point Gauss  rule will approximate it, but there will be a non-zero error. \\
-
-The process starts by  subdividing the interval $[a,b]$ adaptively: the Gauss rule is first applied to the full interval, and if the estimated error is too large, the interval is split into smaller subintervals where the rule is reapplied. The Gauss–Kronrod extension adds n+1 additional points to the same set, forming a 2n+1-point rule. A 2-point Gauss would not be able to give an exact result for a polynomial with a higher order than 3, but a 2-point Gauss-Kronrod will up to the $5^\text{th}$ order ($2(2)+1 = 5$). Since the original Gauss points are contained within the Kronrod rule, both approximations can be computed together, and their difference provides an estimate of the integration error\cite{QUADPACKwiki}.\\
-
-Near the resonance, the Breit-Wigner function changes very fast; outside this peak the function is almost zero. The source of the large error comes from when the the rules are applied on the subdivided Breit-Wigner. The Gauss-Kronrod rule has higher polynomial degree of exactness, and thus picks up higher-order features that the Gauss rule misses. This results in a large difference between the rules and therefore, the intergrator treats this as a large error. It is important to note that the central value of the integral is the best estimate given by the adaptive quadrature; the difference between Gauss and Gauss-Kronrod is used only to estimate the error. This explains why the error in Equation \ref{pp} is large, even though the central value is relatively close to the empirical value.
 
 \subsection{Numerical evaluation using Monte Carlo Integration}
 Running the code from Appendix \ref{basic-MC-total}, gives a value for the total cross-section at $\sqrt{s} = 13$ TeV,
 
 \begin{equation}
-	\sigma(pp \rightarrow W^+ \rightarrow e^+ \nu_e) = 11.17 \pm  1.73\; \text{nb},
+	\sigma(pp \rightarrow W^+ \rightarrow e^+ \nu_e) = 4.682 \pm 0.227\; \text{nb},
 \end{equation}
 and for proton-anti-proton collisions at the same centre-of-mass energy, one gets,
 
 \begin{equation}
-	\sigma(p\bar{p} \rightarrow W^+ \rightarrow e^+ \nu_e)= 13.87 \pm 2.16\; \text{nb}.
+	\sigma(p\bar{p} \rightarrow W^+ \rightarrow e^+ \nu_e)= 4.697 \pm 0.821\; \text{nb}.
 \end{equation}
 
 \subsection{Monte Carlo integration using \texttt{VEGAS}}
 Running the code from Appendix \ref{vegas-total}, gives a value for the total cross-section at $\sqrt{s} = 13$ TeV,
 
 \begin{equation}
-	\sigma(pp \rightarrow W^+ \rightarrow e^+ \nu_e) = 12.75 \pm  0.01\; \text{nb},
+	\sigma(pp \rightarrow W^+ \rightarrow e^+ \nu_e) = 4.255 \pm  0.003\; \text{nb},
 \end{equation}
 and for proton-anti-proton collisions at the same centre-of-mass energy, one gets,
 
 \begin{equation}
-	\sigma(p\bar{p} \rightarrow W^+ \rightarrow e^+ \nu_e)= 16.32 \pm 0.02\; \text{nb}.
+	\sigma(p\bar{p} \rightarrow W^+ \rightarrow e^+ \nu_e)= 5.428 \pm 0.005\; \text{nb}.
 \end{equation}
-\section{Comparison of methods}
+\section{Comparison of the methods}\label{sec8}
+Three numerical methods were employed to evaluate the convolution required for the computation of the hadronic cross-section: a deterministic convolution implemented using the \texttt{SciPy} numerical library, a basic Monte Carlo integration scheme, and the adaptive importance–sampling algorithm \texttt{VEGAS}. The resulting cross-sections obtained with each method are summarised in Table \ref{tab:hadronic-cross} for both the narrow-width approximation (NWA) and the full off-shell amplitude.\\
+
+For the NWA calculation, all three approaches yield consistent central values within their statistical uncertainties. The deterministic SciPy convolution gives a value of $4.217 \pm 0.002$ nb, corresponding to a relative uncertainty of 0.047\%. The basic Monte Carlo method produces a result of 
+$4.221 \pm 0.017$ nb with a larger relative error of 0.403\%. The most precise estimate is obtained using the \texttt{VEGAS} algorithm, which yields  $4.21888 \pm 2\times10^{-6}$ nb and corresponds to a relative uncertainty of $4.74 \times 10^{-6}$\%. The substantial reduction in statistical error achieved by \texttt{VEGAS} is due to its adaptive importance–sampling procedure, which iteratively samples points according to a probability density that resembles the integrand, so that regions where the integrand is large are sampled more often.\\
+
+For the off-shell calculation, the \texttt{SciPy} convolution returns a value of $4.143 \pm 9.807$ nb, corresponding to a relative uncertainty of $236.7\%$. Near the resonance, the Breit-Wigner function changes very fast; outside this peak the function is almost zero. The source of the large error comes from when the quadrature rules are applied on the subdivided Breit-Wigner. The Gauss-Kronrod rule has higher polynomial degree of exactness, and thus picks up higher-order features that the Gauss rule misses. This results in a large difference between the rules and therefore, the integrator treats this as a large error. It is important to note that the central value of the integral is the best estimate given by the adaptive quadrature; the difference between Gauss and Gauss-Kronrod is used only to estimate the error.\\
+
+The basic Monte Carlo approach yields a more stable result for the full amplitude, giving a value of $4.682 \pm 0.227$ nb with a relative uncertainty of $4.85\%$. The statistical error of a standard Monte Carlo estimator decreases as $1/\sqrt{N}$, where $N$ is the number of sampled points. Consequently, the precision of the result could be improved by increasing the total number of samples. However, this reduction in error is slow, and achieving an improvement in precision requires a large increase in computational cost. This makes naive Monte Carlo integration --- in which points are sampled uniformly--- computationally inefficient for problems in which the integrand contains sharp structures, such as the resonance peak present in the full off-shell amplitude.\\
+
+In contrast, the \texttt{VEGAS} algorithm provides the most precise and numerically stable estimate, yielding $4.255 \pm  0.003$ nb with a relative uncertainty of $0.07\%$. The improved precision arises from the use of adaptive importance-sampling, which significantly reduces the variance of the Monte Carlo estimator compared to uniform random sampling. In standard Monte Carlo integration, points are drawn uniformly over the integration domain. The sampled points may contribute very little to the final value of the integral if the integrand is highly peaked or varies rapidly across the domain; this the case for the Breit-Wigner distribution present in the full amplitude. This leads to inefficient sampling as less points are evaluated at these sharp peaks which leads to large statistical uncertainties. The adaptive sampling procedure allows the peak of the distribution to be resolved efficiently while still accounting for contributions from the surrounding tails. As a result, the statistical uncertainty is significantly reduced compared to basic Monte Carlo integration for the same number of sampled points, leading to the substantially smaller relative error observed in Table \ref{tab:hadronic-cross}.
 
 \begin{table}[tb]
 	\centering
-	\begin{tabular}{ccc}
+	\begin{tabular}{ccccc}
 		\toprule
-		& \multicolumn{2}{c}{Hadronic Cross-section (value $\pm$ stat) nb} \\
+		& \multicolumn{4}{c}{Hadronic Cross-section (value $\pm$ error) nb} \\
 		\midrule
-		Convolution Method & Narrow-Width Approximation & Full Amplitude (off-shell) \\
+		Convolution Method & NWA &Rel. Error (\%)& Full Amplitude& Rel. Error (\%) \\
 		\midrule
-		\texttt{SciPy} & $0.07872 \pm 0.00046$ & $12.43 \pm 29.42$  \\
-		Basic Monte Carlo & $0.08049 \pm 0.01054$  & $11.17 \pm 1.73$  \\
-		\texttt{VEGAS} & $0.08744 \pm 0.00003$ & $12.75 \pm 0.01$  \\
+		\texttt{SciPy} & $4.217 \pm 0.002$ &0.047& $4.143 \pm 9.807$&  236.7\\
+		Basic Monte Carlo & $4.221 \pm 0.017$  &0.403& $4.682 \pm 0.227$ & 4.85 \\
+		\texttt{VEGAS} & $4.21888 \pm 2\times10^{-6}$ &$4.74 \times 10^{-5}$ & $4.255 \pm  0.003$& 0.07 \\
 		\bottomrule
 	\end{tabular}
 	\caption{Calculated total hadronic cross-sections (nb) computed with three numerical convolution methods. Columns give results in the narrow-width approximation versus using the full (off-shell) amplitude.}
 	\label{tab:hadronic-cross}
 \end{table}
 
-The Narrow-Width Approximation provides a convenient factorisation of production and decay processes for unstable particles, which simplifies cross-section calculations. Yet, this simplification introduces some limitations that affect the accuracy of the result. In contrast, computing cross sections using the full amplitude retains all off-shell and interference effects but introduces its own challenges.\\
+\subsection{Limitations of Narrow-Width approximation}
+The Narrow-width Approximation provides a convenient factorisation of production and decay processes for unstable particles, which simplifies cross-section calculations. Yet, this simplification introduces some limitations that affect the accuracy of the result. In contrast, computing cross sections using the full amplitude retains all off-shell and interference effects but introduces its own challenges.\\
 
-For a 13 TeV proton-proton collision at the Large Hadron Collider (LHC), the measured total cross-section for the combined electron and muon channels of W$^+$ production is, $\sigma_{\text{LHC}} = 11.83 \pm 0.02$ nb \cite{ATLAS:2016fij}. One can see from Table \ref{tab:hadronic-cross} that the NWA approach underestimates the cross-section by two orders of magnitude; this is explained by how the approximation treats the Breit-Wigner resonance. 
-
-\subsection{Limitations of Narrow-Width Approximation}
-In the Narrow-Width Approximation, the Breit-Wigner is replaced by a delta function ($\delta(\sqrt{s} = M)$). Thus, the cross-section is calculated at the resonance and the non-resonant tails of the Breit-Wigner are suppressed \cite{Fuchs:2014ola}. However, NWA can become inaccurate if the non-resonant processes give non-negligible contributions to the total cross-section. This becomes clear when considering the convolution of parton density functions with a resonant hard scattering process\cite{Uhlemann:2008pm}. Convolution with steeply falling PDFs, typical for hadron colliders, gives relatively more weight to regions around the threshold for producing decay products on-shell\cite{Kauer:2007zc}, thus, the Breit–Wigner tail and off-shell region near and below the threshold can become significant.\\
-
+In the Narrow-width Approximation, the Breit-Wigner is replaced by a delta function --- $\delta(\sqrt{s} = M)$. Thus, the cross-section is calculated at the resonance and the non-resonant tails of the Breit-Wigner are suppressed \cite{Fuchs:2014ola}. However, NWA can become inaccurate if the non-resonant processes give non-negligible contributions to the total cross-section. This becomes clear when considering the convolution of parton density functions with a resonant hard scattering process\cite{Uhlemann:2008pm}. Convolution with steeply falling PDFs, typical for hadron colliders, gives relatively more weight to regions around the threshold for producing decay products on-shell\cite{Kauer:2007zc}, thus, the Breit–Wigner tail and off-shell region near and below the threshold can become significant.\\
+\subsubsection{Spin correlation effects}
 For non-scalar particles, complete factorisation into the production and decay processes is not permitted since the propagator carries Lorentz indices that correlate the initial current to the final current\cite{Uhlemann:2008pm}. For a scalar propagator (i.e. Higgs boson), the factor is,
 
 $$
@@ -1244,30 +1263,30 @@ $$
 One can write an amplitude schematically, 
 
 $$
-\mathcal{M} = J^\mu \frac{i}{p^2 - M_H^2+i\epsilon} J^\nu,
+\mathcal{M} = J_{\text{initial}} \frac{i}{p^2 - M_H^2+i\epsilon} J_{\text{final}},
 $$ 
-where $J^\mu$ and $J^\nu$ represent the initial and final state currents respectively. One can see that no Lorentz indices exist that allows the coupling of the initial current to the final current; the initial production and final decay can be treated as independent. However in the case of a W$^+$ propagator, the schematic (in the Feynman gauge) becomes,
+where $J_{\text{initial}}$ and $J_{\text{final}}$ represent the initial and final state scalar currents respectively. As the Higgs propagator is a Lorentz scalar and the amplitude must also be a Lorentz scalar, no Lorentz indices can appear; consequently, the initial and final currents must themselves be Lorentz scalars. Therefore, no coupling exists between the initial and final currents, and the production and decay processes can be treated as independent. However, in the case of a W$^+$ propagator the schematic (in the Feynman gauge) becomes,
 
 $$
-\mathcal{M} = J^\mu \frac{-ig_{\mu\nu}}{p^2 - M_W^2 +iM_W\Gamma_W}, J^\nu = J^\mu \frac{-i}{p^2 - M_W^2 +iM_W\Gamma_W}, J_\mu.
+\mathcal{M} = J^\mu_{\text{initial}}\frac{-ig_{\mu\nu}}{p^2 - M_W^2 +iM_W\Gamma_W} J^\nu_{\text{final}} = J^\mu_{\text{initial}} \frac{-i}{p^2 - M_W^2 +iM_W\Gamma_W}J_{\mu, \text{final}}.
 $$
-The factor of $g_{\mu\nu}$ lowers the index on the final state current and allows the initial current --- with an upper index --- to contract; the propagator acts as a bridge to connect the two currents and so one cannot treat them as separate processes. The spin correlation is more apparent in the Unitary gauge as the numerator of the propagator carries an additional factor of $p_\mu p_\nu/M_W^2$.
+The factor of $g_{\mu\nu}$ lowers the index on the final state current and allows the initial current, with an upper index, to contract; the propagator acts as a bridge to connect the two currents and so one cannot treat them as separate processes. The spin correlation is more apparent in the Unitary gauge as the numerator of the propagator carries an additional factor of $p_\mu p_\nu/M_W^2$.\\
 
-\subsection{Limitations of full (off-shell) amplitude}
-The amplitude for a process is obtained by summing contributions from all relevant Feynman diagrams, each representing a perturbative contribution to the transition amplitude, and then squaring the entire sum. This procedure is straightforward for simple 2 $\rightarrow$ 2 scattering processes, but the number of Feynman diagrams grows rapidly when increasing the number of external legs. Since each diagram represents a distinct way of connecting particles through interaction vertices, when more particles are considered, there exists more topologically distinct graphs.\\
-
-Increasing the perturbation order also increases the number of Feynman diagrams that one has to consider. Loops appear when internal particles interact with themselves or exchange virtual particles, producing integrals over internal momentum. Beyond leading order, amplitudes receive loop corrections, where each tree-level diagram gives rise to a set of higher-order diagrams with internal loops. These radiative corrections introduce ultraviolet ($k \rightarrow \infty$) and infrared ($k \rightarrow 0$) singularities that must be regularised and then renormalised \cite{Peskin:1995ev}.
-
-%add stuff about PS integration and convolution integrals.
+ \subsubsection{Interference with non-resonant diagrams}
+Another limitation arises when considering different Feynman diagrams that have the same initial and final states states. The narrow-width approximation assumes there is no significant interference with non-resonant processes\cite{Berdine:2007uv}; yet, when such diagrams are present, they contribute to the same regions of phase space as the resonant process. Thus, the full scattering amplitude must be constructed as the sum of all contributing diagrams before squaring. Consequently, resonant and non-resonant terms can interfere at the amplitude level, can lead to inaccurate predictions as well as potential double counting of contributions \cite{Kauer:2001sp}. At tree-level, there is only a single diagram for $u\bar{d \rightarrow W^+ \rightarrow e^+ \nu_e}$, involving an $s$-channel W$^+$ that connects the initial and final states. As a result, there are no non-resonant contributions that could interfere with the resonant amplitude.
 
 \section{Conclusions}
-The cross-section for the $pp \rightarrow W^+ \rightarrow e^+ \nu_e$ process was derived using the full (off-shell) amplitude and in the Narrow-Width approximation. The derivation in the NWA started by constructing the squared-amplitude for $u\bar{d} \rightarrow W^+$.By applying Casimir’s trick, the spin sums are expressed as traces, after which the calculation reduces to standard trace algebra. Due to the presence of the W$^+$ in the final state, one also has to consider summing over final polarisation states. One then has an expression for the  W$+$ amplitude (\ref{amp}) and can substitute into the differential cross-section formula (\ref{general_cross}). One then integrates over the phase-space which restricts the domain over which $|\mathcal{M}|^2$ is integrated over to physically allowed regions. This process is a special case where the final state is a single on-shell particle, which resulted in a delta function. The physically observable hadronic cross section, $\sigma(pp \rightarrow W^+)$ is obtained by convoluting the partonic cross section with the parton distribution functions (PDFs) and integrating over all possible momentum fractions of the incoming partons. The convolution was computed using three different methods: \texttt{SciPy}, \texttt{VEGAS}, and a basic Monte Carlo implementation. Each method is described in detail in Sections \ref{numerical-scipy}, \ref{numerical-vegas}, \ref{numerical-MC} for \texttt{SciPy}, \texttt{VEGAS}, and Monte Carlo respectively.\\
+The cross-section for the $pp \rightarrow W^+ \rightarrow e^+ \nu_e$ process was derived using the full (off-shell) amplitude and in the narrow-width approximation. The derivation in the NWA started by constructing the squared-amplitude for $u\bar{d} \rightarrow W^+$. By applying Casimir’s trick, the spin sums are expressed as traces, after which the calculation reduces to standard trace algebra. Due to the presence of the W$^+$ in the final state, one also has to consider summing over final polarisation states. One then has an expression for the squared amplitude and can substitute into the differential cross-section formula. One then integrates over the phase-space which restricts the domain over which $|\mathcal{M}|^2$ is integrated over to physically allowed regions. This process is a special case where the final state is a single on-shell particle, which resulted in a delta function. The physically observable hadronic cross section, $\sigma(pp \rightarrow W^+)$ is obtained by convoluting the partonic cross section with the parton distribution functions and integrating over all possible momentum fractions of the incoming partons. The PDF4LHC21$\_$40 set is used \cite{PDF4LHCWorkingGroup:2022cjn}. The convolution was computed using three different methods: \texttt{SciPy}, \texttt{VEGAS}, and a basic Monte Carlo implementation. Each method is described in detail in Sections \ref{numerical-scipy}, \ref{numerical-vegas}, \ref{numerical-MC} for \texttt{SciPy}, \texttt{VEGAS}, and Monte Carlo respectively.\\
 
-The derivation for the $W^+ \rightarrow e^+ \nu_e$ amplitude process follows the similar reasoning as for the $u\bar{d}\rightarrow W^+$ case. This amplitude is then substituted into the differential decay rate formula \ref{decay-formula}. Working in the W$^+$ rest frame, decay is isotropic, thus one simplifies the phase space integral by integrating over the full solid angle. One gets a value of $\Gamma^0_W= 0.227$ GeV for $\Gamma (W^+ \rightarrow e^+ \nu_e)$. In the massless fermion limit, the leptonic and quark tree-level widths are identical up to colour and CKM factors; the total decay rate is then: 
+The derivation for the $W^+ \rightarrow e^+ \nu_e$ amplitude process follows the similar reasoning as for the $u\bar{d}\rightarrow W^+$ case. This amplitude is then substituted into the differential decay rate formula. Working in the W$^+$ rest frame, decay is isotropic, thus one simplifies the phase space integral by integrating over the full solid angle. One gets a value of $\Gamma^0_W= 0.227$ GeV for $\Gamma (W^+ \rightarrow e^+ \nu_e)$. In the massless fermion limit, the leptonic and quark tree-level widths are identical up to colour and CKM factors; the total decay rate is then: 
 $
 \Gamma(W^+ \rightarrow \text{all}) \simeq \Gamma(W^+ \rightarrow \text{hadrons}) + \Gamma(W^+ \rightarrow \text{leptons}) \simeq 6\Gamma^0_W + 3\Gamma^0_W \simeq 9\Gamma^0_W = 2.025\; \text{GeV},
 $ 
-and the branching ratio is $\Gamma^0_W/9\Gamma^0_W = 1/9.$  In the narrow-width approximation, the production and decay factorise such that one can multpily the production cross-section with the branching ratio: 
+and the branching ratio is $\Gamma^0_W/9\Gamma^0_W = 1/9.$  In the narrow-width approximation, the production and decay factorise such that one can multiply the production cross-section with the branching ratio; the values for the total cross-section in the NWA are:  4.2188 $\pm$ 0.0002 nb (\texttt{SciPy}), 4.217 $\pm$ 0.002 nb (\texttt{VEGAS}), 4.221 $\pm$ 0.017 nb (Basic Monte Carlo).\\
+
+The full spin-summed squared amplitude was derived in the Feynman gauge ($\xi$ = 1). In the W$^+$ rest frame, decay is isotropic; the phase space is simplified by changing to spherical polar coordinates and integrating over the full solid angle. An expression for the total off-shell partonic cross-section is then obtained. Convolution with PDFs --- the same PDF4LHC21$\_$40 set is used  --- gave results for the different numerical methods: $4.143 \pm 9.807$ nb (\texttt{SciPy}), $4.255 \pm  0.003$ nb (\texttt{VEGAS}), and $4.682 \pm 0.227$ nb (Basic Monte Carlo).\\
+
+A natural extension of this work would be to go beyond the tree-level approximation by incorporating higher-order corrections, particularly next-to-leading order (NLO) QCD effects. Additionally, improving the efficiency and convergence of the basic Monte Carlo implementation through importance sampling techniques would allow for more robust comparisons with \texttt{VEGAS}. Finally, extending the calculation to include simplified parton showering and detector effects would enable the determination of fiducial cross-sections, allowing for more direct comparison with experimentally measured observables.
 
 \appendix
 \section{Numerical integration code for hadronic $W^+$ production.}
@@ -1308,7 +1327,7 @@ lambda x1: prefactor * 1/x1 * (pdf.xfxQ(2, x1, MW))/x1 * (pdf.xfxQ(-1, tau/x1, M
 #   -  id, https://pdg.lbl.gov/2022/reviews/rpp2022-rev-monte-carlo-numbering.pdf   
 #   -  q, LHAPDF squares internally, hence MW not MW**2
 
-
+	
 print(f'{crssctn * 0.389379 * 1e6} ± {error * 0.389379 * 1e6} nb' )
 
 \end{minted}
@@ -1324,32 +1343,32 @@ print(f'{crssctn * 0.389379 * 1e6} ± {error * 0.389379 * 1e6} nb' )
 	]
 	{python}
 	
-	import numpy as np 
-	import lhapdf
-	import math
+import numpy as np 
+import lhapdf
+import math
 	
-	pdf = lhapdf.mkPDF("PDF4LHC21_40", 0) #importing the PDF set
+pdf = lhapdf.mkPDF("PDF4LHC21_40", 0) #importing the PDF set
 	
-	#constants
-	MW = 80.379
-	GF = 1.1663787e-5 
-	s = (13000)**2 #for a 13 TeV collider
-	tau = MW**2/s
+#constants
+MW = 80.379
+GF = 1.1663787e-5 
+s = (13000)**2 #for a 13 TeV collider
+tau = MW**2/s
 	
-	prefactor= ((math.pi*math.sqrt(2))/3) * GF * MW**2 * (1/s)
+prefactor= ((math.pi*math.sqrt(2))/3) * GF * MW**2 * (1/s)
 	
-	f= lambda x1: prefactor * 1/x1 * (pdf.xfxQ(2, x1, MW))/x1 * (pdf.xfxQ(-1, tau/x1, MW))/ (tau/x1)
-	rand = np.random.uniform(tau, 1, 1000) #generate a 1000 length array of random numbers from tau to 1
-	rand_comp = np.array([f(x1) for x1 in rand])
-	#loops over every entry in the rand array, feeds them into pdf.xfxQ, and creates an array of the output
-	est= (1-tau)*rand_comp.mean()
-	#lhapdf function only itakes 0-Dim arrays i.e. a single value
+f= lambda x1: prefactor * 1/x1 * (pdf.xfxQ(2, x1, MW))/x1 * (pdf.xfxQ(-1, tau/x1, MW))/ (tau/x1)
+rand = np.random.uniform(tau, 1, 1000) #generate a 1000 length array of random numbers from tau to 1
+rand_comp = np.array([f(x1) for x1 in rand])
+#loops over every entry in the rand array, feeds them into pdf.xfxQ, and creates an array of the output
+est= (1-tau)*rand_comp.mean()
+#lhapdf function only itakes 0-Dim arrays i.e. a single value
 	
-	err = (1 - tau) * rand_comp.std(ddof=1) /np.sqrt(len(rand))
-	# rand_comp.std(ddof=1) is the SD of the evaluated points
+err = (1 - tau) * rand_comp.std(ddof=1) /np.sqrt(len(rand))
+# rand_comp.std(ddof=1) is the SD of the evaluated points
 	
 	
-	print(f'cross-section: {est * 0.389379 * 1e6} ± {err* 0.389379 * 1e6} nb')
+print(f'cross-section: {est * 0.389379 * 1e6} ± {err* 0.389379 * 1e6} nb')
 \end{minted}
 
 
@@ -1422,7 +1441,7 @@ Decay_T = 2.025 #total decay width of W-boson; result from Sec 2.4 GeV.
 GF = 1.1663787e-5 
 s = (13000)**2 #for a 13 TeV collider
 
-prefactor= (1/(3*np.pi))*((GF*(MW**2)/np.sqrt(2))**2)
+prefactor= (1/(9*np.pi))*((GF*(MW**2)/np.sqrt(2))**2)
 
 
 crssctn, error = integrate.dblquad(
@@ -1453,36 +1472,37 @@ print(f'{crssctn * 0.389379 * 1e6} ± {error * 0.389379 * 1e6} nb' )
 	]
 	{python}
 	
-	import numpy as np 
-	import lhapdf
+import numpy as np 
+import lhapdf
 	
-	pdf = lhapdf.mkPDF("PDF4LHC21_40", 0) #importing the PDF set
+pdf = lhapdf.mkPDF("PDF4LHC21_40", 0) #importing the PDF set
 	
-	#constants
-	MW = 80.379
-	GF = 1.1663787e-5 
-	Decay_T = 2.025#GeV
-	s = (13000)**2 #for a 13 TeV collider
-	
-	
-	prefactor= (1/(3*np.pi))*((GF*(MW**2)/np.sqrt(2))**2)
-	
-	f =  lambda x2, x1: prefactor * ((x1*x2*s)/(((x1*x2*s) - MW**2)**2 + (MW**2)*(Decay_T**2))) *(pdf.xfxQ(2, x1, MW))/x1 * (pdf.xfxQ(-1, x2, MW))/x2
-	
-	N = 1000000
-	x1 = np.random.uniform(0.0, 1.0, N)
-	x2 = np.random.uniform(0.0, 1.0, N)
-	
-	f_a = np.array([pdf.xfxQ(2, xi, MW)/xi for xi in x1])
-	f_b = np.array([pdf.xfxQ(-1, xj, MW)/xj for xj in x2])
-	
-	values = prefactor * ((x1*x2*s)/(((x1*x2*s) - MW**2)**2 + (MW**2)*(Decay_T**2)))* f_a *f_b
-	est = values.mean()
-	err = values.std(ddof=1) / np.sqrt(N)
+#constants
+MW = 80.379
+GF = 1.1663787e-5 
+Decay_T = 2.025#GeV
+s = (13000)**2 #for a 13 TeV collider
 	
 	
+prefactor= (1/(9*np.pi))*((GF*(MW**2)/np.sqrt(2))**2)
 	
-	print(f'cross-section: {est * 0.389379 * 1e6} ± {err* 0.389379 * 1e6} nb')
+f =  lambda x2, x1: prefactor * ((x1*x2*s)/(((x1*x2*s) - MW**2)**2 + (MW**2)*(Decay_T**2)))
+*(pdf.xfxQ(2, x1, MW))/x1 * (pdf.xfxQ(-1, x2, MW))/x2
+	
+N = 1000000
+x1 = np.random.uniform(0.0, 1.0, N)
+x2 = np.random.uniform(0.0, 1.0, N)
+	
+f_a = np.array([pdf.xfxQ(2, xi, MW)/xi for xi in x1])
+f_b = np.array([pdf.xfxQ(-1, xj, MW)/xj for xj in x2])
+	
+values = prefactor * ((x1*x2*s)/(((x1*x2*s) - MW**2)**2 + (MW**2)*(Decay_T**2)))* f_a *f_b
+est = values.mean()
+err = values.std(ddof=1) / np.sqrt(N)
+	
+	
+	
+print(f'cross-section: {est * 0.389379 * 1e6} ± {err* 0.389379 * 1e6} nb')
 \end{minted}
 \subsection{Integration via \texttt{VEGAS}}\label{vegas-total}
 \begin{minted}
@@ -1507,7 +1527,7 @@ MW = 80.379
 Decay_T = 2.025#GeV
 GF = 1.1663787e-5 
 s = (13000)**2 #for a 13 TeV collider
-prefactor= (1/(3*np.pi))* ((GF*(MW**2)/np.sqrt(2))**2)
+prefactor= (1/(9*np.pi))* ((GF*(MW**2)/np.sqrt(2))**2)
 
 
 
@@ -1530,8 +1550,8 @@ print(result.summary())
 print(f'result = {result.mean * 0.389379 * 1e6} ± {result.sdev  * 0.389379 * 1e6} nb')
 \end{minted}
 
-\section{Proofs of the properties of Dirac Gamma matrices and traces}\label{proof-appendix}
-\subsection{$\text{Tr}(\gamma^\mu\gamma^\nu\gamma^\rho)=0$, for any odd number of $\gamma \neq \gamma^5$.}
+\section{Proof of $\text{Tr}(\gamma^\mu\gamma^\nu\gamma^\rho)=0$ for any odd number of $\gamma \neq \gamma^5$}\label{proof-appendix}
+
 
 One can introduce a factor of $(\gamma^5)^2= \gamma^5\gamma^5 = \mathds{1}_4$,
 $$
@@ -1560,11 +1580,7 @@ It follows by induction that the trace of any odd number of gamma matrices will 
 
 
 
-
-
 \bibliographystyle{unsrt}
-
-
 \bibliography{major-project-bibliography}
 
 

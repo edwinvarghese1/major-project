@@ -11,7 +11,7 @@
 \PYG{n}{Decay\PYGZus{}T} \PYG{o}{=} \PYG{l+m+mf}{2.025}\PYG{c+c1}{\PYGZsh{}GeV}
 \PYG{n}{GF} \PYG{o}{=} \PYG{l+m+mf}{1.1663787e\PYGZhy{}5}
 \PYG{n}{s} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{13000}\PYG{p}{)}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2} \PYG{c+c1}{\PYGZsh{}for a 13 TeV collider}
-\PYG{n}{prefactor}\PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{1}\PYG{o}{/}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{o}{*}\PYG{n}{np}\PYG{o}{.}\PYG{n}{pi}\PYG{p}{)}\PYG{p}{)}\PYG{o}{*} \PYG{p}{(}\PYG{p}{(}\PYG{n}{GF}\PYG{o}{*}\PYG{p}{(}\PYG{n}{MW}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{o}{/}\PYG{n}{np}\PYG{o}{.}\PYG{n}{sqrt}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{p}{)}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{p}{)}
+\PYG{n}{prefactor}\PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{1}\PYG{o}{/}\PYG{p}{(}\PYG{l+m+mi}{9}\PYG{o}{*}\PYG{n}{np}\PYG{o}{.}\PYG{n}{pi}\PYG{p}{)}\PYG{p}{)}\PYG{o}{*} \PYG{p}{(}\PYG{p}{(}\PYG{n}{GF}\PYG{o}{*}\PYG{p}{(}\PYG{n}{MW}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{o}{/}\PYG{n}{np}\PYG{o}{.}\PYG{n}{sqrt}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{p}{)}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{p}{)}
 
 
 
